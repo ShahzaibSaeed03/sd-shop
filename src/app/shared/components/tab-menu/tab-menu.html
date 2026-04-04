@@ -1,0 +1,31 @@
+<div class="w-full overflow-x-hidden">
+
+<div class="flex gap-2 md:gap-3 p-2 rounded-xl w-full overflow-x-auto no-scrollbar">
+
+  <div
+    *ngFor="let tab of tabs"
+    (click)="selectTab(tab)"
+    class="flex items-center gap-1 md:gap-2 
+           px-3 md:px-4 py-1.5 md:py-2 
+           rounded-3xl cursor-pointer transition-all duration-200 
+           whitespace-nowrap flex-shrink-0"
+    [ngClass]="{
+      'bg-[#F2CAFF] text-black font-semibold shadow-sm': tab.value === activeTab,
+      'bg-[#F9FAFB] text-gray-700 hover:bg-gray-200': tab.value !== activeTab
+    }"
+  >
+
+    <!-- IMAGE -->
+    <img
+      [src]="tab.image"
+      class="w-4 h-4 md:w-5 md:h-5 object-contain"
+      alt="tab"
+    />
+
+    <!-- TEXT -->
+    <span class="text-xs md:text-sm">{{ tab.label }}</span>
+
+  </div>
+
+</div>
+</div>

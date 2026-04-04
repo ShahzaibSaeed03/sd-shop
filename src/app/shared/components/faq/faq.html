@@ -1,0 +1,62 @@
+<div class="bg-[#f5f5f5] py-16">
+
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-start">
+
+    <!-- LEFT -->
+    <div>
+      <span class="text-purple-600 text-[16px]  bg-white px-3 py-1 rounded-full">
+        Frequently Ask Questions
+      </span>
+
+      <h2 class="text-3xl font-semibold text-gray-900 mt-4 leading-tight">
+        FREQUENTLY ASK<br />QUESTIONS
+      </h2>
+
+      <p class="text-gray-500 mt-4 text-[16px] max-w-md">
+        Choose a top-up option that fits your gaming needs. Fast delivery,
+        secure payments, and instant balance updates for all popular games.
+      </p>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="space-y-4">
+
+      <div
+        *ngFor="let faq of faqs"
+        class="bg-white rounded-xl p-5 shadow-sm"
+      >
+
+        <!-- HEADER -->
+        <div
+          class="flex justify-between items-center cursor-pointer"
+          (click)="toggle(faq)"
+        >
+          <h3 class="font-semibold text-gray-800 text-[20px]">
+            {{ faq.question }}
+          </h3>
+
+          <!-- ICON -->
+          <div
+            class="w-8 h-8 flex items-center justify-center rounded-full"
+            [ngClass]="faq.open ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'"
+          >
+            <i
+              class="fa-solid"
+              [ngClass]="faq.open ? 'fa-chevron-up' : 'fa-chevron-down'"
+            ></i>
+          </div>
+
+        </div>
+
+        <!-- BODY -->
+        <div *ngIf="faq.open" class="mt-3 text-[16px] text-gray-500">
+          {{ faq.answer }}
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,208 @@
+<!-- POINTS MODAL -->
+<div *ngIf="modalType === 'points'" class="fixed inset-0 z-50 flex items-start justify-end">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/20" (click)="close()"></div>
+
+  <!-- Modal -->
+  <div class="relative mt-20 mr-4 md:mr-6 bg-[#f5f5f5] rounded-2xl p-6 w-[320px] shadow-xl">
+
+    <!-- Close -->
+    <button
+      class="absolute top-3 right-3 text-gray-400 hover:text-black text-sm"
+      (click)="close()">
+      ✕
+    </button>
+
+    <!-- Title -->
+    <h3 class="text-lg font-semibold text-black mb-2">
+      My Points :
+    </h3>
+
+    <!-- Points -->
+    <div class="flex items-center gap-2 text-purple-600 font-semibold text-lg mb-3">
+      <i class="fa-solid fa-coins text-yellow-500"></i>
+      50 = 0.50 USD
+    </div>
+
+    <!-- Desc -->
+    <p class="text-gray-500 text-sm mb-6">
+      Earn points with Top Up:100 points + 1USD
+    </p>
+
+    <!-- Login Button -->
+    <button
+      (click)="openLogin()"
+      class="w-full border border-purple-600 text-black rounded-xl py-3 text-lg hover:bg-purple-50 transition">
+      Log in
+    </button>
+
+  </div>
+</div>
+
+
+
+<!-- LOGIN MODAL -->
+<div *ngIf="modalType === 'login'"
+     class="fixed inset-0 z-50 bg-white md:bg-black/40 flex items-end md:items-center justify-center">
+
+  <div class="w-full h-full md:h-auto md:max-w-5xl
+              bg-white md:rounded-2xl
+              flex flex-col md:flex-row
+              overflow-hidden shadow-none md:shadow-2xl relative">
+
+    <!-- RIGHT (LOGIN FIRST ON MOBILE) -->
+    <div class="w-full md:w-1/2 order-1 md:order-2
+                p-5 sm:p-6 md:p-10 flex flex-col justify-center
+                overflow-y-auto">
+
+      <!-- Close -->
+      <button class="absolute top-3 right-3 text-gray-600 hover:text-black"
+              (click)="close()">✕</button>
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2 mb-5 justify-center md:justify-start">
+        <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-500 rounded flex items-center justify-center">
+          <i class="fa-solid fa-gem text-white"></i>
+        </div>
+        <span class="font-bold text-base sm:text-lg">SD SHOP</span>
+      </div>
+
+      <!-- Title -->
+      <h2 class="text-xl sm:text-2xl font-semibold mb-2 text-center md:text-left">
+        Welcome!
+      </h2>
+
+      <p class="text-gray-500 text-xs sm:text-sm mb-5 text-center md:text-left">
+        Faster top up, better deals. Join SD Shop
+      </p>
+
+      <!-- Info -->
+      <div class="bg-gray-100 rounded-lg p-3 text-xs sm:text-sm text-gray-600 mb-5 text-center md:text-left">
+        Log in to get <span class="font-semibold">50 points (0.50 USD)</span>
+      </div>
+
+      <!-- Google -->
+      <button class="flex items-center justify-center gap-3 w-full
+                     bg-gray-100 hover:bg-gray-200
+                     rounded-lg py-2.5 sm:py-3 transition">
+        <img src="login/google.png" class="w-4 h-4 sm:w-5 sm:h-5" />
+        <span class="text-xs sm:text-sm font-medium">
+          Sign in with Google
+        </span>
+      </button>
+
+      <!-- Footer -->
+      <p class="text-[10px] sm:text-xs text-gray-500 mt-5 text-center md:text-left">
+        By continuing, you agree to our
+        <span class="underline">Privacy Policy</span> and
+        <span class="underline">Terms</span>.
+      </p>
+
+    </div>
+
+
+    <!-- LEFT (IMAGE SECOND ON MOBILE) -->
+    <div class="relative w-full md:w-1/2 order-2 md:order-1 h-[200px] sm:h-[240px] md:h-auto">
+
+      <img src="login/login-bg.png"
+           class="absolute inset-0 w-full h-full object-cover" />
+
+      <div class="absolute inset-0 bg-black/50"></div>
+
+      <div class="relative z-10 p-4 sm:p-6 md:p-10 text-white">
+
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-2 md:mb-3">
+          Why Join SD Shop?
+        </h2>
+
+        <p class="text-xs sm:text-sm md:text-base mb-4 md:mb-6 max-w-md">
+          Sign up now and unlock insane rewards, epic deals, and non-stop gaming perks!
+        </p>
+
+        <!-- FEATURES -->
+        <div class="space-y-3">
+
+          <div class="bg-white text-black rounded-lg p-3 flex gap-3 shadow">
+            <img src="login/user.png" class="w-8 h-8 sm:w-10 sm:h-10" />
+            <div>
+              <h4 class="font-semibold text-xs sm:text-sm">
+                Instant Sign-Up, Instant Rewards
+              </h4>
+              <p class="text-[11px] sm:text-xs text-gray-500">
+                Just 3 quick steps to claim your exclusive welcome bonus!
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white text-black rounded-lg p-3 flex gap-3 shadow">
+            <img src="login/icon-login.png" class="w-8 h-8 sm:w-10 sm:h-10" />
+            <div>
+              <h4 class="font-semibold text-xs sm:text-sm">
+                Exclusive Offers & Rewards
+              </h4>
+              <p class="text-[11px] sm:text-xs text-gray-500">
+                Get access to special deals for true gamers!
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white text-black rounded-lg p-3 flex gap-3 shadow">
+            <img src="login/box.png" class="w-8 h-8 sm:w-10 sm:h-10" />
+            <div>
+              <h4 class="font-semibold text-xs sm:text-sm">
+                Earn UC Points
+              </h4>
+              <p class="text-[11px] sm:text-xs text-gray-500">
+                Collect points and redeem rewards!
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- PROFILE MODAL -->
+<div *ngIf="modalType === 'profile'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+
+  <div class="bg-[#f3f3f3] w-full max-w-[500px] rounded-[30px] p-8 md:p-10">
+
+    <!-- USER -->
+    <div class="flex items-center gap-5 mb-10">
+      <img src="assets/user.jpg" class="w-20 h-20 rounded-full object-cover" />
+
+      <h2 class="text-2xl md:text-3xl font-semibold text-gray-700">
+        John Alex
+      </h2>
+    </div>
+
+    <!-- MENU -->
+    <div class="space-y-8">
+
+      <!-- PROFILE -->
+      <div class="flex items-center gap-5 cursor-pointer">
+        <i class="fa-solid fa-gear text-3xl text-gray-600"></i>
+        <span class="text-xl text-gray-700">Profile</span>
+      </div>
+
+      <!-- ORDER -->
+      <div class="flex items-center gap-5 cursor-pointer">
+        <i class="fa-regular fa-clipboard text-3xl text-gray-600"></i>
+        <span class="text-xl text-gray-700">Order Center</span>
+      </div>
+
+      <!-- LOGOUT -->
+      <div class="flex items-center gap-5 cursor-pointer">
+        <i class="fa-solid fa-arrow-right-from-bracket text-3xl text-gray-600"></i>
+        <span class="text-xl text-gray-700">Log Out</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

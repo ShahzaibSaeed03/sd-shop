@@ -1,0 +1,126 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 py-6 sm:py-10">
+
+
+  <!-- MAIN -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+
+    <!-- LEFT -->
+    <div class="lg:col-span-2 space-y-4">
+
+      <!-- PRODUCT -->
+      <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl">
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <img [src]="order.image" class="w-14 h-14 sm:w-16 sm:h-16 rounded-lg" />
+
+          <div>
+            <h3 class="font-medium text-sm sm:text-lg">{{ order.title }}</h3>
+            <p class="text-xs sm:text-sm text-gray-500">{{ order.subtitle }}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <span class="font-medium text-base sm:text-xl">${{ order.price }}</span>
+
+          <i
+            class="fa-solid fa-trash text-red-500 cursor-pointer hover:text-red-700 text-sm sm:text-base"
+            (click)="removeItem()"
+          ></i>
+        </div>
+
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="bg-gray-50 rounded-xl p-4">
+
+        <div
+          class="flex justify-between items-center cursor-pointer"
+          (click)="toggleSummary()"
+        >
+          <h3 class="font-medium text-base sm:text-xl">Order Summary</h3>
+
+          <i
+            class="fa-solid fa-chevron-down transition-transform duration-300"
+            [class.rotate-180]="summaryOpen"
+          ></i>
+        </div>
+
+        <div *ngIf="summaryOpen" class="mt-4 space-y-2 text-sm sm:text-base">
+
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span>${{ summary.subtotal }}</span>
+          </div>
+
+          <div class="flex justify-between text-green-500">
+            <span>Discount</span>
+            <span>${{ summary.discount }}</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>Coupon</span>
+            <span class="text-purple-600">{{ summary.coupon }}</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>SD Coins used</span>
+            <span>-${{ summary.coins }}</span>
+          </div>
+
+          <hr />
+
+          <div class="flex justify-between font-semibold text-lg sm:text-xl">
+            <span>Total</span>
+            <span>${{ total }}</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6 sm:justify-end">
+
+        <button
+          class="bg-purple-600 hover:bg-purple-700 text-white w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg transition"
+          (click)="proceed()"
+        >
+          Proceed to payment
+        </button>
+
+        <button
+          class="border w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition"
+        >
+          Go back home
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="bg-gray-50 rounded-xl p-4 h-fit">
+
+      <div
+        class="flex justify-between items-center cursor-pointer"
+        (click)="toggleAccount()"
+      >
+        <h3 class="font-medium text-base sm:text-lg">Game Account Info</h3>
+
+        <i
+          class="fa-solid fa-chevron-down transition-transform duration-300"
+          [class.rotate-180]="accountOpen"
+        ></i>
+      </div>
+
+      <div *ngIf="accountOpen" class="mt-4 text-sm space-y-2">
+        <p><strong>Server:</strong> {{ account.server }}</p>
+        <p><strong>User ID:</strong> {{ account.userId }}</p>
+        <p><strong>Nickname:</strong> {{ account.nickname }}</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

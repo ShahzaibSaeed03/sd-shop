@@ -1,0 +1,36 @@
+<div
+  class="bg-white rounded-2xl shadow-md w-full flex flex-col cursor-pointer"
+  (click)="onClick()"
+>
+  <!-- Image -->
+  <div class="w-full h-[121px] sm:h-[180px] lg:h-[225px] rounded-xl overflow-hidden">
+    <img
+      [src]="data.image"
+      class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="mt-2 flex sm:flex-row flex-col justify-between items-start flex-1 px-2 py-1">
+    <div>
+      <h3 class="text-sm sm:text-base font-medium text-gray-800 leading-tight">
+        {{ data.title }}
+      </h3>
+      <p class="text-xs sm:text-sm text-gray-500 mt-1">
+        {{ data.sold }}
+      </p>
+    </div>
+
+    <div class="flex  items-center gap-1 bg-[#FFF7E0] px-2 py-1 rounded-full">
+      <span class="text-xs font-medium">{{ data.rating }}</span>
+      <span class="text-yellow-500">★</span>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <button
+    class="mt-2 border border-[#6E11B0] text-gray-800 py-1 px-2 h-8 sm:h-10 rounded-lg hover:bg-[#7a4bd0] transition mx-2 mb-2 text-xs sm:text-sm"
+  >
+    Top Up
+  </button>
+</div>

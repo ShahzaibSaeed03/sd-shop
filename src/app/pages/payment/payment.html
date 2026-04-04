@@ -1,0 +1,201 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+
+    <!-- LEFT SIDE -->
+    <div class="lg:col-span-2 space-y-4">
+
+      <!-- ORDER STATUS -->
+      <div class="bg-white rounded-xl p-4 shadow-sm">
+
+        <h3 class="font-medium mb-3 text-base sm:text-lg">Order Status</h3>
+
+        <!-- ✅ FIX: remove fixed height -->
+        <div class="bg-gradient-to-r from-purple-400 to-purple-600 text-white rounded-lg p-4 flex items-center gap-3">
+
+          <i class="fa-regular fa-clock text-lg sm:text-xl"></i>
+
+          <div>
+            <p class="font-medium text-base sm:text-xl">
+              Awaiting payment
+            </p>
+
+            <p class="text-sm sm:text-base opacity-90">
+              Expires in <span class="font-semibold">14:50</span>
+            </p>
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="mt-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+
+          <div class="flex items-center gap-3">
+
+            <!-- ✅ FIX: responsive image -->
+            <img src="cards/card-images.png"
+                 class="w-10 h-10 sm:w-12 sm:h-12 rounded" />
+
+            <p class="text-sm sm:text-base font-medium leading-tight">
+              Honkai: Star Rail – Express Supply Pass (x1)
+            </p>
+
+          </div>
+
+          <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
+
+        </div>
+
+        <!-- ORDER ID -->
+        <div class="mt-3 flex justify-between items-center">
+
+          <div>
+            <p class="text-xs sm:text-sm text-gray-500">ORDER ID</p>
+            <p class="text-sm sm:text-base font-semibold">
+              PC0000000000001
+            </p>
+          </div>
+
+          <span class="text-purple-600 text-sm cursor-pointer">
+            Copy
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="bg-white rounded-xl p-4 shadow-sm">
+
+        <h3 class="font-medium text-base sm:text-lg mb-3">
+          Order Summary
+        </h3>
+
+        <div class="flex justify-between text-sm sm:text-base">
+          <span>Coupon</span>
+          <span class="text-purple-600 cursor-pointer">Select coupon</span>
+        </div>
+
+        <div class="flex justify-between text-sm sm:text-base">
+          <span>Game UID</span>
+          <span>600289646 (America)</span>
+        </div>
+
+        <div class="flex justify-between text-sm sm:text-base">
+          <span>Subtotal</span>
+          <span>$25.73</span>
+        </div>
+
+        <div class="flex justify-between text-green-500 text-sm sm:text-base">
+          <span>Discount</span>
+          <span>$2.00</span>
+        </div>
+
+        <div class="flex justify-between text-green-500 text-sm sm:text-base">
+          <span>SD Coins discount</span>
+          <span>$0.10</span>
+        </div>
+
+        <hr class="my-3" />
+
+        <div class="flex justify-between font-semibold text-lg sm:text-xl">
+          <span>Total</span>
+          <span>$23.52</span>
+        </div>
+
+        <div class="text-sm sm:text-base text-gray-500 mt-2 flex justify-between">
+          <span>SD Coins to be earned</span>
+          <span class="text-yellow-500">🪙 7.03</span>
+        </div>
+
+        <div class="mt-3 text-sm sm:text-base text-green-600 flex items-center gap-2">
+          <i class="fa-solid fa-shield"></i>
+          Securely pay with our trusted payment partner
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="bg-white rounded-xl p-4 shadow-sm space-y-4 h-fit">
+
+      <h3 class="font-medium text-lg sm:text-xl">
+        Select Payment
+      </h3>
+
+      <!-- CREDIT CARD -->
+      <label class="flex justify-between items-center border p-3 rounded-lg cursor-pointer">
+
+        <div class="flex items-center gap-2">
+          <img src="https://img.icons8.com/color/48/visa.png" class="w-6" />
+          <span class="text-sm sm:text-base">Credit Card</span>
+        </div>
+
+        <input type="radio" [(ngModel)]="selectedMethod" value="card">
+
+      </label>
+
+      <!-- FORM -->
+      <div *ngIf="selectedMethod === 'card'" class="space-y-3">
+
+        <input type="text"
+          placeholder="Cardholder"
+          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
+
+        <input type="text"
+          placeholder="Card number"
+          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
+
+        <div class="grid grid-cols-2 gap-2">
+
+          <input type="text"
+            placeholder="MM/YY"
+            class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
+
+          <input type="text"
+            placeholder="CVV"
+            class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
+
+        </div>
+
+      </div>
+
+      <!-- APPLE PAY -->
+      <label class="flex justify-between items-center border p-3 rounded-lg cursor-pointer">
+        <span class="text-sm sm:text-base">Apple Pay</span>
+        <input type="radio" [(ngModel)]="selectedMethod" value="apple">
+      </label>
+
+      <!-- OTHER -->
+      <label class="flex justify-between items-center border p-3 rounded-lg opacity-50">
+        <span class="text-sm sm:text-base">Credit Card</span>
+        <input type="radio" disabled>
+      </label>
+
+      <!-- PAY BUTTON -->
+      <button
+        class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg transition"
+        (click)="pay()"
+      >
+        Pay $23.52 Securely
+      </button>
+
+      <!-- NOTE -->
+      <p class="text-xs text-gray-400 text-center leading-relaxed">
+        After payment, please stay on this page for a few seconds — we will confirm everything automatically.
+      </p>
+
+      <!-- BACK -->
+      <button
+        class="w-full border py-2 rounded-lg hover:bg-gray-100 transition"
+        (click)="back.emit()"
+      >
+        Back
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

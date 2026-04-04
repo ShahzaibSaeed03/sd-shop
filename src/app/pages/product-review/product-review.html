@@ -1,0 +1,265 @@
+<div class="bg-gray-100 min-h-screen p-4">
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto">
+
+    <!-- LEFT SIDE -->
+    <div class="lg:col-span-9">
+
+      <!-- HEADER -->
+      <div class="bg-[#f3f4f6] p-4 rounded-xl flex flex-col md:flex-row justify-between gap-4">
+
+        <div class="flex gap-4 md:gap-6 items-center">
+
+          <img src="cards/image 52.png"
+            class="w-[90px] h-[90px] md:w-[120px] md:h-[120px] rounded-xl object-cover" />
+
+          <div>
+            <h2 class="text-lg md:text-xl font-semibold mb-2">
+              Honkai: Star Rail
+            </h2>
+
+            <div class="flex flex-wrap gap-3 text-xs md:text-sm text-gray-500 mb-2">
+              <span class="flex items-center gap-1">
+                <i class="fas fa-bolt"></i> Rápido
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="fas fa-shield-alt"></i> Seguro
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="fas fa-headset"></i> 24/7
+              </span>
+            </div>
+
+            <div class="flex flex-wrap gap-4 text-xs md:text-sm">
+              <span>Popular</span>
+              <span>10k+ Vendidos</span>
+              <span class="text-purple-600 flex items-center gap-1">
+                <i class="fas fa-star"></i> 4.9
+              </span>
+              <span>2,970 Avaliações</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT REF -->
+        <div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-sm w-full md:w-[320px]">
+          <img src="https://i.pravatar.cc/100" class="w-10 h-10 rounded-full" />
+          <div class="text-xs md:text-sm">
+            <p>Indicação de <span class="text-blue-600">@MegaHSR</span></p>
+            <p class="font-semibold text-purple-600">MEGA 5%OFF</p>
+            <p class="text-gray-400 text-xs">Apoie criadores parceiros</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TABS -->
+      <div class="flex gap-3 overflow-x-auto mb-6 mt-4">
+        <button *ngFor="let tab of tabs"
+          (click)="activeTab = tab.key"
+          class="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm whitespace-nowrap"
+          [ngClass]="{
+            'bg-purple-300': activeTab === tab.key,
+            'bg-gray-100': activeTab !== tab.key
+          }">
+          {{ tab.label }}
+        </button>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
+
+        <div *ngFor="let p of products"
+          (click)="selectProduct(p)"
+          class="bg-white rounded-xl overflow-hidden cursor-pointer border transition"
+          [ngClass]="{
+            'border-purple-400': selectedProduct?.id === p.id,
+            'border-gray-200': selectedProduct?.id !== p.id
+          }">
+
+          <!-- IMAGE -->
+          <div class="bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center">
+            <img [src]="p.img"
+              class="w-full h-[110px] md:h-[180px] object-contain" />
+          </div>
+
+          <!-- CONTENT -->
+          <div class="p-2 md:p-3 text-center">
+
+            <p class="text-[10px] md:text-xs text-gray-500 mb-1">
+              {{ p.subtitle || 'Passe de Suprimentos' }}
+            </p>
+
+            <h4 class="text-xs md:text-sm font-medium mb-1 line-clamp-2">
+              {{ p.title }}
+            </h4>
+
+            <div class="text-sm md:text-base font-semibold">
+              R$ {{ p.price }}
+            </div>
+
+            <div class="flex justify-center gap-1 md:gap-2 text-[10px] md:text-xs mt-1">
+              <span class="text-purple-600">
+                -R$ {{ p.discount }}
+              </span>
+              <span class="text-gray-400 line-through">
+                R$ {{ p.oldPrice }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="lg:col-span-3">
+
+  <div class="col-span-12 lg:col-span-3 mt-6 lg:mt-0">
+
+  <div class="bg-white rounded-2xl shadow-sm p-3 md:p-4 space-y-5 w-full">
+
+    <!-- PAYMENT METHODS -->
+    <div class="flex items-center gap-2 justify-center lg:justify-start">
+      <img src="https://img.icons8.com/color/48/visa.png" class="w-8" />
+      <img src="https://img.icons8.com/color/48/mastercard.png" class="w-8" />
+    </div>
+
+    <!-- GUARANTEE -->
+    <div class="flex justify-between items-center text-sm text-gray-500 cursor-pointer">
+      <span>Garantia de Reembolso</span>
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+
+    <!-- ACCOUNT BOX -->
+    <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-4">
+
+      <h3 class="font-medium text-sm md:text-base">Recarregar Conta</h3>
+
+      <!-- SERVER -->
+      <div>
+        <label class="text-xs md:text-sm text-gray-600">
+          <span class="text-red-500">*</span> Servidor
+        </label>
+
+        <select class="w-full mt-1 border rounded-lg px-3 py-2 text-sm bg-white">
+          <option>Selecionar servidor</option>
+        </select>
+      </div>
+
+      <!-- UID -->
+      <div>
+        <label class="text-xs md:text-sm text-gray-600">
+          <span class="text-red-500">*</span> UID do Jogo
+        </label>
+
+        <input
+          type="text"
+          placeholder="Digite seu UID"
+          class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+        />
+      </div>
+
+      <!-- SAVE UID -->
+      <label class="flex items-start gap-2 text-xs md:text-sm text-gray-500">
+        <input type="checkbox" class="mt-1" />
+        Salvar UID para próxima compra
+      </label>
+
+    </div>
+
+    <!-- COUPON -->
+    <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-3">
+
+      <div class="flex justify-between items-center">
+        <span class="text-sm font-medium">Tem um Cupom?</span>
+        <button class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">
+          Resgatar
+        </button>
+      </div>
+
+      <div class="flex gap-2">
+        <input
+          type="text"
+          placeholder="Cupom"
+          class="flex-1 border rounded-lg px-3 py-2 text-sm"
+        />
+        <button class="px-3 md:px-4 bg-purple-600 text-white rounded-lg text-sm">
+          OK
+        </button>
+      </div>
+
+    </div>
+
+    <!-- QUANTITY -->
+    <div class="flex justify-between items-center">
+      <span class="text-sm">Quantidade</span>
+
+      <div class="flex items-center gap-2">
+        <button class="w-8 h-8 border rounded" (click)="decrease()">-</button>
+        <span class="w-10 text-center text-sm">{{ quantity }}</span>
+        <button class="w-8 h-8 border rounded" (click)="increase()">+</button>
+      </div>
+    </div>
+
+    <!-- PRICE -->
+    <div>
+      <p class="text-xs md:text-sm text-gray-500">Preço</p>
+
+      <div class="flex items-end gap-2">
+        <p class="text-lg md:text-2xl font-semibold">
+          {{ 600 | currency:'BRL' }}
+        </p>
+
+        <span class="text-xs md:text-sm text-gray-400 line-through">
+          R$ 449,95
+        </span>
+      </div>
+    </div>
+
+    <!-- COINS -->
+    <div class="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2">
+
+      <div class="flex items-center gap-2 text-xs md:text-sm">
+        <span>Usar:</span>
+        <span class="text-yellow-500">🪙 1782</span>
+      </div>
+
+      <!-- TOGGLE -->
+      <div class="relative w-10 h-5 bg-gray-300 rounded-full">
+        <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-purple-600 rounded-full"></div>
+      </div>
+
+    </div>
+
+    <!-- BUTTON -->
+    <button
+      class="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white py-3 rounded-lg font-medium text-sm md:text-base"
+      (click)="checkout()"
+    >
+      Top Up
+    </button>
+
+    <!-- FOOTER -->
+    <p class="text-[10px] md:text-xs text-gray-400 text-center leading-relaxed">
+      Ao finalizar a compra você concorda com nossos
+      <span class="text-purple-600">Termos</span> e
+      <span class="text-purple-600">Política</span>.
+    </p>
+
+  </div>
+
+</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<app-review></app-review>
+<app-info-page></app-info-page>

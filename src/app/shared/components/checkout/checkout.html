@@ -1,0 +1,73 @@
+<div class="max-w-7xl mx-auto px-4 py-6">
+
+  <!-- ✅ STEPPER -->
+  <div class="flex items-center justify-between mb-10 relative">
+
+    <!-- line -->
+    <div class="absolute top-4 left-0 right-0 h-[2px] bg-gray-200"></div>
+
+    <!-- STEP 1 -->
+    <div class="flex-1 text-center relative z-10">
+      <div
+        class="w-8 h-8 rounded-full mx-auto flex items-center justify-center text-sm"
+        [ngClass]="step >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'"
+      >
+        <i *ngIf="step > 1" class="fa-solid fa-check"></i>
+        <span *ngIf="step === 1">1</span>
+      </div>
+      <p [ngClass]="step === 1 ? 'text-purple-600' : 'text-gray-400'" class="mt-2 text-sm">
+        Review Order
+      </p>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="flex-1 text-center relative z-10">
+      <div
+        class="w-8 h-8 rounded-full mx-auto flex items-center justify-center text-sm"
+        [ngClass]="step >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'"
+      >
+        <span *ngIf="step < 3">2</span>
+        <i *ngIf="step > 2" class="fa-solid fa-check"></i>
+      </div>
+      <p [ngClass]="step === 2 ? 'text-purple-600' : 'text-gray-400'" class="mt-2 text-sm">
+        Payment
+      </p>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="flex-1 text-center relative z-10">
+      <div
+        class="w-8 h-8 rounded-full mx-auto flex items-center justify-center text-sm"
+        [ngClass]="step === 3 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'"
+      >
+        3
+      </div>
+      <p class="text-gray-400 mt-2 text-sm">Confirmation</p>
+    </div>
+
+  </div>
+
+  <!-- ✅ DYNAMIC CONTENT -->
+  <ng-container [ngSwitch]="step">
+
+    <app-review-order
+      *ngSwitchCase="1"
+      (next)="goToStep(2)"
+    ></app-review-order>
+
+
+    <app-payment
+      *ngSwitchCase="2"
+      (next)="goToStep(3)"
+      (back)="goToStep(1)"  
+    ></app-payment>
+
+  
+    <app-sucess-payment  *ngSwitchCase="3"
+    >
+
+    </app-sucess-payment>
+
+  </ng-container>
+
+</div>

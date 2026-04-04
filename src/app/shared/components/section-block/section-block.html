@@ -1,0 +1,32 @@
+<div class="py-6">
+
+  <!-- HEADER -->
+  <div class="mb-6">
+    <h2 class="text-lg font-bold text-gray-800 uppercase">
+      {{ title }}
+    </h2>
+
+    <p *ngIf="subtitle" class="text-sm text-gray-500 mt-1">
+      {{ subtitle }}
+    </p>
+  </div>
+
+  <!-- ✅ GRID FIX -->
+  <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
+
+    <app-game-cards
+      *ngFor="let game of games"
+      [data]="game"
+      (cardClick)="onProductClick($event)"
+    ></app-game-cards>
+
+  </div>
+
+  <!-- BUTTON -->
+  <div *ngIf="showButton" class="flex justify-center mt-6">
+    <button class="bg-[#895DEC] text-white px-6 py-2 rounded-lg">
+      View More
+    </button>
+  </div>
+
+</div>

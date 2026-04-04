@@ -1,0 +1,80 @@
+<div class="p-6 bg-gray-50 min-h-screen max-w-7xl mx-auto">
+
+  <!-- Title -->
+  <h2 class="text-xl font-semibold mb-4">Order Record</h2>
+
+  <!-- Tabs -->
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex gap-3">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="setTab(tab.key)"
+        class="px-4 py-2 rounded-full text-sm"
+        [ngClass]="{
+          'bg-purple-200 text-purple-700': activeTab === tab.key,
+          'bg-white text-gray-600': activeTab !== tab.key
+        }"
+      >
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <!-- Filter Icon -->
+    <button class="bg-purple-600 text-white p-2 rounded-md">
+      <i class="fas fa-filter"></i>
+    </button>
+  </div>
+
+  <!-- Order Grid -->
+  <div class="grid md:grid-cols-2 gap-4">
+
+    <div
+      *ngFor="let order of filteredOrders"
+      class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm"
+    >
+      <!-- Left -->
+      <div class="flex items-center gap-4">
+
+        <img
+          [src]="order.image"
+          class="w-14 h-14 rounded-md object-cover bg-orange-400"
+        />
+
+        <div>
+          <h3 class="font-medium">{{ order.title }}</h3>
+          <p class="text-sm text-gray-500">{{ order.coins }} Coins</p>
+          <p class="text-xs text-gray-400">{{ order.date }}</p>
+
+          <span class="text-xs text-gray-400 capitalize">
+            {{ order.status }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="text-right">
+        <div class="flex items-center gap-2 justify-end">
+          <span class="text-lg font-semibold">
+            ${{ order.price }}
+          </span>
+          <i class="fas fa-chevron-right text-gray-400"></i>
+        </div>
+
+        <!-- Bonus -->
+        <div class="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-md">
+          <i class="fas fa-coins"></i>
+          +10 SD Coins
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-6 text-sm text-gray-500 flex items-center gap-2 cursor-pointer">
+    <i class="fas fa-info-circle"></i>
+    Can't find your record?
+    <i class="fas fa-chevron-right"></i>
+  </div>
+
+</div>

@@ -1,0 +1,67 @@
+<div class="min-h-screen p-6 max-w-7xl mx-auto bg-gray-50">
+
+  <!-- Title -->
+  <h2 class="text-center font-semibold text-lg mb-6">MY PROFILE</h2>
+
+  <!-- Profile Card -->
+  <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 max-w-xl mx-auto ">
+
+    <div class="flex items-center gap-4 ">
+      <img
+        [src]="user.avatar"
+        class="w-12 h-12 rounded-full object-cover"
+      />
+
+      <div class="max-w-xl">
+        <h3 class="font-medium">{{ user.name }}</h3>
+
+        <div class="flex items-center gap-1 text-xs text-gray-500">
+          <i class="fab fa-google text-red-500"></i>
+          Signed in with {{ user.provider }}
+        </div>
+
+        <p class="text-xs text-gray-400">
+          Member Since: {{ user.memberSince }}
+        </p>
+      </div>
+    </div>
+
+    <button
+      (click)="logout()"
+      class="text-red-500 bg-red-100 px-3 py-1 rounded-md text-sm flex items-center gap-1"
+    >
+      LOG OUT
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+
+  <!-- My Orders -->
+  <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 cursor-pointer max-w-xl mx-auto">
+
+    <div>
+      <h3 class="font-medium">My Orders</h3>
+      <p class="text-sm text-gray-500">
+        View your purchases and their status
+      </p>
+    </div>
+
+    <i class="fas fa-chevron-right text-gray-400"></i>
+  </div>
+
+  <!-- Cashback -->
+  <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm max-w-xl mx-auto">
+
+    <div>
+      <h3 class="font-medium">Cashback</h3>
+      <p class="text-sm text-gray-500">
+        Amount of SD Coins available
+      </p>
+    </div>
+
+    <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-md flex items-center gap-1 font-medium">
+      <i class="fas fa-coins"></i>
+      {{ cashback }}
+    </div>
+  </div>
+
+</div>

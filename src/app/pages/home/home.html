@@ -1,0 +1,62 @@
+<app-slider></app-slider>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-10 sm:space-y-14 bg-white">
+    <!-- TABS -->
+  <div class="flex justify-center">
+  <app-tab-menu
+    [tabs]="tabs"
+    [activeTab]="activeTab"
+    (tabChange)="onTabChange($event)"
+  ></app-tab-menu>
+</div>
+
+    <!-- RECENT -->
+    <app-section-block
+    
+      title="RECENTLY PURCHASE"
+      [games]="recentGames"
+      [columns]="5"
+        (productClick)="goToProduct($event)"
+
+    ></app-section-block>
+
+    <!-- HOT SELLING (15 CARDS) -->
+    <app-section-block
+    
+      title="HOT SELLING TOP-UP GAMES"
+      subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      [games]="hotGames.slice(0,15)"
+      [columns]="5"
+      [showButton]="true"
+        (productClick)="goToProduct($event)"
+
+    ></app-section-block>
+
+    <!-- TOP GAMES (4 CARDS + WHITE TEXT) -->
+    <div class="bg-[#D9B4E4] rounded-2xl px-6 py-8">
+      <app-section-block
+        title="TOP GAMES"
+        subtitle="Explore the most popular games on SD Shop"
+        [games]="topGames"
+        [columns]="4"
+        [variant]="'purple'"
+          (productClick)="goToProduct($event)"
+
+      ></app-section-block>
+    </div>
+
+    <!-- POPULAR COINS (15 CARDS) -->
+    <app-section-block
+      title="POPULAR GAME COINS"
+      subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      [games]="coinGames.slice(0,15)"
+      [columns]="5"
+      [showButton]="true"
+      (productClick)="goToProduct($event)"
+
+    ></app-section-block>
+
+  </div>
+
+<app-faq></app-faq>
+<app-advantag-sd></app-advantag-sd>

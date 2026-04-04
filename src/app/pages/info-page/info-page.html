@@ -1,0 +1,147 @@
+<div class="bg-gray-50 min-h-screen p-6">
+
+  <!-- Accordion -->
+  <div class="space-y-4 mb-6 max-w-7xl mx-auto">
+
+    <div *ngFor="let item of faqs; let i = index" class="bg-white rounded-lg shadow-sm">
+
+      <!-- Header -->
+      <div
+        (click)="toggle(i)"
+        class="flex justify-between items-center p-4 cursor-pointer"
+      >
+        <h3 class="font-medium text-sm">
+          {{ item.title }}
+        </h3>
+
+        <i
+          class="fas"
+          [ngClass]="{
+            'fa-chevron-down': activeIndex !== i,
+            'fa-chevron-up': activeIndex === i
+          }"
+        ></i>
+      </div>
+
+      <!-- Content -->
+      <div *ngIf="activeIndex === i" class="px-4 pb-4 text-sm text-gray-600">
+
+        <p class="mb-4 font-medium">
+          What Information You Need to Top-Up Lunite in Wuthering Waves
+        </p>
+
+        <p class="mb-4">
+          To get a cheap Wuthering Waves top up with BuffBuff, you'll need:
+        </p>
+
+        <ul class="space-y-3 mb-4">
+          <li><b>● Wuthering Waves Account UID:</b> A unique identifier ensuring your recharge is delivered correctly.</li>
+          <li><b>● Wuthering Waves Server:</b> Select the correct server your account is on.</li>
+          <li><b>● Applicable Platforms:</b> Android, iOS, PS5, Windows, macOS</li>
+        </ul>
+
+        <p class="mb-4">
+          <b>Important Note:</b> After completing your top-up, change your password.
+        </p>
+
+        <p>Step 4: Tap the circular "Terminal" icon.</p>
+        <p>Step 5: Find your Username and User ID.</p>
+        <p class="mb-4">Step 3: Server is shown with your account level.</p>
+
+        <!-- Banner -->
+        <img
+          src="/mnt/data/Frame 2147227970.png"
+          class="rounded-lg mb-4 w-full"
+        />
+
+        <p class="mb-4">
+          Whether you're aiming to pull for the latest Resonators, you get more value with discounted Lunite bundles.
+        </p>
+
+        <!-- Bonus -->
+        <h4 class="font-semibold mb-2">First-Time Lunite Purchase Bonus</h4>
+
+        <ul class="space-y-2">
+          <li>● 60 Lunite → 120 Lunite</li>
+          <li>● 300 Lunite → 600 Lunite</li>
+          <li>● 980 Lunite → 1960 Lunite</li>
+          <li>● 3280 Lunite → 6560 Lunite</li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom Accordion -->
+
+
+  <!-- About Section -->
+<div class="bg-gray-50 min-h-screen p-6">
+
+  <div class="bg-white rounded-xl p-6 text-gray-700 text-sm leading-relaxed max-w-7xl mx-auto">
+
+    <!-- About -->
+    <h2 class="text-base font-semibold mb-2">
+      About Wuthering Waves
+    </h2>
+    <p class="mb-5 text-gray-500">
+      Wuthering Waves is a free-to-play open-world action RPG from Kuro Games, the Chinese studio behind Punishing Gray Raven. At its core, however, it's still a gacha title, meaning many players top up Lunite to stay current with new Resonators and weapon banners.
+    </p>
+
+    <!-- Usage -->
+    <h2 class="text-base font-semibold mb-2">
+      What is Lunited Best Used for in Wuthering Waves?
+    </h2>
+    <p class="mb-3 text-gray-500">
+      Lunite is best spent on limited-time banners.
+    </p>
+    <p class="mb-5 text-gray-500">
+      Radiant and Forging Tides give the highest value by letting you summon the latest Resonators and weapons; units that typically shape the current meta and outperform older roster options.
+    </p>
+
+    <!-- Bundles -->
+    <h2 class="text-base font-semibold mb-2">
+      BuffBuff’s Special Offers & Bundles for Wuthering Waves
+    </h2>
+
+    <p class="font-medium mb-1">All-in-One Bundle</p>
+    <p class="mb-4 text-gray-500">
+      60 Lunites + 300 Lunites + 980 Lunites + 1980 Lunites + 3280 Lunites + 6480 Lunites (Lunite Subscription not included)
+    </p>
+
+    <p class="font-medium mb-1">Lunite Subscription</p>
+    <p class="mb-4 text-gray-500">
+      The Lunite Subscription in Wuthering Waves is a 30-day paid plan that grants 300 Lunite immediately, plus 90 Astrite per day for 30 days.
+    </p>
+
+    <p class="mb-4 text-gray-500">
+      If claimed daily, you'll receive a total of 2,700 Astrite across the subscription period, making it one of the best long-term value options for players who pull regularly or want steady premium currency income.
+    </p>
+
+    <!-- Notes -->
+    <p class="font-medium mb-2">Additional Notes:</p>
+
+    <ul class="space-y-2 text-gray-500">
+      <li class="flex gap-2">
+        <span>●</span>
+        You can freely repurchase the Lunite Subscription as long as your remaining duration is below 180 days.
+      </li>
+
+      <li class="flex gap-2">
+        <span>●</span>
+        If the remaining validity is 180 days or more, buying another subscription will not extend the duration. Instead, you will receive 330 Lunite.
+      </li>
+
+      <li class="flex gap-2">
+        <span>●</span>
+        To get free rewards, check the latest updates.
+      </li>
+    </ul>
+
+  </div>
+
+</div>
+
+</div>

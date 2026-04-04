@@ -1,0 +1,74 @@
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+
+  <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8 w-full max-w-7xl text-center">
+
+    <!-- ICON -->
+    <div class="flex justify-center mb-4">
+      <div class="w-12 h-12 rounded-full border-2 border-green-500 flex items-center justify-center">
+        <i class="fa-solid fa-check text-green-500 text-lg"></i>
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <h2 class="text-xl sm:text-2xl font-semibold text-center">
+      Success! Your top-up has <br> been completed.
+    </h2>
+
+    <p class="text-gray-500 text-sm mt-2">
+      Please check your game account. Your purchased credits have been successfully added.
+    </p>
+
+    <!-- DETAILS BOX -->
+    <div class="bg-gray-50 rounded-xl p-4 mt-6 text-left text-sm sm:text-base space-y-2">
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Order Number</span>
+        <span>{{ order.orderNumber }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Order Date</span>
+        <span>{{ order.orderDate }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Game Name</span>
+        <span>{{ order.gameName }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Game UID</span>
+        <span>{{ order.gameUID }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Top-Up Package</span>
+        <span>{{ order.product }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Server / Region</span>
+        <span>{{ order.server }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Total Paid</span>
+        <span class="font-medium">{{ order.total }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-gray-500">Transaction Time</span>
+        <span>{{ order.transactionTime }}</span>
+      </div>
+
+    </div>
+
+<a
+  href=""
+  class="w-full inline-block text-center border border-purple-600 text-purple-600 py-3 rounded-lg hover:bg-purple-50 transition mt-10"
+>
+  Go to back home
+</a>
+  </div>
+
+</div>

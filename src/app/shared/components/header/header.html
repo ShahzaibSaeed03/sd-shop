@@ -1,0 +1,105 @@
+<header class="w-full px-4 py-3 flex items-center justify-between rounded-xl relative z-50">
+
+  <!-- Logo -->
+  <div class="flex items-center gap-2">
+    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-white">
+      <i class="fa-solid fa-gem"></i>
+    </div>
+    <h1 class="text-black font-bold text-lg sm:text-xl">
+      SD SHOP
+    </h1>
+  </div>
+
+  <!-- Desktop Menu -->
+  <nav class="hidden md:flex items-center gap-8 text-gray-800 font-medium">
+    <a class="hover:text-black cursor-pointer">Home</a>
+
+    <a class="hover:text-black cursor-pointer flex items-center gap-1">
+      Jogos
+      <i class="fa-solid fa-chevron-down text-xs"></i>
+    </a>
+
+    <a class="hover:text-black cursor-pointer">
+      Central de Ajuda
+    </a>
+  </nav>
+
+  <!-- Right Side -->
+  <div class="flex items-center gap-2 sm:gap-3">
+
+    <!-- Search (desktop only) -->
+    <div class="hidden md:flex items-center bg-white px-4 py-2 rounded-lg w-[260px] shadow-sm">
+      <i class="fa-solid fa-magnifying-glass text-gray-500 mr-2"></i>
+      <input
+        type="text"
+        placeholder="Pesquisar jogos"
+        class="bg-transparent outline-none w-full text-sm text-gray-700"
+      />
+    </div>
+
+    <!-- Language (desktop only) -->
+    <div class="hidden md:flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm cursor-pointer">
+      <img src="https://flagcdn.com/w20/br.png" class="w-5 h-4 rounded-sm" />
+      <span class="text-sm text-gray-800">PT/BR</span>
+      <i class="fa-solid fa-chevron-down text-xs"></i>
+    </div>
+
+    <!-- Coins -->
+    <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+      <i class="fa-solid fa-coins"></i>
+      <span class="text-sm">50</span>
+    </div>
+
+    <!-- Login (desktop only) -->
+    <button
+      (click)="openLoginModal()"
+      class="hidden md:block px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+      Entrar
+    </button>
+
+    <!-- Mobile Menu Button -->
+    <button class="md:hidden text-2xl text-black" (click)="toggleMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+  </div>
+</header>
+
+<!-- ✅ OVERLAY -->
+<div
+  *ngIf="isMenuOpen"
+  class="fixed inset-0 bg-black/40 z-40"
+  (click)="closeMenu()"
+></div>
+
+<!-- ✅ MOBILE SLIDE MENU -->
+<div
+  class="fixed top-0 left-0 h-full w-[260px] bg-white z-50 shadow-lg transform transition-transform duration-300"
+  [ngClass]="{
+    '-translate-x-full': !isMenuOpen,
+    'translate-x-0': isMenuOpen
+  }"
+>
+  <!-- Header -->
+  <div class="p-4 border-b flex justify-between items-center">
+    <h2 class="font-bold text-lg">Menu</h2>
+    <button (click)="closeMenu()">
+      <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+  </div>
+
+  <!-- Menu Items -->
+  <nav class="p-4 space-y-4 text-gray-800 font-medium">
+    <a class="block cursor-pointer" (click)="closeMenu()">Home</a>
+    <a class="block cursor-pointer" (click)="closeMenu()">Jogos</a>
+    <a class="block cursor-pointer" (click)="closeMenu()">Central de Ajuda</a>
+
+    <!-- Mobile Login -->
+  <!-- Mobile Login -->
+<button
+  (click)="openLoginModal(); closeMenu()"
+  class="w-full mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+  Entrar
+</button>
+  </nav>
+</div>

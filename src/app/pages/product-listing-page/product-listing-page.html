@@ -1,0 +1,42 @@
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- HEADER -->
+  <div>
+    <h1 class="text-2xl font-bold">GAME TOP-UP & RECHARGE</h1>
+    <p class="text-gray-500 text-sm">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </p>
+  </div>
+
+  <!-- TABS + SORT -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+    <app-tab-menu
+      [tabs]="tabs"
+      [activeTab]="activeTab"
+      (tabChange)="onTabChange($event)"
+    ></app-tab-menu>
+
+    <select
+      class="border rounded-lg px-3 py-2 text-sm"
+      (change)="onSortChange($event)"
+    >
+      <option value="popular">Sort by Popular</option>
+      <option value="rating">Sort by Rating</option>
+      <option value="sold">Sort by Sold</option>
+    </select>
+
+  </div>
+
+  <!-- ✅ USE YOUR COMPONENT -->
+  <app-section-block
+    title=""
+    [games]="filteredProducts"
+    [columns]="5"
+      (productClick)="goToDetails($event)"
+
+  ></app-section-block>
+
+</div>
+  <app-faq></app-faq>
+<app-advantag-sd></app-advantag-sd>
