@@ -19,7 +19,7 @@ export class ReviewOrder {
   order = {
     title: 'Zenless Zone Zero',
     subtitle: 'Inter-Knot Membership x5',
-    price: 23,
+    price: 23.00,
     image: 'cards/card-images.png'
   };
 
@@ -27,7 +27,7 @@ export class ReviewOrder {
   account = {
     server: 'America',
     userId: '6262626262',
-    nickname: 'Jo******'
+    nickname: 'Jo******th'
   };
 
   // 🔹 SUMMARY
@@ -38,7 +38,7 @@ export class ReviewOrder {
     subtotal: 96,
     discount: 10,
     coupon: 'MEGA5',
-    coins: 8.9
+    coins: 890
   };
 
   get total() {
