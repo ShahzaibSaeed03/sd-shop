@@ -1,115 +1,120 @@
-<footer class="bg-[#0f0f0f] text-gray-300 px-4 md:px-16 py-10">
+<footer class="bg-[#0f0f0f] text-gray-300">
 
-  <!-- TOP -->
-  <div class="flex flex-col items-center md:flex-row md:justify-between gap-4 mb-6 text-center md:text-left">
+  <div class="max-w-7xl mx-auto px-2 md:px-8 py-10">
 
-    <!-- Payment -->
-    <div>
-      <p class="text-gray-400 text-sm mb-2">Payment Methods:</p>
-      <div class="flex flex-wrap justify-center md:justify-start gap-2">
-        <img src="payments/stripe.png" class="h-6 bg-white rounded px-1" />
-        <img src="payments/amex.png" class="h-6 bg-white rounded px-1" />
-        <img src="payments/mastercard.png" class="h-6 bg-white rounded px-1" />
-        <img src="payments/applepay.png" class="h-6 bg-white rounded px-1" />
-        <img src="payments/alipay.png" class="h-6 bg-white rounded px-1" />
+    <!-- TOP -->
+    <div class="flex flex-col items-center md:flex-row md:justify-between gap-4 mb-6 text-center md:text-left">
+
+      <!-- Payment -->
+      <div class="flex items-center justify-center md:justify-start gap-3 flex-nowrap">
+        <p class="text-gray-400 text-sm whitespace-nowrap">
+          Payment Methods:
+        </p>
+        <div class="flex items-center gap-2 flex-nowrap">
+          <img src="payments/stripe.png" class="h-6 bg-white rounded px-1" />
+          <img src="payments/amex.png" class="h-6 bg-white rounded px-1" />
+          <img src="payments/mastercard.png" class="h-6 bg-white rounded px-1" />
+          <img src="payments/applepay.png" class="h-6 bg-white rounded px-1" />
+          <img src="payments/alipay.png" class="h-6 bg-white rounded px-1" />
+        </div>
+      </div>
+
+      <!-- Language -->
+      <div class="flex items-center gap-2 text-sm">
+        <img src="https://flagcdn.com/w20/br.png" class="w-5 h-4 rounded-sm" />
+        <span>Brasil (Português) / BRL</span>
+        <i class="fa-solid fa-chevron-down text-xs"></i>
+      </div>
+
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="border-t border-gray-800 mb-8"></div>
+
+    <!-- LOGO (CENTER MOBILE) -->
+    <div class="flex justify-center md:hidden mb-6">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="cards/logowhite.png" alt="" class="w-72">
+
+        </div>
       </div>
     </div>
+    <div class="hidden md:block">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="cards/logowhite.png" alt="" class="w-72">
 
-    <!-- Language -->
-    <div class="flex items-center gap-2 text-sm">
-      <img src="https://flagcdn.com/w20/br.png" class="w-5 h-4 rounded-sm" />
-      <span>Brasil (Português) / BRL</span>
-      <i class="fa-solid fa-chevron-down text-xs"></i>
-    </div>
-
-  </div>
-
-  <!-- DIVIDER -->
-  <div class="border-t border-gray-800 mb-8"></div>
-
-  <!-- LOGO (CENTER MOBILE) -->
-  <div class="flex justify-center md:hidden mb-6">
-  <div>
-      <div class="flex items-center gap-3 mb-4">
-       <img src="cards/logowhite.png" alt="" class="w-72">
-      
+        </div>
       </div>
     </div>
-  </div>
-  <div class="hidden md:block">
-     <div>
-      <div class="flex items-center gap-3 mb-4">
-       <img src="cards/logowhite.png" alt="" class="w-72">
-      
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-8 text-center md:text-left">
+
+      <!-- LOGO DESKTOP -->
+
+
+      <!-- Useful Links -->
+      <div class="md:border-l md:border-gray-800 md:pl-6">
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Useful</h3>
+        <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
+          <li>About</li>
+          <li>FAQs</li>
+        </ul>
       </div>
-    </div>
-    </div>
-  <!-- MAIN GRID -->
-  <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-8 text-center md:text-left">
 
-    <!-- LOGO DESKTOP -->
-  
-
-    <!-- Useful Links -->
-    <div class="md:border-l md:border-gray-800 md:pl-6">
-      <h3 class="text-white font-semibold text-xs md:text-base mb-3">Useful</h3>
-      <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
-        <li>About</li>
-        <li>FAQs</li>
-      </ul>
-    </div>
-
-    <!-- Contact -->
-    <div class="md:border-l md:border-gray-800 md:pl-6">
-      <h3 class="text-white font-semibold text-xs md:text-base mb-3">Contact</h3>
-      <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
-        <li class="flex flex-col md:flex-row items-center gap-1 md:gap-2">
-          <i class="fa-solid fa-envelope"></i>
-          <span class="break-words">support@sdshop.gg</span>
-        </li>
-        <li class="flex items-center justify-center md:justify-start gap-1 md:gap-2">
-          <i class="fa-brands fa-whatsapp"></i>
-          Chat
-        </li>
-      </ul>
-    </div>
-
-    <!-- Social -->
-    <div class="md:border-l md:border-gray-800 md:pl-6">
-      <h3 class="text-white font-semibold text-xs md:text-base mb-3">Follow</h3>
-      <div class="flex justify-center md:justify-start gap-3 text-sm md:text-lg">
-        <i class="fa-brands fa-discord"></i>
-        <i class="fa-brands fa-instagram"></i>
-        <i class="fa-brands fa-x-twitter"></i>
+      <!-- Contact -->
+      <div class="md:border-l md:border-gray-800 md:pl-6">
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Contact</h3>
+        <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
+          <li class="flex flex-col md:flex-row items-center gap-1 md:gap-2">
+            <i class="fa-solid fa-envelope"></i>
+            <span class="break-words">support@sdshop.gg</span>
+          </li>
+          <li class="flex items-center justify-center md:justify-start gap-1 md:gap-2">
+            <i class="fa-brands fa-whatsapp"></i>
+            Chat
+          </li>
+        </ul>
       </div>
+
+      <!-- Social -->
+      <div class="md:border-l md:border-gray-800 md:pl-6">
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Follow</h3>
+        <div class="flex justify-center md:justify-start gap-3 text-sm md:text-lg">
+          <i class="fa-brands fa-discord"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+        </div>
+      </div>
+
+      <!-- Hot Selling -->
+      <div class="md:border-l md:border-gray-800 md:pl-6">
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Hot</h3>
+        <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
+          <li>Honkai</li>
+          <li>Genshin</li>
+          <li>Zenless</li>
+          <li>Waves</li>
+        </ul>
+      </div>
+
     </div>
 
-    <!-- Hot Selling -->
-    <div class="md:border-l md:border-gray-800 md:pl-6">
-      <h3 class="text-white font-semibold text-xs md:text-base mb-3">Hot</h3>
-      <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
-        <li>Honkai</li>
-        <li>Genshin</li>
-        <li>Zenless</li>
-        <li>Waves</li>
-      </ul>
+    <!-- BOTTOM -->
+    <div class="border-t border-gray-800 mt-8 pt-5 text-center">
+
+      <div class="flex flex-wrap justify-center gap-3 text-[11px] md:text-sm mb-2">
+        <span class="text-purple-500">Terms</span>
+        <span>Privacy</span>
+        <span>Refund</span>
+      </div>
+
+      <p class="text-gray-500 text-xs md:text-sm">
+        © 2026 SD SHOP. All rights reserved.
+      </p>
+
     </div>
-
-  </div>
-
-  <!-- BOTTOM -->
-  <div class="border-t border-gray-800 mt-8 pt-5 text-center">
-
-    <div class="flex flex-wrap justify-center gap-3 text-[11px] md:text-sm mb-2">
-      <span class="text-purple-500">Terms</span>
-      <span>Privacy</span>
-      <span>Refund</span>
-    </div>
-
-    <p class="text-gray-500 text-xs md:text-sm">
-      © 2026 SD SHOP. All rights reserved.
-    </p>
-
   </div>
 
 </footer>
