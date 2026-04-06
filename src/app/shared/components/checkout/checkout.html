@@ -9,13 +9,16 @@
     <!-- STEP 1 -->
     <div class="flex-1 text-center relative z-10">
       <div
-        class="w-8 h-8 rounded-full mx-auto flex items-center justify-center text-sm"
-        [ngClass]="step >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'"
-      >
+        class="w-[40px] h-[40px] rounded-[21.5px] p-[5px] mx-auto flex items-center justify-center font-normal text-[24px] leading-[150%]"
+        [ngClass]="step >= 1 
+  ? 'bg-purple-600 text-white ring-4 ring-[#F2CAFF]' 
+  : 'bg-gray-200 text-gray-500'">
         <i *ngIf="step > 1" class="fa-solid fa-check"></i>
         <span *ngIf="step === 1">1</span>
       </div>
-      <p [ngClass]="step === 1 ? 'text-purple-600' : 'text-gray-400'" class="mt-2 text-sm">
+
+      <p [ngClass]="step === 1 ? 'text-purple-600' : 'text-gray-400'"
+        class="mt-2 font-normal text-[20px] leading-[150%]">
         Review Order
       </p>
     </div>
@@ -23,13 +26,16 @@
     <!-- STEP 2 -->
     <div class="flex-1 text-center relative z-10">
       <div
-        class="w-8 h-8 rounded-full mx-auto flex items-center justify-center text-sm"
-        [ngClass]="step >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'"
-      >
+        class="w-[40px] h-[40px] rounded-[21.5px] p-[5px] mx-auto flex items-center justify-center font-normal text-[24px] leading-[150%]"
+        [ngClass]="step >= 2 
+  ? 'bg-purple-600 text-white ring-4 ring-[#F2CAFF]' 
+  : 'bg-gray-200 text-gray-500'">
         <span *ngIf="step < 3">2</span>
         <i *ngIf="step > 2" class="fa-solid fa-check"></i>
       </div>
-      <p [ngClass]="step === 2 ? 'text-purple-600' : 'text-gray-400'" class="mt-2 text-sm">
+
+      <p [ngClass]="step === 2 ? 'text-purple-600' : 'text-gray-400'"
+        class="mt-2 font-normal text-[20px] leading-[150%]">
         Payment
       </p>
     </div>
@@ -37,12 +43,16 @@
     <!-- STEP 3 -->
     <div class="flex-1 text-center relative z-10">
       <div
-        class="w-8 h-8 rounded-full mx-auto flex items-center justify-center text-sm"
-        [ngClass]="step === 3 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500'"
-      >
+        class="w-[40px] h-[40px] rounded-[21.5px] p-[5px] mx-auto flex items-center justify-center font-normal text-[24px] leading-[150%]"
+        [ngClass]="step === 3 
+  ? 'bg-purple-600 text-white ring-4 ring-[#F2CAFF]' 
+  : 'bg-gray-200 text-gray-500'">
         3
       </div>
-      <p class="text-gray-400 mt-2 text-sm">Confirmation</p>
+
+      <p class="mt-2 font-normal text-[20px] leading-[150%] text-gray-400">
+        Confirmation
+      </p>
     </div>
 
   </div>
@@ -50,21 +60,13 @@
   <!-- ✅ DYNAMIC CONTENT -->
   <ng-container [ngSwitch]="step">
 
-    <app-review-order
-      *ngSwitchCase="1"
-      (next)="goToStep(2)"
-    ></app-review-order>
+    <app-review-order *ngSwitchCase="1" (next)="goToStep(2)"></app-review-order>
 
 
-    <app-payment
-      *ngSwitchCase="2"
-      (next)="goToStep(3)"
-      (back)="goToStep(1)"  
-    ></app-payment>
+    <app-payment *ngSwitchCase="2" (next)="goToStep(3)" (back)="goToStep(1)"></app-payment>
 
-  
-    <app-sucess-payment  *ngSwitchCase="3"
-    >
+
+    <app-sucess-payment *ngSwitchCase="3">
 
     </app-sucess-payment>
 

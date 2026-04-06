@@ -14,8 +14,9 @@
         <div
           class="w-full h-[100px] bg-[#E9A5FF] border border-gray-200 rounded-[10px] p-[20px] flex items-center gap-[12px]">
 
-          <div class="w-[50px] h-[50px] bg-[#F2CAFF] rounded-full flex items-center justify-center">
-            <i class="fa-regular fa-clock text-[#7E00A6] text-2xl"></i>
+          <div
+            class="w-[60px] h-[60px] rounded-[100px] bg-[#F2CAFF] flex items-center justify-center pt-[11px] pb-[11px] px-[10px]">
+            <i class="fa-regular fa-clock text-[#7E00A6] text-[30px] leading-none"></i>
           </div>
 
           <div>
@@ -39,8 +40,7 @@
           <div class="flex items-center gap-3">
 
             <!-- ✅ FIX: responsive image -->
-            <img src="cards/card-images.png"
-                 class="w-10 h-10 sm:w-12 sm:h-12 rounded" />
+            <img src="cards/card-images.png" class="w-10 h-10 sm:w-12 sm:h-12 rounded" />
 
             <p class="text-sm sm:text-base font-medium leading-tight">
               Honkai: Star Rail – Express Supply Pass (x1)
@@ -62,8 +62,12 @@
             </p>
           </div>
 
-          <span class="text-purple-600 text-sm cursor-pointer">
-            Copy
+          <span
+            class="flex items-center justify-between w-[64px] h-[21px] gap-[12px] text-purple-600 cursor-pointer mr-5">
+            <img src="icons/copy.png" class="w-[20px] h-[20px] object-contain" />
+            <span class="text-[14px] leading-[100%]">
+              Copy
+            </span>
           </span>
 
         </div>
@@ -92,31 +96,43 @@
           <span>$25.73</span>
         </div>
 
-        <div class="flex justify-between text-green-500 text-sm sm:text-base">
+        <div class="flex justify-between text-sm sm:text-base">
           <span>Discount</span>
-          <span>$2.00</span>
+          <span class="text-green-500">R$2.00</span>
         </div>
 
-        <div class="flex justify-between text-green-500 text-sm sm:text-base">
+        <div class="flex justify-between text-sm sm:text-base">
           <span>SD Coins discount</span>
-          <span>$0.10</span>
+          <span class="text-green-500">R$0.10</span>
         </div>
 
         <hr class="my-3" />
 
-        <div class="flex justify-between font-semibold text-lg sm:text-xl">
-          <span>Total</span>
-          <span>$23.52</span>
+        <div class="flex justify-between items-center font-bold">
+          <span class="text-[18px]">Total</span>
+          <span class="text-[24px]">$23.52</span>
         </div>
 
-        <div class="text-sm sm:text-base text-gray-500 mt-2 flex justify-between">
-          <span>SD Coins to be earned</span>
-          <span class="text-yellow-500">🪙 7.03</span>
+        <div class="flex justify-between items-center mt-2 text-gray-500">
+          <span class="text-sm sm:text-base">
+            SD Coins to be earned
+          </span>
+          <div class="flex items-center gap-[3px]">
+            <img src="icons/coin.png" class="w-[17px] h-[17px]" />
+            <span class="text-[#7E00A6] text-[16px] leading-[100%] font-normal px-[6px] rounded-[4px]">
+              7.03
+            </span>
+          </div>
         </div>
 
-        <div class="mt-3 text-sm sm:text-base text-green-600 flex items-center gap-2">
-          <i class="fa-solid fa-shield"></i>
-          Securely pay with our trusted payment partner
+        <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-[20px] px-[12px] py-[10px] mt-3">
+          <img src="icons/Vector.png" class="w-[25px] h-[25px]" />
+          <p class="text-gray-500">
+            Securely pay with our
+            <span class="font-normal text-[16px] leading-[100%] text-gray-900">
+              trusted payment partner
+            </span>
+          </p>
         </div>
 
       </div>
@@ -145,22 +161,18 @@
       <!-- FORM -->
       <div *ngIf="selectedMethod === 'card'" class="space-y-3">
 
-        <input type="text"
-          placeholder="Cardholder"
+        <input type="text" placeholder="Cardholder"
           class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
 
-        <input type="text"
-          placeholder="Card number"
+        <input type="text" placeholder="Card number"
           class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
 
         <div class="grid grid-cols-2 gap-2">
 
-          <input type="text"
-            placeholder="MM/YY"
+          <input type="text" placeholder="MM/YY"
             class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
 
-          <input type="text"
-            placeholder="CVV"
+          <input type="text" placeholder="CVV"
             class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
 
         </div>
@@ -168,35 +180,58 @@
       </div>
 
       <!-- APPLE PAY -->
-      <label class="flex justify-between items-center border p-3 rounded-lg cursor-pointer">
-        <span class="text-sm sm:text-base">Apple Pay</span>
+      <label class="flex justify-between items-center border p-2 rounded-lg cursor-pointer">
+        <div class="flex items-center gap-2">
+          <img src="icons/ApplePay.png" class="w-[49px] h-[32px] object-contain" />
+          <span class="text-sm sm:text-base">Apple Pay</span>
+        </div>
         <input type="radio" [(ngModel)]="selectedMethod" value="apple">
       </label>
 
       <!-- OTHER -->
-      <label class="flex justify-between items-center border p-3 rounded-lg opacity-50">
-        <span class="text-sm sm:text-base">Credit Card</span>
-        <input type="radio" disabled>
+      <label class="flex justify-between items-center border p-2 rounded-lg cursor-pointer">
+
+        <!-- LEFT SIDE -->
+        <div class="flex items-center gap-3">
+
+          <!-- ICON BOX -->
+          <div class="flex items-center gap-2">
+            <img src="icons/qiwi-icon.png" class="w-[49px] h-[32px] object-contain" />
+          </div>
+
+          <!-- TEXT -->
+          <span class="text-sm sm:text-base">
+            Credit Card
+          </span>
+
+        </div>
+
+        <!-- RADIO -->
+        <input type="radio" [(ngModel)]="selectedMethod" value="other" />
+
       </label>
 
       <!-- PAY BUTTON -->
-      <button
-        class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg transition"
-        (click)="pay()"
-      >
+      <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg transition" (click)="pay()">
         Pay $23.52 Securely
       </button>
 
       <!-- NOTE -->
-      <p class="text-xs text-gray-400 text-center leading-relaxed">
-        After payment, please stay on this page for a few seconds — we will confirm everything automatically.
-      </p>
+      <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-[15px] px-[12px] py-[10px]">
 
+        <!-- ICON -->
+        <div class="w-[17px] h-[17px] flex items-center justify-center">
+          <i class="fa-regular fa-clock text-[#7E00A6] text-[16px]"></i>
+        </div>
+
+        <!-- TEXT -->
+        <p class="font-normal text-[14px] leading-[100%] text-gray-500">
+          After payment, please stay on this page for a few seconds — we will confirm everything automatically.
+        </p>
+
+      </div>
       <!-- BACK -->
-      <button
-        class="w-full border py-2 rounded-lg hover:bg-gray-100 transition"
-        (click)="back.emit()"
-      >
+      <button class="w-full border py-2 rounded-lg hover:bg-gray-100 transition" (click)="back.emit()">
         Back
       </button>
 
