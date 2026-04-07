@@ -17,7 +17,7 @@ export class SectionBlock {
   @Input() games: GameCard[] = [];
   @Input() showButton: boolean = false;
   @Input() columns: number = 5;
-@Input() variant: 'default' | 'purple' = 'default';
+  @Input() variant: 'default' | 'purple' = 'default';
 onProductClick(game: any) {
   this.productClick.emit(game);
 }

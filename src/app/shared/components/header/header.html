@@ -1,56 +1,51 @@
 <header class=" px-4 mx-auto py-3 flex items-center justify-between rounded-xl relative z-50 max-w-7xl">
 
-  <!-- Logo -->
-  <div class="flex items-center gap-2">
-    <div
-      class="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-white">
-      <i class="fa-solid fa-gem"></i>
+  <div class="flex items-center w-[512px] h-[45px] gap-[30px]">
+
+    <!-- Logo -->
+    <div>
+      <img src="icons/Logo.png" alt="logo" class="w-[180px] h-[45px] object-contain" />
     </div>
-    <h1 class="text-black font-bold text-lg sm:text-xl">
-      SD SHOP
-    </h1>
+
+    <!-- Desktop Menu -->
+    <nav class="hidden md:flex items-center w-[281px] h-[20px] gap-[20px] text-gray-800 font-medium">
+      <a class="hover:text-black cursor-pointer">Home</a>
+
+      <a class="hover:text-black cursor-pointer flex items-center gap-1">
+        Jogos
+        <i class="fa-solid fa-chevron-down text-xs"></i>
+      </a>
+
+      <a class="hover:text-black cursor-pointer">
+        Central de Ajuda
+      </a>
+    </nav>
   </div>
-
-  <!-- Desktop Menu -->
-  <nav class="hidden md:flex items-center gap-8 text-gray-800 font-medium">
-    <a class="hover:text-black cursor-pointer">Home</a>
-
-    <a class="hover:text-black cursor-pointer flex items-center gap-1">
-      Jogos
-      <i class="fa-solid fa-chevron-down text-xs"></i>
-    </a>
-
-    <a class="hover:text-black cursor-pointer">
-      Central de Ajuda
-    </a>
-  </nav>
 
   <!-- Right Side -->
   <div class="flex items-center gap-2 sm:gap-3">
 
     <!-- Search (desktop only) -->
-    <div class="hidden md:flex items-center bg-white px-4 py-2 rounded-lg w-[260px] shadow-sm">
-      <i class="fa-solid fa-magnifying-glass text-gray-500 mr-2"></i>
+    <div
+      class="hidden md:flex items-center w-[251px] h-[50px] gap-[10px] px-[20px] py-[10px] rounded-[5px] border border-[#D4D4D4] bg-[#F5F5F5]">
+
+      <img src="/icons/search.png" class="w-[25px] h-[25px]" />
+
       <input type="text" placeholder="Pesquisar jogos"
-        class="bg-transparent outline-none w-full text-sm text-gray-700" />
+        class="bg-transparent outline-none w-full text-[14px] leading-[150%] placeholder:text-gray-400 flex items-center" />
+
     </div>
 
     <!-- Language (desktop only) -->
     <div class="relative hidden md:flex items-center gap-2">
-      <div (click)="openLanguageModal()"
-        class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm cursor-pointer">
-        <img src="https://flagcdn.com/w20/br.png" class="w-5 h-4 rounded-sm" />
-        <span class="text-sm text-gray-800">PT/BR</span>
-        <i class="fa-solid fa-chevron-down text-xs"></i>
-      </div>
-    </div>
-    <div class="relative hidden md:flex items-center gap-2">
 
       <!-- Button -->
       <div (click)="openLanguageModal()"
-        class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm cursor-pointer">
-        <img src="https://flagcdn.com/w20/br.png" class="w-5 h-4 rounded-sm" />
-        <span class="text-sm text-gray-800">PT/BR</span>
+        class="flex items-center w-[144px] h-[50px] gap-[10px] px-[12px] py-[10px] rounded-[5px] border border-[#6E11B0] bg-white shadow-sm cursor-pointer">
+        <img src="https://flagcdn.com/w20/br.png"
+          class="w-[24.725px] h-[24.725px] relative top-[0.14px] left-[0.14px] rounded-sm object-cover" />
+        <span
+          class="w-[55px] h-[24px] font-normal text-[14px] md:text-[16px] leading-[150%] tracking-normal text-gray-800">PT/BR</span>
         <i class="fa-solid fa-chevron-down text-xs"></i>
       </div>
 
@@ -121,14 +116,16 @@
     </div>
 
     <!-- Coins -->
-    <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-      <i class="fa-solid fa-coins"></i>
-      <span class="text-sm">50</span>
+    <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#C200FF] text-white w-[69px] h-[50px]">
+      <img src="icons/coin.png" alt="coin" class="w-[19px] h-[19px] object-contain" />
+      <span class="font-normal text-[16px] leading-[150%] tracking-normal">
+        50
+      </span>
     </div>
 
     <!-- Login (desktop only) -->
     <button (click)="openLoginModal()"
-      class="hidden md:block px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+      class="hidden md:block px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white w-[104px] h-[50px]">
       Entrar
     </button>
 

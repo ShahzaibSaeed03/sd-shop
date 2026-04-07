@@ -36,7 +36,7 @@ export class ReviewOrder {
 
   summary = {
     subtotal: 96,
-    discount: 10,
+    discount: 10.00,
     coupon: 'MEGA5',
     coins: 890
   };

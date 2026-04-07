@@ -8,9 +8,7 @@
   <div class="relative mt-20 mr-4 md:mr-6 bg-[#f5f5f5] rounded-2xl p-6 w-[320px] shadow-xl">
 
     <!-- Close -->
-    <button
-      class="absolute top-3 right-3 text-gray-400 hover:text-black text-sm"
-      (click)="close()">
+    <button class="absolute top-3 right-3 text-gray-400 hover:text-black text-sm" (click)="close()">
       ✕
     </button>
 
@@ -31,8 +29,7 @@
     </p>
 
     <!-- Login Button -->
-    <button
-      (click)="openLogin()"
+    <button (click)="openLogin()"
       class="w-full border border-purple-600 text-black rounded-xl py-3 text-lg hover:bg-purple-50 transition">
       Log in
     </button>
@@ -44,10 +41,10 @@
 
 <!-- LOGIN MODAL -->
 <div *ngIf="modalType === 'login'"
-     class="fixed inset-0 z-50 bg-white md:bg-black/40 flex items-end md:items-center justify-center">
+  class="fixed inset-0 z-50 bg-white md:bg-black/40 flex items-end md:items-center justify-center">
 
   <div class="w-full h-full md:h-auto md:max-w-5xl
-              bg-white md:rounded-2xl
+              bg-[#E5E5E5] md:rounded-2xl
               flex flex-col md:flex-row
               overflow-hidden shadow-none md:shadow-2xl relative">
 
@@ -57,15 +54,11 @@
                 overflow-y-auto">
 
       <!-- Close -->
-      <button class="absolute top-3 right-3 text-gray-600 hover:text-black"
-              (click)="close()">✕</button>
+      <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
 
       <!-- Logo -->
-      <div class="flex items-center gap-2 mb-5 justify-center md:justify-start">
-        <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-500 rounded flex items-center justify-center">
-          <i class="fa-solid fa-gem text-white"></i>
-        </div>
-        <span class="font-bold text-base sm:text-lg">SD SHOP</span>
+      <div class="mb-5 flex justify-center md:justify-start">
+        <img src="icons/Logo.png" class="w-[196px] h-[56px] object-contain" />
       </div>
 
       <!-- Title -->
@@ -105,8 +98,7 @@
     <!-- LEFT (IMAGE SECOND ON MOBILE) -->
     <div class="relative w-full md:w-1/2 order-2 md:order-1 h-[200px] sm:h-[240px] md:h-auto">
 
-      <img src="login/login-bg.png"
-           class="absolute inset-0 w-full h-full object-cover" />
+      <img src="login/login-bg.png" class="absolute inset-0 w-full h-full object-cover" />
 
       <div class="absolute inset-0 bg-black/50"></div>
 

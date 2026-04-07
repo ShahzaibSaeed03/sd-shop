@@ -2,23 +2,21 @@
 
   <!-- HEADER -->
   <div class="mb-6">
-    <h2 class="text-[32px] font-bold leading-[69px] uppercase text-gray-800">
+    <h2 class="font-semibold text-[32px] leading-[69px] uppercase tracking-normal"
+      [ngClass]="variant === 'purple' ? 'text-white' : 'text-gray-800'">
       {{ title }}
     </h2>
 
-    <p *ngIf="subtitle" class="text-sm text-gray-500 mt-1">
+    <p *ngIf="subtitle" class="text-[16px] font-normal mt-1"
+      [ngClass]="variant === 'purple' ? 'text-white/80' : 'text-gray-500'">
       {{ subtitle }}
     </p>
   </div>
 
   <!-- ✅ GRID FIX -->
-  <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
+  <div class="grid justify-center gap-6 [grid-template-columns:repeat(auto-fit,minmax(200px,max-content))]">
 
-    <app-game-cards
-      *ngFor="let game of games"
-      [data]="game"
-      (cardClick)="onProductClick($event)"
-    ></app-game-cards>
+    <app-game-cards *ngFor="let game of games" [data]="game" (cardClick)="onProductClick($event)"></app-game-cards>
 
   </div>
 

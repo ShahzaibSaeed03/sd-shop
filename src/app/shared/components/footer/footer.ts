@@ -9,6 +9,7 @@ import { Component, HostListener } from '@angular/core';
 })
 export class Footer {
   links = ['About Us', 'FAQs'];
+  isSupportOpen = false;
 
   hotSelling = [
     'Honkai: Star Rail',

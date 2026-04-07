@@ -16,44 +16,32 @@
     <!-- GRID -->
     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
 
-      <div
-        *ngFor="let item of items"
-        class="rounded-xl p-4 md:p-5 transition flex flex-col justify-between relative overflow-hidden min-h-[160px] md:min-h-[217px]"
+      <div *ngFor="let item of items"
+        class="rounded-[10px] p-[20px] transition flex flex-col justify-between relative overflow-hidden
+         min-h-[217px] gap-[10px]"
         [ngClass]="item.highlight 
           ? 'text-white shadow-lg bg-cover bg-center' 
-          : 'bg-[#f5f5f5] hover:shadow-md'"
-        [ngStyle]="item.highlight ? {
+          : 'bg-[#f5f5f5] hover:shadow-md'" [ngStyle]="item.highlight ? {
           'background-image': 'linear-gradient(rgba(126,0,166,0.6), rgba(126,0,166,0.6)), url(cards/card-bg.png)'
-        } : {}"
-      >
+        } : {}">
 
         <!-- ICON -->
-        <div
-          class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg mb-3 md:mb-4"
-          [ngClass]="item.highlight ? 'bg-white/20' : 'bg-gray-100'"
-        >
-          <img
-            [src]="item.icon"
-            class="w-5 h-5 md:w-6 md:h-6 object-contain"
-            alt="icon"
-          />
+        <div class="w-[30px] h-[30px] md:w-[30px] md:h-[30px] flex items-center justify-center rounded-lg mb-3 md:mb-4"
+          [ngClass]="item.highlight ? 'bg-white/20' : 'bg-gray-100'">
+          <img [src]="item.icon" class="w-5 h-5 md:w-6 md:h-6 object-contain" alt="icon" />
         </div>
 
-        <div>
+        <div class="flex flex-col gap-[14px]">
 
           <!-- TITLE -->
-          <h3
-            class="font-medium text-sm md:text-[20px]"
-            [ngClass]="item.highlight ? 'text-white' : 'text-gray-800'"
-          >
+          <h3 class="font-medium text-[14px] md:text-[20px] leading-[150%] tracking-normal"
+            [ngClass]="item.highlight ? 'text-white' : 'text-gray-800'">
             {{ item.title }}
           </h3>
 
           <!-- DESC -->
-          <p
-            class="mt-1 md:mt-2 text-[11px] md:text-[16px]"
-            [ngClass]="item.highlight ? 'text-white/80' : 'text-gray-500'"
-          >
+          <p class="mt-1 md:mt-2 font-normal text-[12px] md:text-[16px] leading-none tracking-normal"
+            [ngClass]="item.highlight ? 'text-white/80' : 'text-gray-500'">
             {{ item.desc }}
           </p>
 
