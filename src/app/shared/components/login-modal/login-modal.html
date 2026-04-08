@@ -41,12 +41,15 @@
 
 <!-- LOGIN MODAL -->
 <div *ngIf="modalType === 'login'" class="fixed inset-0 z-50 bg-black/40 flex items-end md:items-center justify-center">
+  
 
   <div class="w-full h-full md:h-[764px] md:w-[1128px]
               bg-[#E5E5E5] md:rounded-[30px]
               p-[25px]
               flex flex-col md:flex-row
               overflow-hidden shadow-none md:shadow-2xl relative">
+              <!-- Close -->
+          <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
 
     <!-- RIGHT SIDE -->
     <div class="w-full md:flex-1 order-1 md:order-2
@@ -60,8 +63,7 @@
         <!-- INNER -->
         <div class="w-full md:w-[416px] h-full flex flex-col gap-[25px]">
 
-          <!-- Close -->
-          <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
+          
 
           <!-- Logo -->
           <div class="flex justify-center">
