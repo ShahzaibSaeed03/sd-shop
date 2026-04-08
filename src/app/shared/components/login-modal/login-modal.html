@@ -40,80 +40,155 @@
 
 
 <!-- LOGIN MODAL -->
-<div *ngIf="modalType === 'login'"
-  class="fixed inset-0 z-50 bg-white md:bg-black/40 flex items-end md:items-center justify-center">
+<div *ngIf="modalType === 'login'" class="fixed inset-0 z-50 bg-black/40 flex items-end md:items-center justify-center">
 
-  <div class="w-full h-full md:h-auto md:max-w-5xl
-              bg-[#E5E5E5] md:rounded-2xl
+  <div class="w-full h-full md:h-[764px] md:w-[1128px]
+              bg-[#E5E5E5] md:rounded-[30px]
+              p-[25px]
               flex flex-col md:flex-row
               overflow-hidden shadow-none md:shadow-2xl relative">
 
-    <!-- RIGHT (LOGIN FIRST ON MOBILE) -->
-    <div class="w-full md:w-1/2 order-1 md:order-2
-                p-5 sm:p-6 md:p-10 flex flex-col justify-center
-                overflow-y-auto">
+    <!-- RIGHT SIDE -->
+    <div class="w-full md:flex-1 order-1 md:order-2
+            flex items-center justify-center">
 
-      <!-- Close -->
-      <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
+      <!-- WHITE CARD -->
+      <div class="w-full max-w-[456px] md:h-[440px]
+              bg-white rounded-[12px]
+              p-[20px] shadow-sm relative">
 
-      <!-- Logo -->
-      <div class="mb-5 flex justify-center md:justify-start">
-        <img src="icons/Logo.png" class="w-[196px] h-[56px] object-contain" />
+        <!-- INNER -->
+        <div class="w-full md:w-[416px] h-full flex flex-col gap-[25px]">
+
+          <!-- Close -->
+          <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
+
+          <!-- Logo -->
+          <div class="flex justify-center">
+            <img src="icons/Logo.png" class="w-[196px] h-[56px] object-contain" />
+          </div>
+
+          <!-- Title -->
+          <div class="flex flex-col gap-[20px]">
+            <h2 class="w-full max-w-[327px]
+           text-[32px]
+           font-medium
+           text-center
+           leading-[100%]
+           tracking-[-0.02em]
+           mx-auto mb-1">
+              Welcome!
+            </h2>
+            <p class="text-gray-500 text-xs sm:text-sm text-center">
+              Faster top up, better deals. Join SD Shop
+            </p>
+          </div>
+          <div class="relative w-full max-w-[362px] h-[54px
+            ] mx-auto mt-3
+            bg-white
+            border border-[#FAFAFA]
+            rounded-[6px]
+            p-[10px]
+            flex items-center justify-center overflow-hidden">
+
+            <!-- RIGHT TOP IMAGE -->
+            <img src="icons/image1.png" class="absolute top-[-10px] right-[-20px]
+              w-[67px] h-[67px]
+              opacity-50 rotate-[-60deg]
+              pointer-events-none" />
+
+            <!-- LEFT BOTTOM IMAGE -->
+            <img src="icons/image1.png" class="absolute bottom-[7px] left-[-40px]
+              w-[67px] h-[67px]
+              opacity-50
+              pointer-events-none" />
+
+            <!-- TEXT -->
+            <p class="w-full max-w-[342px]
+            text-[14px]
+            text-[#737373]
+            text-center text-balance
+            leading-[1.2]
+            tracking-[-0.02em]">
+              Log in to get <span class="font-medium">50 points (0.50 USD)</span>
+              and save your order details for easy tracking
+            </p>
+          </div>
+
+          <!-- Google -->
+          <button class="w-full max-w-[416px] h-[50px]
+               mx-auto
+               bg-[#FAFAFA] hover:bg-gray-100
+               rounded-[7px]
+               px-[12px]
+               flex items-center justify-between
+               transition">
+
+            <!-- LEFT ICON -->
+            <img src="login/google.png" class="w-[30px] h-[30px]" />
+
+            <!-- TEXT -->
+            <span class="flex-1 text-center
+               text-[16px] font-medium
+               leading-[100%]
+               tracking-[-0.02em]
+               text-black">
+              Sign in with Google
+            </span>
+
+            <!-- EMPTY SPACE (balance for perfect center) -->
+            <div class="w-[30px] h-[30px]"></div>
+          </button>
+
+          <!-- Footer -->
+          <p class="text-[14px]
+          text-[#737373]
+          text-center md:text-left
+          leading-[100%]
+          tracking-[-0.02em]">
+            By completing your payment, you acknowledge and agree to our
+            <span class="underline text-black font-medium
+               decoration-solid
+               underline-offset-[25%]">
+              Privacy Policy
+            </span>
+            and
+            <span class="underline text-black font-medium
+               decoration-solid
+               underline-offset-[25%]">
+              Terms of Use
+            </span>.
+          </p>
+        </div>
       </div>
-
-      <!-- Title -->
-      <h2 class="text-xl sm:text-2xl font-semibold mb-2 text-center md:text-left">
-        Welcome!
-      </h2>
-
-      <p class="text-gray-500 text-xs sm:text-sm mb-5 text-center md:text-left">
-        Faster top up, better deals. Join SD Shop
-      </p>
-
-      <!-- Info -->
-      <div class="bg-gray-100 rounded-lg p-3 text-xs sm:text-sm text-gray-600 mb-5 text-center md:text-left">
-        Log in to get <span class="font-semibold">50 points (0.50 USD)</span>
-      </div>
-
-      <!-- Google -->
-      <button class="flex items-center justify-center gap-3 w-full
-                     bg-gray-100 hover:bg-gray-200
-                     rounded-lg py-2.5 sm:py-3 transition">
-        <img src="login/google.png" class="w-4 h-4 sm:w-5 sm:h-5" />
-        <span class="text-xs sm:text-sm font-medium">
-          Sign in with Google
-        </span>
-      </button>
-
-      <!-- Footer -->
-      <p class="text-[10px] sm:text-xs text-gray-500 mt-5 text-center md:text-left">
-        By continuing, you agree to our
-        <span class="underline">Privacy Policy</span> and
-        <span class="underline">Terms</span>.
-      </p>
-
     </div>
 
 
     <!-- LEFT (IMAGE SECOND ON MOBILE) -->
-    <div class="relative w-full md:w-1/2 order-2 md:order-1 h-[200px] sm:h-[240px] md:h-auto">
+    <div class="relative w-full md:w-[539px] order-2 md:order-1
+            h-[200px] sm:h-[240px] md:h-[714px]
+            rounded-[24px] overflow-hidden">
 
       <img src="login/login-bg.png" class="absolute inset-0 w-full h-full object-cover" />
 
       <div class="absolute inset-0 bg-black/50"></div>
 
-      <div class="relative z-10 p-4 sm:p-6 md:p-10 text-white">
+      <div class="relative z-10
+            md:absolute md:inset-0 md:m-auto
+            w-full md:w-[376px] md:h-[483px]
+            flex flex-col gap-[20px]
+            text-white text-center">
 
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-2 md:mb-3">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold">
           Why Join SD Shop?
         </h2>
 
-        <p class="text-xs sm:text-sm md:text-base mb-4 md:mb-6 max-w-md">
+        <p class="text-xs sm:text-sm md:text-base max-w-md mx-auto">
           Sign up now and unlock insane rewards, epic deals, and non-stop gaming perks!
         </p>
 
         <!-- FEATURES -->
-        <div class="space-y-3">
+        <div class="flex flex-col gap-[20px] text-left">
 
           <div class="bg-white text-black rounded-lg p-3 flex gap-3 shadow">
             <img src="login/user.png" class="w-8 h-8 sm:w-10 sm:h-10" />
