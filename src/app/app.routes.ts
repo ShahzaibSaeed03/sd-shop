@@ -6,4 +6,7 @@ export const routes: Routes = [
     {path: 'products', loadComponent: () => import('./pages/product-listing-page/product-listing-page').then(m => m.ProductListingPage)},
     {path:'product-details', loadComponent: () => import('./pages/product-review/product-review').then(m => m.ProductReview)},
     {path: 'checkout', loadComponent: () => import('./shared/components/checkout/checkout').then(m => m.Checkout)},
+    {path: 'terms-of-use', loadComponent: () => import('./pages/terms-of-use/terms-of-use').then(m => m.TermsOfUse)},
+    {path: 'privacy-policy', loadComponent: () => import('./pages/privacy-policy/privacy-policy').then(m => m.PrivacyPolicy)},
 ];
+
