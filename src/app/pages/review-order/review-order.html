@@ -11,39 +11,59 @@
       <!-- PRODUCT -->
       <div class="flex items-center justify-between bg-white p-4 rounded-xl">
 
+        <!-- LEFT -->
         <div class="flex items-center gap-3 sm:gap-4">
+
           <div class="relative w-[70px] h-[70px]">
 
-            <img [src]="order.image" class="w-full h-full rounded-[8px] border border-[#7E00A6] p-[6px] object-cover" />
+            <!-- IMAGE -->
+            <img [src]="order?.image || 'assets/cards/card-images.png'"
+              class="w-full h-full rounded-[8px] border border-[#7E00A6] p-[6px] object-cover" />
 
-            <!-- Badge (INSIDE) -->
+            <!-- 🔥 QTY BADGE -->
             <div class="absolute top-[4px] right-[4px] 
-              w-[13px] h-[13px] 
-              bg-[#E5E5E5] 
-              rounded-full 
-              flex items-center justify-center 
-              text-[8px] font-medium">
-              1
+        w-[16px] h-[16px] 
+        bg-[#E5E5E5] 
+        rounded-full 
+        flex items-center justify-center 
+        text-[10px] font-medium">
+
+              {{ order?.qty || 1 }}
+
             </div>
           </div>
 
-          <div class="flex flex-col gap-[10px]">
-            <h3 class="font-normal text-[16px] sm:text-[18px] lg:text-[20px] leading-none tracking-normal">
-              {{ order.title }}
+          <!-- TEXT -->
+          <div class="flex flex-col gap-[6px]">
+
+            <h3 class="font-normal text-[16px] sm:text-[18px] lg:text-[20px]">
+              {{ order?.title || 'Product' }}
             </h3>
-            <p
-              class="font-normal text-[13px] sm:text-[14px] lg:text-[15px] leading-none tracking-normal text-center text-gray-500">
-              {{ order.subtitle }}
+
+            <p class="text-gray-500 text-[13px] sm:text-[14px]">
+              {{ order?.subtitle || '-' }}
             </p>
+
           </div>
         </div>
 
+        <!-- RIGHT -->
         <div class="flex items-center gap-[20px]">
-          <span class="font-normal text-[18px] leading-none tracking-normal text-[#525252]">
-            {{ order.price | currency:'USD':'symbol':'1.2-2' }}
+
+          <!-- FINAL PRICE -->
+          <span class="font-normal text-[18px] text-[#525252]">
+            {{ total | currency:'USD':'symbol':'1.2-2' }}
           </span>
-          <img src="icons/trash.png"
-            class="w-[20px] h-[20px] cursor-pointer hover:opacity-70 transition object-contain" />
+
+          <!-- OLD PRICE -->
+          <span *ngIf="summary.discount" class="text-xs text-gray-400 line-through">
+            {{ summary.subtotal | currency:'USD' }}
+          </span>
+
+          <!-- REMOVE -->
+          <img src="icons/trash.png" class="w-[20px] h-[20px] cursor-pointer hover:opacity-70 transition object-contain"
+            (click)="removeItem()" />
+
         </div>
 
       </div>
@@ -71,21 +91,11 @@
 
           <div class="flex justify-between">
             <span>Coupon</span>
-            <span class="text-purple-600 font-semibold text-[16px] leading-none tracking-normal">{{ summary.coupon }}</span>
+            <span class="text-purple-600 font-semibold text-[16px] leading-none tracking-normal">{{ summary.coupon
+              }}</span>
           </div>
 
-          <div class="flex justify-between">
-            <span>SD Coins used</span>
 
-            <span class="flex items-center gap-[6px]">
-              <img src="icons/coin.png" class="w-[23px] h-[23px]" />
-              <span class="font-normal text-[16px] leading-[150%] tracking-normal">
-                -{{ summary.coins }} (${{ (summary.coins / 100).toFixed(2) }})
-              </span>
-
-            </span>
-
-          </div>
 
           <hr />
 
@@ -126,7 +136,7 @@
 
         <i class="fa-solid fa-chevron-down transition-transform duration-300" [class.rotate-180]="accountOpen"></i>
       </div>
-      
+
       <div *ngIf="accountOpen"
         class="mt-4 space-y-2 text-[14px] font-normal leading-none tracking-normal text-[#737373]">
         <p><span>Server:</span> {{ account.server }}</p>

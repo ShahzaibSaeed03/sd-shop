@@ -58,18 +58,23 @@
   </div>
 
   <!-- ✅ DYNAMIC CONTENT -->
-  <ng-container [ngSwitch]="step">
+<ng-container [ngSwitch]="step">
 
-    <app-review-order *ngSwitchCase="1" (next)="goToStep(2)"></app-review-order>
+  <app-review-order
+    *ngSwitchCase="1"
+    [data]="orderData"
+    (next)="goToStep(2)">
+  </app-review-order>
 
+  <app-payment
+    *ngSwitchCase="2"
+    [data]="orderData"
+    (next)="goToStep(3)"
+    (back)="goToStep(1)">
+  </app-payment>
 
-    <app-payment *ngSwitchCase="2" (next)="goToStep(3)" (back)="goToStep(1)"></app-payment>
+  <app-sucess-payment *ngSwitchCase="3"></app-sucess-payment>
 
-
-    <app-sucess-payment *ngSwitchCase="3">
-
-    </app-sucess-payment>
-
-  </ng-container>
+</ng-container>
 
 </div>

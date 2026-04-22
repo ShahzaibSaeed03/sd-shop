@@ -1,242 +1,230 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+  <div *ngIf="!showPix">
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
-    <!-- LEFT SIDE -->
-    <div class="lg:col-span-2 space-y-4">
+      <!-- LEFT SIDE -->
+      <div class="lg:col-span-2 space-y-4">
 
-      <!-- ORDER STATUS -->
-      <div class="bg-white rounded-xl p-4 shadow-sm">
+        <!-- ORDER STATUS -->
+        <div class="bg-white rounded-xl p-4 shadow-sm">
 
-        <h3 class="font-medium text-[24px] leading-[150%] mb-3 text-gray-900">Order Status</h3>
-
-        <!-- ✅ FIX: remove fixed height -->
-        <div
-          class="w-full h-[100px] bg-[#E9A5FF] border border-gray-200 rounded-[10px] p-[20px] flex items-center gap-[12px]">
+          <h3 class="font-medium text-[24px] leading-[150%] mb-3 text-gray-900">
+            Order Status
+          </h3>
 
           <div
-            class="w-[60px] h-[60px] rounded-[100px] bg-[#F2CAFF] flex items-center justify-center pt-[11px] pb-[11px] px-[10px]">
-            <i class="fa-regular fa-clock text-[#7E00A6] text-[30px] leading-none"></i>
+            class="w-full h-[100px] bg-[#E9A5FF] border border-gray-200 rounded-[10px] p-[20px] flex items-center gap-[12px]">
+
+            <div class="w-[60px] h-[60px] rounded-full bg-[#F2CAFF] flex items-center justify-center">
+              <i class="fa-regular fa-clock text-[#7E00A6] text-[30px]"></i>
+            </div>
+
+            <div>
+              <p class="text-black font-medium text-base sm:text-xl">
+                Awaiting payment
+              </p>
+
+              <p class="text-black text-[16px] font-light">
+                Expires in <span class="font-medium">14:50</span>
+              </p>
+            </div>
+
           </div>
 
-          <div>
-            <p class="text-black font-medium text-base sm:text-xl">
-              Awaiting payment
-            </p>
+          <!-- PRODUCT -->
+          <div class="mt-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg">
 
-            <p class="text-black text-[16px] leading-[150%] font-light">
-              Expires in
-              <span class="font-medium">
-                14:50
+            <div class="flex items-center gap-3">
+
+              <img [src]="order?.image || 'assets/cards/card-images.png'" class="w-10 h-10 sm:w-12 sm:h-12 rounded" />
+
+              <p class="text-sm sm:text-base font-medium leading-tight">
+                {{ order?.title }} (x{{ order?.qty }})
+              </p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
+
+          </div>
+
+          <!-- ORDER ID -->
+          <div class="mt-3 flex justify-between items-center">
+
+            <div>
+              <p class="text-xs sm:text-sm text-gray-500">ORDER ID</p>
+              <p class="text-sm sm:text-base font-semibold">
+                {{ data?.id || 'N/A' }}
+              </p>
+            </div>
+
+            <span class="flex items-center gap-2 text-purple-600 cursor-pointer">
+              <img src="icons/copy.png" class="w-[20px] h-[20px]" />
+              <span class="text-[14px]">Copy</span>
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="bg-white rounded-xl p-4 shadow-sm">
+
+          <h3 class="font-medium text-base sm:text-lg mb-3">
+            Order Summary
+          </h3>
+
+          <!-- COUPON -->
+          <div class="flex justify-between text-sm sm:text-base">
+            <span>Coupon</span>
+            <span class="text-purple-600">
+              {{ summary?.coupon || '-' }}
+            </span>
+          </div>
+
+          <!-- USER INFO -->
+          <div class="flex justify-between text-sm sm:text-base">
+            <span>Game UID</span>
+            <span>
+              {{ summary?.userId || '-' }}
+              <span *ngIf="summary?.server">({{ summary?.server }})</span>
+            </span>
+          </div>
+
+          <!-- SUBTOTAL -->
+          <div class="flex justify-between text-sm sm:text-base">
+            <span>Subtotal</span>
+            <span>
+              {{ summary?.subtotal | currency:'USD' }}
+            </span>
+          </div>
+
+          <!-- DISCOUNT -->
+          <div class="flex justify-between text-sm sm:text-base">
+            <span>Discount</span>
+            <span class="text-green-500">
+              -{{ summary?.discount | currency:'USD' }}
+            </span>
+          </div>
+
+          <hr class="my-3" />
+
+          <!-- TOTAL -->
+          <div class="flex justify-between items-center font-bold">
+            <span class="text-[18px]">Total</span>
+            <span class="text-[24px]">
+              {{ summary?.total | currency:'USD' }}
+            </span>
+          </div>
+
+          <!-- SAVE MESSAGE -->
+          <p *ngIf="summary?.discount" class="text-green-600 text-xs mt-2">
+            You saved {{ summary?.discount | currency:'USD' }}
+          </p>
+
+          <!-- NOTE -->
+          <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-3 px-3 py-2 mt-3">
+            <img src="icons/Vector.png" class="w-[25px] h-[25px]" />
+            <p class="text-gray-500 text-sm">
+              Securely pay with our
+              <span class="text-gray-900 font-medium">
+                trusted payment partner
               </span>
             </p>
           </div>
 
         </div>
 
-        <!-- PRODUCT -->
-        <div class="mt-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-
-          <div class="flex items-center gap-3">
-
-            <!-- ✅ FIX: responsive image -->
-            <img src="cards/card-images.png" class="w-10 h-10 sm:w-12 sm:h-12 rounded" />
-
-            <p class="text-sm sm:text-base font-medium leading-tight">
-              Honkai: Star Rail – Express Supply Pass (x1)
-            </p>
-
-          </div>
-
-          <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
-
-        </div>
-
-        <!-- ORDER ID -->
-        <div class="mt-3 flex justify-between items-center">
-
-          <div>
-            <p class="text-xs sm:text-sm text-gray-500">ORDER ID</p>
-            <p class="text-sm sm:text-base font-semibold">
-              PC0000000000001
-            </p>
-          </div>
-
-          <span
-            class="flex items-center justify-between w-[64px] h-[21px] gap-[12px] text-purple-600 cursor-pointer mr-5">
-            <img src="icons/copy.png" class="w-[20px] h-[20px] object-contain" />
-            <span class="text-[14px] leading-[100%]">
-              Copy
-            </span>
-          </span>
-
-        </div>
-
       </div>
 
-      <!-- SUMMARY -->
-      <div class="bg-white rounded-xl p-4 shadow-sm">
+      <!-- RIGHT SIDE -->
+      <div class="bg-white rounded-xl p-4 shadow-sm space-y-4 h-fit">
 
-        <h3 class="font-medium text-base sm:text-lg mb-3">
-          Order Summary
+        <h3 class="font-medium text-lg sm:text-xl">
+          Select Payment
         </h3>
 
-        <div class="flex justify-between text-sm sm:text-base">
-          <span>Coupon</span>
-          <span class="text-purple-600 cursor-pointer">Select coupon</span>
-        </div>
-
-        <div class="flex justify-between text-sm sm:text-base">
-          <span>Game UID</span>
-          <span>600289646 (America)</span>
-        </div>
-
-        <div class="flex justify-between text-sm sm:text-base">
-          <span>Subtotal</span>
-          <span>$25.73</span>
-        </div>
-
-        <div class="flex justify-between text-sm sm:text-base">
-          <span>Discount</span>
-          <span class="text-green-500">R$2.00</span>
-        </div>
-
-        <div class="flex justify-between text-sm sm:text-base">
-          <span>SD Coins discount</span>
-          <span class="text-green-500">R$0.10</span>
-        </div>
-
-        <hr class="my-3" />
-
-        <div class="flex justify-between items-center font-bold">
-          <span class="text-[18px]">Total</span>
-          <span class="text-[24px]">$23.52</span>
-        </div>
-
-        <div class="flex justify-between items-center mt-2 text-gray-500">
-          <span class="text-sm sm:text-base">
-            SD Coins to be earned
-          </span>
-          <div class="flex items-center gap-[3px]">
-            <img src="icons/coin.png" class="w-[17px] h-[17px]" />
-            <span class="text-[#7E00A6] text-[16px] leading-[100%] font-normal px-[6px] rounded-[4px]">
-              7.03
-            </span>
+        <!-- CREDIT CARD -->
+        <label class="flex justify-between items-center border p-3 rounded-lg cursor-pointer">
+          <div class="flex items-center gap-2">
+            <img src="https://img.icons8.com/color/48/visa.png" class="w-6" />
+            <span class="text-sm sm:text-base">Credit Card</span>
           </div>
+          <input type="radio" [(ngModel)]="selectedMethod" value="card" (change)="calculate()">
+
+
+        </label>
+
+        <!-- CARD FORM -->
+        <div *ngIf="selectedMethod === 'card'" class="space-y-3">
+
+          <input type="text" placeholder="Cardholder"
+            class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
+
+          <input type="text" placeholder="Card number"
+            class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
+
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" placeholder="MM/YY"
+              class="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
+            <input type="text" placeholder="CVV"
+              class="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
+          </div>
+
         </div>
 
-        <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-[20px] px-[12px] py-[10px] mt-3">
-          <img src="icons/Vector.png" class="w-[25px] h-[25px]" />
-          <p class="text-gray-500">
-            Securely pay with our
-            <span class="font-normal text-[16px] leading-[100%] text-gray-900">
-              trusted payment partner
-            </span>
+        <!-- APPLE PAY -->
+        <label class="flex justify-between items-center border p-2 rounded-lg cursor-pointer">
+          <div class="flex items-center gap-2">
+            <img src="icons/PixPay.png" class="w-[49px] h-[32px]" />
+            <span class="text-sm sm:text-base">Pix Pay</span>
+          </div>
+          <input type="radio" [(ngModel)]="selectedMethod" value="pix" (change)="calculate()">
+        </label>
+
+        <!-- PAY BUTTON -->
+        <button [disabled]="isPaying" (click)="pay()" class="w-full bg-purple-600 text-white py-3 rounded-lg">
+
+          {{ isPaying
+          ? 'Processing...'
+          : ('Pay ' + (summary?.total | currency:'USD')) }}
+
+        </button>
+
+        <!-- INFO -->
+        <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-3 px-3 py-2">
+          <i class="fa-regular fa-clock text-[#7E00A6] text-[16px]"></i>
+          <p class="text-gray-500 text-sm">
+            After payment, please stay on this page for a few seconds.
           </p>
         </div>
 
+        <!-- BACK -->
+        <button class="w-full border py-2 rounded-lg hover:bg-gray-100 transition" (click)="back.emit()">
+          Back
+        </button>
+
       </div>
 
     </div>
-
-    <!-- RIGHT SIDE -->
-    <div class="bg-white rounded-xl p-4 shadow-sm space-y-4 h-fit">
-
-      <h3 class="font-medium text-lg sm:text-xl">
-        Select Payment
-      </h3>
-
-      <!-- CREDIT CARD -->
-      <label class="flex justify-between items-center border p-3 rounded-lg cursor-pointer">
-
-        <div class="flex items-center gap-2">
-          <img src="https://img.icons8.com/color/48/visa.png" class="w-6" />
-          <span class="text-sm sm:text-base">Credit Card</span>
-        </div>
-
-        <input type="radio" [(ngModel)]="selectedMethod" value="card">
-
-      </label>
-
-      <!-- FORM -->
-      <div *ngIf="selectedMethod === 'card'" class="space-y-3">
-
-        <input type="text" placeholder="Cardholder"
-          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
-
-        <input type="text" placeholder="Card number"
-          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
-
-        <div class="grid grid-cols-2 gap-2">
-
-          <input type="text" placeholder="MM/YY"
-            class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
-
-          <input type="text" placeholder="CVV"
-            class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
-
-        </div>
-
-      </div>
-
-      <!-- APPLE PAY -->
-      <label class="flex justify-between items-center border p-2 rounded-lg cursor-pointer">
-        <div class="flex items-center gap-2">
-          <img src="icons/ApplePay.png" class="w-[49px] h-[32px] object-contain" />
-          <span class="text-sm sm:text-base">Apple Pay</span>
-        </div>
-        <input type="radio" [(ngModel)]="selectedMethod" value="apple">
-      </label>
-
-      <!-- OTHER -->
-      <label class="flex justify-between items-center border p-2 rounded-lg cursor-pointer">
-
-        <!-- LEFT SIDE -->
-        <div class="flex items-center gap-3">
-
-          <!-- ICON BOX -->
-          <div class="flex items-center gap-2">
-            <img src="icons/qiwi-icon.png" class="w-[49px] h-[32px] object-contain" />
-          </div>
-
-          <!-- TEXT -->
-          <span class="text-sm sm:text-base">
-            Credit Card
-          </span>
-
-        </div>
-
-        <!-- RADIO -->
-        <input type="radio" [(ngModel)]="selectedMethod" value="other" />
-
-      </label>
-
-      <!-- PAY BUTTON -->
-      <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg transition" (click)="pay()">
-        Pay $23.52 Securely
-      </button>
-
-      <!-- NOTE -->
-      <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-[15px] px-[12px] py-[10px]">
-
-        <!-- ICON -->
-        <div class="w-[17px] h-[17px] flex items-center justify-center">
-          <i class="fa-regular fa-clock text-[#7E00A6] text-[16px]"></i>
-        </div>
-
-        <!-- TEXT -->
-        <p class="font-normal text-[14px] leading-[100%] text-gray-500">
-          After payment, please stay on this page for a few seconds — we will confirm everything automatically.
-        </p>
-
-      </div>
-      <!-- BACK -->
-      <button class="w-full border py-2 rounded-lg hover:bg-gray-100 transition" (click)="back.emit()">
-        Back
-      </button>
-
-    </div>
-
   </div>
 
+  <div *ngIf="showPix && pixData" class="max-w-2xl mx-auto p-6 text-center">
+
+    <h2 class="text-xl font-semibold mb-4">Scan & Pay (PIX)</h2>
+
+    <!-- QR IMAGE -->
+    <img [src]="pixData.qrImage" class="mx-auto w-64 h-64 border rounded-lg" />
+
+    <!-- COPY CODE -->
+    <textarea class="w-full mt-4 border p-2 text-xs rounded" rows="4" readonly>
+{{ pixData.qr }}
+  </textarea>
+
+    <button (click)="copyPix()" class="mt-3 bg-purple-600 text-white px-4 py-2 rounded">
+      Copy Code
+    </button>
+
+  </div>
 </div>

@@ -4,19 +4,29 @@
   <h2 class="text-center font-semibold text-lg mb-6">MY PROFILE</h2>
 
   <!-- Profile Card -->
-  <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 max-w-xl mx-auto ">
+  <div *ngIf="user"
+    class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 max-w-xl mx-auto">
 
-    <div class="flex items-center gap-4 ">
+    <div class="flex items-center gap-4">
+
+      <!-- Avatar -->
       <img
         [src]="user.avatar"
         class="w-12 h-12 rounded-full object-cover"
       />
 
-      <div class="max-w-xl">
+      <!-- Info -->
+      <div>
         <h3 class="font-medium">{{ user.name }}</h3>
 
         <div class="flex items-center gap-1 text-xs text-gray-500">
-          <i class="fab fa-google text-red-500"></i>
+          <i
+            [ngClass]="{
+              'fab fa-google text-red-500': user.provider === 'google',
+              'fa-solid fa-user text-gray-500': user.provider !== 'google'
+            }">
+          </i>
+
           Signed in with {{ user.provider }}
         </div>
 
@@ -24,19 +34,24 @@
           Member Since: {{ user.memberSince }}
         </p>
       </div>
+
     </div>
 
+    <!-- Logout -->
     <button
       (click)="logout()"
-      class="text-red-500 bg-red-100 px-3 py-1 rounded-md text-sm flex items-center gap-1"
+      class="text-red-500 bg-red-100 px-3 py-1 rounded-md text-sm flex items-center gap-1 hover:bg-red-200 transition"
     >
       LOG OUT
       <i class="fas fa-arrow-right"></i>
     </button>
+
   </div>
 
   <!-- My Orders -->
-  <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 cursor-pointer max-w-xl mx-auto">
+  <div
+    (click)="goToOrders()"
+    class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 cursor-pointer max-w-xl mx-auto hover:bg-gray-50 transition">
 
     <div>
       <h3 class="font-medium">My Orders</h3>
@@ -49,7 +64,8 @@
   </div>
 
   <!-- Cashback -->
-  <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm max-w-xl mx-auto">
+  <div
+    class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm max-w-xl mx-auto">
 
     <div>
       <h3 class="font-medium">Cashback</h3>
@@ -58,9 +74,10 @@
       </p>
     </div>
 
-    <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-md flex items-center gap-1 font-medium">
+    <div
+      class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-md flex items-center gap-1 font-medium">
       <i class="fas fa-coins"></i>
-      {{ cashback }}
+      <!-- {{ cashback }} -->
     </div>
   </div>
 

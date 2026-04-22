@@ -1,24 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AuthService } from '../../../core/services/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
+
+  constructor(private authService: AuthService) {}
+  
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
   @Input() menuItems: any[] = [];
   @Input() coins: number = 0;
   @Input() language: string = 'PT/BR';
   @Output() openLogin = new EventEmitter<'login' | 'points' | 'profile'>();
+
   openLoginModal() {
-    this.openLogin.emit('points'); // 🔥 send type
+    this.openLogin.emit('points');
   }
-
-
-  isLoggedIn = false; // change later from API
-  isLanguageModalOpen = false;
 
   openPointsModal() {
     if (this.isLoggedIn) {
@@ -28,6 +35,7 @@ export class Header {
     }
   }
 
+  isLanguageModalOpen = false;
   isMenuOpen = false;
 
   toggleMenu() {

@@ -6,18 +6,23 @@
     <div class="lg:col-span-9">
 
       <!-- HEADER -->
-      <div class="bg-[#f3f4f6] p-4 rounded-xl flex flex-col md:flex-row justify-between gap-4">
+      <!-- HEADER -->
+      <div *ngIf="product" class="bg-[#f3f4f6] p-4 rounded-xl flex flex-col md:flex-row justify-between gap-4">
 
         <div class="flex gap-4 md:gap-6 items-center">
 
-          <img src="cards/image 52.png"
+          <!-- IMAGE -->
+          <img [src]="product.image || 'cards/card-images.png'"
             class="w-[90px] h-[90px] md:w-[120px] md:h-[120px] rounded-xl object-cover" />
 
+          <!-- INFO -->
           <div>
+            <!-- NAME -->
             <h2 class="text-lg md:text-xl font-semibold mb-2">
-              Honkai: Star Rail
+              {{ product.name }}
             </h2>
 
+            <!-- FEATURES (STATIC OK) -->
             <div class="flex flex-wrap gap-3 text-xs md:text-sm text-gray-500 mb-2">
               <span class="flex items-center gap-1">
                 <i class="fas fa-bolt"></i> Rápido
@@ -30,36 +35,36 @@
               </span>
             </div>
 
+            <!-- 🔥 DYNAMIC STATS -->
             <div class="flex flex-wrap gap-4 text-xs md:text-sm">
-              <span>Popular</span>
-              <span>10k+ Vendidos</span>
-              <span class="text-purple-600 flex items-center gap-1">
-                <i class="fas fa-star"></i> 4.9
+
+              <span>{{ product.tag || 'Popular' }}</span>
+
+              <span>
+                {{ product.sold || '0' }} Sold
               </span>
-              <span>2,970 Avaliações</span>
+
+              <span class="text-purple-600 flex items-center gap-1">
+                <i class="fas fa-star"></i>
+                {{ product.rating || 0 }}
+              </span>
+
+              <span>
+                {{ product.reviews || 0 }} Reviews
+              </span>
+
             </div>
+
           </div>
 
-        </div>
-
-        <!-- RIGHT REF -->
-        <div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-sm w-full md:w-[320px]">
-          <img src="https://i.pravatar.cc/100" class="w-10 h-10 rounded-full" />
-          <div class="text-xs md:text-sm">
-            <p>Indicação de <span class="text-blue-600">@MegaHSR</span></p>
-            <p class="font-semibold text-purple-600">MEGA 5%OFF</p>
-            <p class="text-gray-400 text-xs">Apoie criadores parceiros</p>
-          </div>
         </div>
 
       </div>
 
       <!-- TABS -->
       <div class="flex gap-3 overflow-x-auto mb-6 mt-4">
-        <button *ngFor="let tab of tabs"
-          (click)="activeTab = tab.key"
-          class="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm whitespace-nowrap"
-          [ngClass]="{
+        <button *ngFor="let tab of tabs" (click)="activeTab = tab.key"
+          class="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm whitespace-nowrap" [ngClass]="{
             'bg-purple-300': activeTab === tab.key,
             'bg-gray-100': activeTab !== tab.key
           }">
@@ -70,18 +75,15 @@
       <!-- PRODUCTS -->
       <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
 
-        <div *ngFor="let p of products"
-          (click)="selectProduct(p)"
-          class="bg-white rounded-xl overflow-hidden cursor-pointer border transition"
-          [ngClass]="{
+        <div *ngFor="let p of products" (click)="selectProduct(p)"
+          class="bg-white rounded-xl overflow-hidden cursor-pointer border transition" [ngClass]="{
             'border-purple-400': selectedProduct?.id === p.id,
             'border-gray-200': selectedProduct?.id !== p.id
           }">
 
           <!-- IMAGE -->
           <div class="bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center">
-            <img [src]="p.img"
-              class="w-full h-[110px] md:h-[180px] object-contain" />
+            <img [src]="p.img" class="w-full h-[110px] md:h-[180px] object-contain" />
           </div>
 
           <!-- CONTENT -->
@@ -117,143 +119,176 @@
     </div>
 
     <!-- RIGHT PANEL -->
-    <div class="lg:col-span-3">
+    <div class="lg:col-span-3" *ngIf="product">
 
-  <div class="col-span-12 lg:col-span-3 mt-6 lg:mt-0">
+      <div class="col-span-12 lg:col-span-3 mt-6 lg:mt-0">
 
-  <div class="bg-white rounded-2xl shadow-sm p-3 md:p-4 space-y-5 w-full">
+        <div class="bg-white rounded-2xl shadow-sm p-3 md:p-4 space-y-5 w-full">
 
-    <!-- PAYMENT METHODS -->
-    <div class="flex items-center gap-2 justify-center lg:justify-start">
-      <img src="https://img.icons8.com/color/48/visa.png" class="w-8" />
-      <img src="https://img.icons8.com/color/48/mastercard.png" class="w-8" />
-    </div>
+          <!-- PAYMENT METHODS -->
+          <div class="flex items-center gap-2 justify-center lg:justify-start">
+            <img src="https://img.icons8.com/color/48/visa.png" class="w-8" />
+            <img src="https://img.icons8.com/color/48/mastercard.png" class="w-8" />
+          </div>
 
-    <!-- GUARANTEE -->
-    <div class="flex justify-between items-center text-sm text-gray-500 cursor-pointer">
-      <span>Garantia de Reembolso</span>
-      <i class="fa-solid fa-chevron-right"></i>
-    </div>
+          <!-- GUARANTEE -->
+          <div class="flex justify-between items-center text-sm text-gray-500 cursor-pointer">
+            <span>Garantia de Reembolso</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
 
-    <!-- ACCOUNT BOX -->
-    <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-4">
+          <!-- ACCOUNT BOX -->
+          <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-4">
 
-      <h3 class="font-medium text-sm md:text-base">Recarregar Conta</h3>
+            <h3 class="font-medium text-sm md:text-base">Recarregar Conta</h3>
 
-      <!-- SERVER -->
-      <div>
-        <label class="text-xs md:text-sm text-gray-600">
-          <span class="text-red-500">*</span> Servidor
-        </label>
+            <!-- SERVER -->
+            <div *ngIf="product.requiresServer">
+              <label class="text-xs text-gray-600">
+                <span class="text-red-500">*</span> Servidor
+              </label>
 
-        <select class="w-full mt-1 border rounded-lg px-3 py-2 text-sm bg-white">
-          <option>Selecionar servidor</option>
-        </select>
+              <input [(ngModel)]="form.server" class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+
+              <p class="text-red-500 text-xs">{{ errors.server }}</p>
+            </div>
+
+            <!-- USER ID -->
+            <div *ngIf="product.requiresUserId">
+              <label class="text-xs text-gray-600">
+                <span class="text-red-500">*</span> UID do Jogo
+              </label>
+
+              <input [(ngModel)]="form.userId" placeholder="Digite seu UID"
+                class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+
+              <p class="text-red-500 text-xs">{{ errors.userId }}</p>
+            </div>
+
+            <!-- NICKNAME -->
+            <div *ngIf="product.requiresNickname">
+              <label class="text-xs text-gray-600">Nickname</label>
+
+              <input [(ngModel)]="form.nickname" class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+            </div>
+
+            <!-- ZONE -->
+            <div *ngIf="product.requiresZone">
+              <label class="text-xs text-gray-600">Zone</label>
+
+              <input [(ngModel)]="form.zone" class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+            </div>
+
+            <!-- SAVE UID -->
+            <label class="flex items-start gap-2 text-xs text-gray-500">
+              <input type="checkbox" class="mt-1" />
+              Salvar UID para próxima compra
+            </label>
+
+          </div>
+
+          <!-- COUPON -->
+          <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+
+            <!-- HEADER -->
+            <div class="flex justify-between items-center">
+              <span class="text-sm font-medium">Have a Coupon?</span>
+
+              <!-- REMOVE -->
+              <button *ngIf="couponResult" (click)="removeCoupon()" class="text-xs text-red-500 hover:underline">
+                Remove
+              </button>
+            </div>
+
+            <!-- INPUT -->
+            <div class="flex gap-2">
+
+              <input [(ngModel)]="coupon" placeholder="Enter coupon code" [disabled]="couponResult"
+                class="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-400 disabled:bg-gray-100" />
+
+              <button (click)="applyCoupon()" [disabled]="loading || couponResult" class="px-4 bg-purple-600 text-white rounded-lg text-sm 
+             hover:bg-purple-700 transition
+             disabled:bg-gray-300 disabled:cursor-not-allowed">
+
+                <span *ngIf="!loading">Apply</span>
+                <span *ngIf="loading">...</span>
+
+              </button>
+
+            </div>
+
+            <!-- ERROR -->
+            <p *ngIf="couponError" class="text-red-500 text-xs">
+              {{ couponError }}
+            </p>
+
+            <!-- SUCCESS -->
+            <div *ngIf="couponResult"
+              class="flex justify-between items-center bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+
+              <div class="text-xs text-green-700">
+                ✔ {{ couponResult.coupon }} applied
+              </div>
+
+              <div class="text-sm font-semibold text-green-600">
+                -{{ couponResult.discount | number }}
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- QUANTITY -->
+          <div class="flex justify-between items-center">
+            <span class="text-sm">Quantidade</span>
+
+            <div class="flex items-center gap-2">
+              <button class="w-8 h-8 border rounded" (click)="decrease()">-</button>
+              <span class="w-10 text-center text-sm">{{ quantity }}</span>
+              <button class="w-8 h-8 border rounded" (click)="increase()">+</button>
+            </div>
+          </div>
+
+          <!-- PRICE -->
+          <div>
+            <p class="text-xs text-gray-500">Preço</p>
+
+            <div class="flex items-end gap-2">
+
+              <!-- FINAL -->
+              <p class="text-lg md:text-2xl font-semibold">
+                {{ payableAmount | number }}
+              </p>
+
+              <!-- OLD -->
+              <span *ngIf="couponApplied" class="text-xs text-gray-400 line-through">
+                {{ totalPrice | number }}
+              </span>
+
+            </div>
+
+            <!-- DISCOUNT -->
+            <p *ngIf="couponApplied" class="text-green-500 text-xs mt-1">
+              You saved {{ discount | number }}
+            </p>
+          </div>
+
+          <!-- BUTTON -->
+          <button class="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white py-3 rounded-lg font-medium"
+            (click)="checkout()">
+            Top Up
+          </button>
+
+          <!-- FOOTER -->
+          <p class="text-[10px] text-gray-400 text-center">
+            Ao finalizar a compra você concorda com nossos
+            <span class="text-purple-600">Termos</span> e
+            <span class="text-purple-600">Política</span>.
+          </p>
+
+        </div>
+
       </div>
-
-      <!-- UID -->
-      <div>
-        <label class="text-xs md:text-sm text-gray-600">
-          <span class="text-red-500">*</span> UID do Jogo
-        </label>
-
-        <input
-          type="text"
-          placeholder="Digite seu UID"
-          class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
-        />
-      </div>
-
-      <!-- SAVE UID -->
-      <label class="flex items-start gap-2 text-xs md:text-sm text-gray-500">
-        <input type="checkbox" class="mt-1" />
-        Salvar UID para próxima compra
-      </label>
-
-    </div>
-
-    <!-- COUPON -->
-    <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-3">
-
-      <div class="flex justify-between items-center">
-        <span class="text-sm font-medium">Tem um Cupom?</span>
-        <button class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">
-          Resgatar
-        </button>
-      </div>
-
-      <div class="flex gap-2">
-        <input
-          type="text"
-          placeholder="Cupom"
-          class="flex-1 border rounded-lg px-3 py-2 text-sm"
-        />
-        <button class="px-3 md:px-4 bg-purple-600 text-white rounded-lg text-sm">
-          OK
-        </button>
-      </div>
-
-    </div>
-
-    <!-- QUANTITY -->
-    <div class="flex justify-between items-center">
-      <span class="text-sm">Quantidade</span>
-
-      <div class="flex items-center gap-2">
-        <button class="w-8 h-8 border rounded" (click)="decrease()">-</button>
-        <span class="w-10 text-center text-sm">{{ quantity }}</span>
-        <button class="w-8 h-8 border rounded" (click)="increase()">+</button>
-      </div>
-    </div>
-
-    <!-- PRICE -->
-    <div>
-      <p class="text-xs md:text-sm text-gray-500">Preço</p>
-
-      <div class="flex items-end gap-2">
-        <p class="text-lg md:text-2xl font-semibold">
-          {{ 600 | currency:'BRL' }}
-        </p>
-
-        <span class="text-xs md:text-sm text-gray-400 line-through">
-          R$ 449,95
-        </span>
-      </div>
-    </div>
-
-    <!-- COINS -->
-    <div class="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-2">
-
-      <div class="flex items-center gap-2 text-xs md:text-sm">
-        <span>Usar:</span>
-        <span class="text-yellow-500">🪙 1782</span>
-      </div>
-
-      <!-- TOGGLE -->
-      <div class="relative w-10 h-5 bg-gray-300 rounded-full">
-        <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-purple-600 rounded-full"></div>
-      </div>
-
-    </div>
-
-    <!-- BUTTON -->
-    <button
-      class="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white py-3 rounded-lg font-medium text-sm md:text-base"
-      (click)="checkout()"
-    >
-      Top Up
-    </button>
-
-    <!-- FOOTER -->
-    <p class="text-[10px] md:text-xs text-gray-400 text-center leading-relaxed">
-      Ao finalizar a compra você concorda com nossos
-      <span class="text-purple-600">Termos</span> e
-      <span class="text-purple-600">Política</span>.
-    </p>
-
-  </div>
-
-</div>
 
     </div>
 

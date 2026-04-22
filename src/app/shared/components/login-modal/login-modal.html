@@ -13,15 +13,15 @@
     </button>
 
     <!-- Title -->
-    <h3 class="text-lg font-semibold text-black mb-2">
+    <!-- <h3 class="text-lg font-semibold text-black mb-2">
       My Points :
-    </h3>
+    </h3> -->
 
     <!-- Points -->
-    <div class="flex items-center gap-2 text-purple-600 font-semibold text-lg mb-3">
+    <!-- <div class="flex items-center gap-2 text-purple-600 font-semibold text-lg mb-3">
       <i class="fa-solid fa-coins text-yellow-500"></i>
       50 = 0.50 USD
-    </div>
+    </div> -->
 
     <!-- Desc -->
     <p class="text-gray-500 text-sm mb-6">
@@ -41,15 +41,15 @@
 
 <!-- LOGIN MODAL -->
 <div *ngIf="modalType === 'login'" class="fixed inset-0 z-50 bg-black/40 flex items-end md:items-center justify-center">
-  
+
 
   <div class="w-full h-full md:h-[764px] md:w-[1128px]
               bg-[#E5E5E5] md:rounded-[30px]
               p-[25px]
               flex flex-col md:flex-row
               overflow-hidden shadow-none md:shadow-2xl relative">
-              <!-- Close -->
-          <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
+    <!-- Close -->
+    <button class="absolute top-3 right-3 text-gray-600 hover:text-black" (click)="close()">✕</button>
 
     <!-- RIGHT SIDE -->
     <div class="w-full md:flex-1 order-1 md:order-2
@@ -63,7 +63,7 @@
         <!-- INNER -->
         <div class="w-full md:w-[416px] h-full flex flex-col gap-[25px]">
 
-          
+
 
           <!-- Logo -->
           <div class="flex justify-center">
@@ -118,29 +118,8 @@
           </div>
 
           <!-- Google -->
-          <button class="w-full max-w-[416px] h-[50px]
-               mx-auto
-               bg-[#FAFAFA] hover:bg-gray-100
-               rounded-[7px]
-               px-[12px]
-               flex items-center justify-between
-               transition">
-
-            <!-- LEFT ICON -->
-            <img src="login/google.png" class="w-[30px] h-[30px]" />
-
-            <!-- TEXT -->
-            <span class="flex-1 text-center
-               text-[16px] font-medium
-               leading-[100%]
-               tracking-[-0.02em]
-               text-black">
-              Sign in with Google
-            </span>
-
-            <!-- EMPTY SPACE (balance for perfect center) -->
-            <div class="w-[30px] h-[30px]"></div>
-          </button>
+          <asl-google-signin-button type="standard" size="large" [width]="350">
+          </asl-google-signin-button>
 
           <!-- Footer -->
           <p class="text-[14px]
@@ -236,38 +215,70 @@
   </div>
 </div>
 <!-- PROFILE MODAL -->
-<div *ngIf="modalType === 'profile'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+<!-- PROFILE DROPDOWN -->
+<div *ngIf="modalType === 'profile'" class="fixed inset-0 z-50">
 
-  <div class="bg-[#f3f3f3] w-full max-w-[500px] rounded-[30px] p-8 md:p-10">
+  <!-- OVERLAY (click outside) -->
+  <div class="absolute inset-0" (click)="close()"></div>
 
-    <!-- USER -->
-    <div class="flex items-center gap-5 mb-10">
-      <img src="assets/user.jpg" class="w-20 h-20 rounded-full object-cover" />
+  <!-- DROPDOWN -->
+  <div class="absolute top-[75px] right-6">
 
-      <h2 class="text-2xl md:text-3xl font-semibold text-gray-700">
-        John Alex
-      </h2>
-    </div>
+    <div class="bg-white w-[280px] rounded-2xl p-5 shadow-xl border">
 
-    <!-- MENU -->
-    <div class="space-y-8">
+      <!-- USER -->
+      <div class="flex items-center gap-3 mb-5">
 
-      <!-- PROFILE -->
-      <div class="flex items-center gap-5 cursor-pointer">
-        <i class="fa-solid fa-gear text-3xl text-gray-600"></i>
-        <span class="text-xl text-gray-700">Profile</span>
+        <img
+          [src]="user?.avatar || 'assets/user.jpg'"
+          class="w-10 h-10 rounded-full object-cover"
+        />
+
+        <div>
+          <h2 class="text-sm font-semibold text-gray-800">
+            {{ user?.name || 'User' }}
+          </h2>
+
+          <p class="text-xs text-gray-400">
+            {{ user?.email || '' }}
+          </p>
+        </div>
+
       </div>
 
-      <!-- ORDER -->
-      <div class="flex items-center gap-5 cursor-pointer">
-        <i class="fa-regular fa-clipboard text-3xl text-gray-600"></i>
-        <span class="text-xl text-gray-700">Order Center</span>
-      </div>
+      <!-- MENU -->
+      <div class="space-y-2 text-sm">
 
-      <!-- LOGOUT -->
-      <div class="flex items-center gap-5 cursor-pointer">
-        <i class="fa-solid fa-arrow-right-from-bracket text-3xl text-gray-600"></i>
-        <span class="text-xl text-gray-700">Log Out</span>
+        <!-- PROFILE -->
+        <div
+          routerLink="/profile"
+          class="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition"
+        >
+          <i class="fa-solid fa-gear text-gray-600"></i>
+          <span>Profile</span>
+        </div>
+
+        <!-- ORDERS -->
+        <div
+          (click)="goToOrders()"
+          class="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition"
+        >
+          <i class="fa-regular fa-clipboard text-gray-600"></i>
+          <span>Order Center</span>
+        </div>
+
+        <!-- DIVIDER -->
+        <div class="border-t my-2"></div>
+
+        <!-- LOGOUT -->
+        <div
+          (click)="logout()"
+          class="flex items-center gap-3 cursor-pointer hover:bg-red-50 p-2 rounded-lg text-red-600 transition"
+        >
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Log Out</span>
+        </div>
+
       </div>
 
     </div>

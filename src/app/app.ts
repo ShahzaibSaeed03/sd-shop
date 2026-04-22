@@ -4,6 +4,7 @@ import { Header } from "./shared/components/header/header";
 import { Footer } from "./shared/components/footer/footer";
 import { LoginModal } from "./shared/components/login-modal/login-modal";
 import { CommonModule } from '@angular/common';
+import { AuthService } from './core/services/auth.service';
 
 
 @Component({
@@ -13,6 +14,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.css'
 })
 export class App {
+
+    constructor(private auth: AuthService) {
+    // ✅ APP START hote hi session restore
+    this.auth.loadUser();
+  }
 modalType: 'login' | 'points' | 'profile' | null = null;
 
 handleModal(type: any) {

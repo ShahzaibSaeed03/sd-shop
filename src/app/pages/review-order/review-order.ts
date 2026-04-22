@@ -1,54 +1,64 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-
-import { RouterLink } from "@angular/router";
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-review-order',
-  imports: [CommonModule, ],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './review-order.html',
-  styleUrl: './review-order.css',
 })
-export class ReviewOrder {
-@Output() next = new EventEmitter<void>();
+export class ReviewOrder implements OnChanges {
 
-  // 🔹 STEP
-  step = 1;
+  @Input() data: any;
+  @Output() next = new EventEmitter<void>();
 
-  // 🔹 ORDER
-  order = {
-    title: 'Zenless Zone Zero',
-    subtitle: 'Inter-Knot Membership x5',
-    price: 23.00,
-    image: 'cards/card-images.png'
-  };
+  // 🔥 DYNAMIC DATA
+  order: any = {};
+  account: any = {};
+  summary: any = {};
 
-  // 🔹 ACCOUNT
-  account = {
-    server: 'America',
-    userId: '6262626262',
-    nickname: 'Jo******th'
-  };
-
-  // 🔹 SUMMARY
   summaryOpen = true;
   accountOpen = true;
 
-  summary = {
-    subtotal: 96,
-    discount: 10.00,
-    coupon: 'MEGA5',
-    coins: 890
+ngOnChanges() {
+  if (!this.data) return;
+
+  // ✅ ORDER
+  this.order = {
+    title: this.data?.title || 'Product',
+    subtitle: this.data?.subtitle || '',
+    price: this.data?.price || 0,
+    finalPrice: this.data?.finalPrice || this.data?.price || 0,
+    image: this.data?.image || 'assets/cards/card-images.png',
+    qty: this.data?.qty || 1
   };
 
-  get total() {
-    return this.summary.subtotal - this.summary.discount;
-  }
+  // ✅ ACCOUNT
+  this.account = {
+    server: this.data?.server || '-',
+    userId: this.data?.userId || '-',
+    nickname: this.data?.nickname || '-'
+  };
 
-  // 🔹 ACTIONS
+  // ✅ SUMMARY (REAL DATA)
+  const subtotal = this.order.price * this.order.qty;
+
+  this.summary = {
+    subtotal,
+    discount: this.data?.discount || 0,
+    coupon: this.data?.coupon || '-',
+    final: this.data?.finalPrice || subtotal
+  };
+}
   removeItem() {
-    console.log('Item removed');
+    this.order = null;
+
+    // OR navigate back
+    // this.router.navigate(['/']);
   }
+ get total() {
+  return this.summary?.final || 0;
+}
 
   toggleSummary() {
     this.summaryOpen = !this.summaryOpen;
@@ -58,8 +68,8 @@ export class ReviewOrder {
     this.accountOpen = !this.accountOpen;
   }
 
+  proceed() {
+    this.next.emit();
+  }
 
-proceed() {
-  this.next.emit(); // instead of local step
-}
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Slider } from "../../shared/components/slider/slider";
 import { TabMenu } from "../../shared/components/tab-menu/tab-menu";
 import { SectionBlock } from "../../shared/components/section-block/section-block";
@@ -6,76 +6,79 @@ import { CommonModule } from '@angular/common';
 import { Faq } from "../../shared/components/faq/faq";
 import { AdvantagSd } from "../../shared/components/advantag-sd/advantag-sd";
 import { Router } from '@angular/router';
-import { OrderRecord } from "../order-record/order-record";
-import { Profile } from "../profile/profile";
-import { NotFound } from "../not-found/not-found";
-import { Review } from "../review/review";
-import { InfoPage } from "../info-page/info-page";
+import { SectionApi } from '../../core/services/section.api';
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Slider, TabMenu, SectionBlock, CommonModule, Faq, AdvantagSd,],
+  imports: [Slider, TabMenu, SectionBlock, CommonModule, Faq, AdvantagSd],
   templateUrl: './home.html',
-  styleUrl: './home.css',
 })
-export class Home {
-  constructor(private router: Router) {}
+export class Home implements OnInit {
 
-  // 🔹 TABS
+  constructor(
+    private router: Router,
+    private sectionApi: SectionApi,
+    private cdr: ChangeDetectorRef  
+  ) {}
+
+  // 🔹 ONLY TAB STATIC
   tabs = [
-    { label: 'Top Up', image: 'tabs/tab1.png', value: 'topup' },
-    { label: 'Game Coins', image: 'tabs/tab2.png', value: 'coins' },
-    { label: 'Gift Cards', image: 'tabs/tab3.png', value: 'gifts' },
-    { label: 'Game Keys', image: 'tabs/tab4.png', value: 'keys' },
-    { label: 'Game Items', image: 'tabs/tab5.png', value: 'items' }
+    { label: 'Top Up', image: 'tabs/tab1.png', value: 'topup' }
   ];
 
   activeTab: string = 'topup';
-goToProduct(product: any) {
-  this.router.navigate(['/products'], {
-    queryParams: { name: product.title }
-  });
-}
-  // 🔹 BASE DATA
-  allGames = this.generateGames('Game', 20).map((g, i) => ({
-    ...g,
-    category: i % 2 === 0 ? 'topup' : 'coins'
-  }));
 
-  // 🔹 SECTIONS
+  // 🔥 API DATA
+  sections: any[] = [];
 
-  // Recently (5 items)
-  get recentGames() {
-    return this.allGames.slice(0, 5);
+  ngOnInit(): void {
+    this.getSections();
   }
 
-  // Hot Selling (15 items filtered by tab)
-  get hotGames() {
-    return this.allGames
-      .filter(g => g.category === this.activeTab)
-      .slice(0, 15);
+  // ✅ API CALL
+  getSections() {
+    this.sectionApi.getFrontendSections().subscribe({
+      next: (res: any) => {
+
+        const data = res.data || res;
+
+        this.sections = data
+          .filter((s: any) => s.isActive)
+          .sort((a: any, b: any) => a.order - b.order)
+          .map((section: any) => ({
+            name: section.name,
+            apiSource: section.apiSource,
+            items: this.mapItems(section.items || [])
+          }));
+
+        this.cdr.detectChanges(); // 🔥 FIX
+      },
+      error: (err) => console.error(err)
+    });
   }
 
-  // Top Games (ONLY 4)
-  topGames = this.generateGames('Top Game', 4);
 
-  // Popular Coins (15)
-  coinGames = this.generateGames('Coin Game', 15);
-
-  // 🔹 HELPER (DYNAMIC DATA GENERATOR)
-  generateGames(prefix: string, count: number) {
-    return Array.from({ length: count }, (_, i) => ({
-      title: `${prefix} ${i + 1}`,
-      image: 'cards/card-images.png',
-      sold: `${50 + i}k+ Sold`,
-      rating: +(4.5 + (i % 5) * 0.1).toFixed(1)
+  // ✅ MAP ITEMS
+  mapItems(items: any[]) {
+    return items.map(item => ({
+      title: item.name,
+      image: item.image || 'cards/card-images.png',
+      price: item.price,
+      rating: "",
+      sold: '',
+      raw: item
     }));
   }
 
-  // 🔹 EVENTS
+goToProduct(product: any) {
+  this.router.navigate(['/product-details'], {
+    queryParams: { id: product.raw._id }
+  });
+}
+
   onTabChange(tab: string) {
     this.activeTab = tab;
   }
-
 }
