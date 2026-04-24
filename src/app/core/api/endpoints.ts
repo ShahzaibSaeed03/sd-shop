@@ -18,9 +18,18 @@ export const API_ENDPOINTS = {
   },
   ORDERS: {
     CREATE: 'orders',
-    CALCULATE: 'orders/calculate'
+    CALCULATE: 'orders/calculate',
+      CHECK_USER: 'supplier/check-user',
+    MY: 'orders/my'
   },
   PRODUCTS: {
   LIST: 'products'
-}
+},
+
+  REVIEWS: {
+    CREATE: 'reviews',
+    GET_BY_PRODUCT: (productId: string) => `reviews/product/${productId}`,
+    UPDATE: (id: string) => `reviews/${id}`,
+    DELETE: (id: string) => `reviews/${id}`
+  }
 };

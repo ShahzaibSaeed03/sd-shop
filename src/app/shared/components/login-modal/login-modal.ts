@@ -167,7 +167,7 @@ export class LoginModal implements OnInit, OnDestroy {
   }
 
   goToOrders() {
-    console.log('Go to orders page');
+    
     this.close();
   }
 }

@@ -1,19 +1,21 @@
+
+
 <div class="bg-gray-100 min-h-screen p-4">
-
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto">
-
     <!-- LEFT SIDE -->
     <div class="lg:col-span-9">
-
       <!-- HEADER -->
       <!-- HEADER -->
-      <div *ngIf="product" class="bg-[#f3f4f6] p-4 rounded-xl flex flex-col md:flex-row justify-between gap-4">
-
+      <div
+        *ngIf="product"
+        class="bg-[#f3f4f6] p-4 rounded-xl flex flex-col md:flex-row justify-between gap-4"
+      >
         <div class="flex gap-4 md:gap-6 items-center">
-
           <!-- IMAGE -->
-          <img [src]="product.image || 'cards/card-images.png'"
-            class="w-[90px] h-[90px] md:w-[120px] md:h-[120px] rounded-xl object-cover" />
+          <img
+            [src]="product.image || 'cards/card-images.png'"
+            class="w-[90px] h-[90px] md:w-[120px] md:h-[120px] rounded-xl object-cover"
+          />
 
           <!-- INFO -->
           <div>
@@ -24,71 +26,65 @@
 
             <!-- FEATURES (STATIC OK) -->
             <div class="flex flex-wrap gap-3 text-xs md:text-sm text-gray-500 mb-2">
-              <span class="flex items-center gap-1">
-                <i class="fas fa-bolt"></i> Rápido
-              </span>
+              <span class="flex items-center gap-1"> <i class="fas fa-bolt"></i> Rápido </span>
               <span class="flex items-center gap-1">
                 <i class="fas fa-shield-alt"></i> Seguro
               </span>
-              <span class="flex items-center gap-1">
-                <i class="fas fa-headset"></i> 24/7
-              </span>
+              <span class="flex items-center gap-1"> <i class="fas fa-headset"></i> 24/7 </span>
             </div>
 
             <!-- 🔥 DYNAMIC STATS -->
             <div class="flex flex-wrap gap-4 text-xs md:text-sm">
-
               <span>{{ product.tag || 'Popular' }}</span>
 
-              <span>
-                {{ product.sold || '0' }} Sold
-              </span>
+              <span> {{ product.sold || '0' }} Sold </span>
 
               <span class="text-purple-600 flex items-center gap-1">
                 <i class="fas fa-star"></i>
                 {{ product.rating || 0 }}
               </span>
 
-              <span>
-                {{ product.reviews || 0 }} Reviews
-              </span>
-
+              <span> {{ product.reviews || 0 }} Reviews </span>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
       <!-- TABS -->
       <div class="flex gap-3 overflow-x-auto mb-6 mt-4">
-        <button *ngFor="let tab of tabs" (click)="activeTab = tab.key"
-          class="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm whitespace-nowrap" [ngClass]="{
+        <button
+          *ngFor="let tab of tabs"
+          (click)="activeTab = tab.key"
+          class="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm whitespace-nowrap"
+          [ngClass]="{
             'bg-purple-300': activeTab === tab.key,
-            'bg-gray-100': activeTab !== tab.key
-          }">
+            'bg-gray-100': activeTab !== tab.key,
+          }"
+        >
           {{ tab.label }}
         </button>
       </div>
 
       <!-- PRODUCTS -->
       <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
-
-        <div *ngFor="let p of products" (click)="selectProduct(p)"
-          class="bg-white rounded-xl overflow-hidden cursor-pointer border transition" [ngClass]="{
+        <div
+          *ngFor="let p of products"
+          (click)="selectProduct(p)"
+          class="bg-white rounded-xl overflow-hidden cursor-pointer border transition"
+          [ngClass]="{
             'border-purple-400': selectedProduct?.id === p.id,
-            'border-gray-200': selectedProduct?.id !== p.id
-          }">
-
+            'border-gray-200': selectedProduct?.id !== p.id,
+          }"
+        >
           <!-- IMAGE -->
-          <div class="bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center">
+          <div
+            class="bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center"
+          >
             <img [src]="p.img" class="w-full h-[110px] md:h-[180px] object-contain" />
           </div>
 
           <!-- CONTENT -->
           <div class="p-2 md:p-3 text-center">
-
             <p class="text-[10px] md:text-xs text-gray-500 mb-1">
               {{ p.subtitle || 'Passe de Suprimentos' }}
             </p>
@@ -97,34 +93,21 @@
               {{ p.title }}
             </h4>
 
-            <div class="text-sm md:text-base font-semibold">
-              R$ {{ p.price }}
-            </div>
+            <div class="text-sm md:text-base font-semibold">R$ {{ p.price }}</div>
 
             <div class="flex justify-center gap-1 md:gap-2 text-[10px] md:text-xs mt-1">
-              <span class="text-purple-600">
-                -R$ {{ p.discount }}
-              </span>
-              <span class="text-gray-400 line-through">
-                R$ {{ p.oldPrice }}
-              </span>
+              <span class="text-purple-600"> -R$ {{ p.discount }} </span>
+              <span class="text-gray-400 line-through"> R$ {{ p.oldPrice }} </span>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
 
     <!-- RIGHT PANEL -->
     <div class="lg:col-span-3" *ngIf="product">
-
       <div class="col-span-12 lg:col-span-3 mt-6 lg:mt-0">
-
         <div class="bg-white rounded-2xl shadow-sm p-3 md:p-4 space-y-5 w-full">
-
           <!-- PAYMENT METHODS -->
           <div class="flex items-center gap-2 justify-center lg:justify-start">
             <img src="https://img.icons8.com/color/48/visa.png" class="w-8" />
@@ -139,44 +122,69 @@
 
           <!-- ACCOUNT BOX -->
           <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-4">
-
             <h3 class="font-medium text-sm md:text-base">Recarregar Conta</h3>
 
-            <!-- SERVER -->
-            <div *ngIf="product.requiresServer">
-              <label class="text-xs text-gray-600">
-                <span class="text-red-500">*</span> Servidor
-              </label>
+<div *ngFor="let field of forms">
 
-              <input [(ngModel)]="form.server" class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+  <!-- USER ID -->
+  <div *ngIf="field.name === 'user_id'">
+    <label class="text-xs text-gray-600">
+      <span class="text-red-500">*</span> UID
+    </label>
 
-              <p class="text-red-500 text-xs">{{ errors.server }}</p>
-            </div>
+    <input
+      [(ngModel)]="form.userId"
+      (blur)="checkUserId()"
+      class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+    />
 
-            <!-- USER ID -->
-            <div *ngIf="product.requiresUserId">
-              <label class="text-xs text-gray-600">
-                <span class="text-red-500">*</span> UID do Jogo
-              </label>
+  
 
-              <input [(ngModel)]="form.userId" placeholder="Digite seu UID"
-                class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+    <p class="text-red-500 text-xs" *ngIf="userError">
+      {{ userError }}
+    </p>
+  </div>
 
-              <p class="text-red-500 text-xs">{{ errors.userId }}</p>
-            </div>
+  <!-- SERVER -->
+  <div *ngIf="field.name === 'additional_id'">
+    <label class="text-xs text-gray-600">
+      <span class="text-red-500">*</span> Server
+    </label>
 
+    <select
+      [(ngModel)]="form.server"
+      (change)="checkUserId()"   
+      class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+    >
+      <option value="">Select Server</option>
+
+      <option *ngFor="let opt of field.options" [value]="opt.value">
+        {{ opt.name }}
+      </option>
+    </select>
+  </div>
+
+</div>
+
+        
             <!-- NICKNAME -->
             <div *ngIf="product.requiresNickname">
               <label class="text-xs text-gray-600">Nickname</label>
 
-              <input [(ngModel)]="form.nickname" class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+              <input
+                [(ngModel)]="form.nickname"
+                class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+              />
             </div>
 
             <!-- ZONE -->
             <div *ngIf="product.requiresZone">
               <label class="text-xs text-gray-600">Zone</label>
 
-              <input [(ngModel)]="form.zone" class="w-full mt-1 border rounded-lg px-3 py-2 text-sm" />
+              <input
+                [(ngModel)]="form.zone"
+                class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+              />
             </div>
 
             <!-- SAVE UID -->
@@ -184,37 +192,41 @@
               <input type="checkbox" class="mt-1" />
               Salvar UID para próxima compra
             </label>
-
           </div>
 
           <!-- COUPON -->
           <div class="bg-gray-50 rounded-xl p-4 space-y-3">
-
             <!-- HEADER -->
             <div class="flex justify-between items-center">
               <span class="text-sm font-medium">Have a Coupon?</span>
 
               <!-- REMOVE -->
-              <button *ngIf="couponResult" (click)="removeCoupon()" class="text-xs text-red-500 hover:underline">
+              <button
+                *ngIf="couponResult"
+                (click)="removeCoupon()"
+                class="text-xs text-red-500 hover:underline"
+              >
                 Remove
               </button>
             </div>
 
             <!-- INPUT -->
             <div class="flex gap-2">
+              <input
+                [(ngModel)]="coupon"
+                placeholder="Enter coupon code"
+                [disabled]="couponResult"
+                class="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-400 disabled:bg-gray-100"
+              />
 
-              <input [(ngModel)]="coupon" placeholder="Enter coupon code" [disabled]="couponResult"
-                class="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-400 disabled:bg-gray-100" />
-
-              <button (click)="applyCoupon()" [disabled]="loading || couponResult" class="px-4 bg-purple-600 text-white rounded-lg text-sm 
-             hover:bg-purple-700 transition
-             disabled:bg-gray-300 disabled:cursor-not-allowed">
-
+              <button
+                (click)="applyCoupon()"
+                [disabled]="loading || couponResult"
+                class="px-4 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
                 <span *ngIf="!loading">Apply</span>
                 <span *ngIf="loading">...</span>
-
               </button>
-
             </div>
 
             <!-- ERROR -->
@@ -223,19 +235,16 @@
             </p>
 
             <!-- SUCCESS -->
-            <div *ngIf="couponResult"
-              class="flex justify-between items-center bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-
-              <div class="text-xs text-green-700">
-                ✔ {{ couponResult.coupon }} applied
-              </div>
+            <div
+              *ngIf="couponResult"
+              class="flex justify-between items-center bg-green-50 border border-green-200 rounded-lg px-3 py-2"
+            >
+              <div class="text-xs text-green-700">✔ {{ couponResult.coupon }} applied</div>
 
               <div class="text-sm font-semibold text-green-600">
                 -{{ couponResult.discount | number }}
               </div>
-
             </div>
-
           </div>
 
           <!-- QUANTITY -->
@@ -254,7 +263,6 @@
             <p class="text-xs text-gray-500">Preço</p>
 
             <div class="flex items-end gap-2">
-
               <!-- FINAL -->
               <p class="text-lg md:text-2xl font-semibold">
                 {{ payableAmount | number }}
@@ -264,7 +272,6 @@
               <span *ngIf="couponApplied" class="text-xs text-gray-400 line-through">
                 {{ totalPrice | number }}
               </span>
-
             </div>
 
             <!-- DISCOUNT -->
@@ -274,8 +281,10 @@
           </div>
 
           <!-- BUTTON -->
-          <button class="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white py-3 rounded-lg font-medium"
-            (click)="checkout()">
+          <button
+            class="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white py-3 rounded-lg font-medium"
+            (click)="checkout()"
+          >
             Top Up
           </button>
 
@@ -285,16 +294,11 @@
             <span class="text-purple-600">Termos</span> e
             <span class="text-purple-600">Política</span>.
           </p>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>
 
-<app-review></app-review>
-<app-info-page></app-info-page>
+<app-review *ngIf="product?.id" [productId]="product.id"> </app-review
+><app-info-page></app-info-page>

@@ -47,4 +47,20 @@ export class OrderApi {
       data
     );
   }
+  
+
+  checkUser(data: {
+  categoryCode: string;
+  userId: string;
+  serverId?: string;
+  nickname?: string;
+}) {
+  return this.api.post<any>(
+    API_ENDPOINTS.ORDERS.CHECK_USER,
+    data
+  );
+}
+getMyOrders() {
+  return this.api.get<any>(API_ENDPOINTS.ORDERS.MY);
+}
 }

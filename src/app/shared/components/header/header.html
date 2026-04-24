@@ -1,15 +1,14 @@
-<header class=" px-4 mx-auto py-3 flex items-center justify-between rounded-xl relative z-50 max-w-7xl">
+<header class="px-4 mx-auto py-3 flex items-center justify-between rounded-xl relative z-50 max-w-7xl">
 
-  <div class="flex items-center w-[512px] h-[45px] gap-[30px]">
+  <!-- LEFT -->
+  <div class="flex items-center gap-4 md:gap-[30px]">
 
     <!-- Logo -->
-    <div>
-      <img src="icons/Logo.png" alt="logo" class="w-[180px] h-[45px] object-contain" />
-    </div>
+    <img src="icons/Logo.png" class="w-[140px] md:w-[180px] h-[40px] object-contain" />
 
     <!-- Desktop Menu -->
-    <nav class="hidden md:flex items-center w-[281px] h-[20px] gap-[20px] text-gray-800 font-medium">
-      <a class="hover:text-black cursor-pointer" href="">Home</a>
+    <nav class="hidden md:flex items-center gap-[20px] text-gray-800 font-medium">
+      <a class="hover:text-black cursor-pointer">Home</a>
 
       <a class="hover:text-black cursor-pointer flex items-center gap-1" routerLink="/product-all">
         Jogos
@@ -20,93 +19,55 @@
         Central de Ajuda
       </a>
     </nav>
+
   </div>
 
-  <!-- Right Side -->
+  <!-- RIGHT -->
   <div class="flex items-center gap-2 sm:gap-3">
 
-    <!-- Search (desktop only) -->
-    <div
-      class="hidden md:flex items-center w-[251px] h-[50px] gap-[10px] px-[20px] py-[10px] rounded-[5px] border border-[#D4D4D4] bg-[#F5F5F5]">
-
+    <!-- 🔍 Search (desktop only) -->
+    <div class="hidden md:flex items-center w-[251px] h-[50px] gap-[10px] px-[20px] py-[10px] rounded-[5px] border border-[#D4D4D4] bg-[#F5F5F5]">
       <img src="/icons/search.png" class="w-[25px] h-[25px]" />
-
       <input type="text" placeholder="Pesquisar jogos"
-        class="bg-transparent outline-none w-full text-[14px] leading-[150%] placeholder:text-gray-400 flex items-center" />
-
+        class="bg-transparent outline-none w-full text-[14px] placeholder:text-gray-400" />
     </div>
 
-    <!-- Language (desktop only) -->
+    <!-- 🌐 Language (desktop only) -->
     <div class="relative hidden md:flex items-center gap-2">
 
-      <!-- Button -->
       <div (click)="openLanguageModal()"
-        class="flex items-center w-[144px] h-[50px] gap-[10px] px-[12px] py-[10px] rounded-[5px] border border-[#6E11B0] bg-white shadow-sm cursor-pointer">
-        <img src="https://flagcdn.com/w20/br.png"
-          class="w-[24.725px] h-[24.725px] relative top-[0.14px] left-[0.14px] rounded-sm object-cover" />
-        <span
-          class="w-[55px] h-[24px] font-normal text-[14px] md:text-[16px] leading-[150%] tracking-normal text-gray-800">PT/BR</span>
+        class="flex items-center gap-2 px-3 py-2 h-[50px] rounded border border-[#6E11B0] bg-white cursor-pointer">
+
+        <img src="https://flagcdn.com/w20/br.png" class="w-5 h-5 rounded-sm" />
+        <span class="text-sm">PT/BR</span>
         <i class="fa-solid fa-chevron-down text-xs"></i>
       </div>
 
-      <!-- ✅ DROPDOWN -->
+      <!-- Dropdown -->
       <div *ngIf="isLanguageModalOpen"
-        class="absolute top-[110%] right-0 w-[469px] bg-white rounded-[12px] p-[30px] shadow-xl z-50 flex flex-col gap-[22px]">
+        class="absolute top-[110%] right-0 w-[469px] bg-white rounded-xl p-6 shadow-xl z-50">
 
-        <!-- Heading -->
-        <div>
-          <h2 class="font-medium text-[24px] leading-none tracking-[-0.02em] mb-2">
-            Choose region and language
-          </h2>
+        <h2 class="text-lg font-medium mb-2">Choose region and language</h2>
+        <p class="text-sm text-gray-500 mb-4">Select your preferences</p>
 
-          <p class="font-normal text-[16px] leading-none tracking-[-0.02em] text-gray-500">
-            To create an account, please tell us where you live.
-          </p>
-        </div>
-
-        <!-- Sections -->
-        <div class="flex flex-col gap-[30px]">
-
-          <!-- Currency -->
-          <div class="flex flex-col gap-[12px]">
-            <label class="font-medium text-[16px] leading-none tracking-[-0.02em]">
-              Currency
-            </label>
-
-            <div class="flex items-center justify-between bg-gray-100 px-4 py-3 rounded-lg">
-              <div class="flex items-center gap-2">
-                <img src="https://flagcdn.com/w20/gb.png" class="w-5 h-4 rounded-sm" />
-                <span class="font-normal text-[16px] leading-none tracking-[-0.02em] text-[#A1A1A1]">
-                  United Kingdom
-                </span>
-              </div>
-              <i class="fa-solid fa-chevron-down text-sm"></i>
-            </div>
+        <div class="space-y-4">
+          <div class="bg-gray-100 p-3 rounded flex justify-between">
+            <span>Currency</span>
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
 
-          <!-- Language -->
-          <div class="flex flex-col gap-[12px]">
-            <label class="font-medium text-[16px] leading-none tracking-[-0.02em]">
-              Language
-            </label>
-
-            <div class="flex items-center justify-between bg-gray-100 px-4 py-3 rounded-lg">
-              <span class="font-normal text-[16px] leading-none tracking-[-0.02em] text-[#A1A1A1]">
-                English
-              </span>
-              <i class="fa-solid fa-chevron-down text-sm"></i>
-            </div>
+          <div class="bg-gray-100 p-3 rounded flex justify-between">
+            <span>Language</span>
+            <i class="fa-solid fa-chevron-down"></i>
           </div>
-
         </div>
 
-        <!-- Actions -->
-        <div class="flex justify-end gap-3">
-          <button (click)="closeLanguageModal()" class="px-4 py-2 rounded-lg bg-gray-100">
+        <div class="flex justify-end gap-2 mt-4">
+          <button (click)="closeLanguageModal()" class="px-4 py-2 bg-gray-100 rounded">
             Cancel
           </button>
 
-          <button class="px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+          <button class="px-4 py-2 bg-purple-600 text-white rounded">
             Apply
           </button>
         </div>
@@ -115,52 +76,57 @@
 
     </div>
 
-    <!-- Coins -->
-    <div *ngIf="isLoggedIn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#C200FF] text-white w-[69px] h-[50px]">
-      <img src="icons/coin.png" alt="coin" class="w-[19px] h-[19px] object-contain" />
-      <span class="font-normal text-[16px] leading-[150%] tracking-normal">
-        
-      </span>
+    <!-- 🪙 Coins -->
+    <div *ngIf="isLoggedIn"
+      class="flex items-center gap-2 px-2 md:px-3 py-2 rounded-lg bg-[#C200FF] text-white h-[40px] md:h-[50px]">
+
+      <img src="icons/coin.png" class="w-4 h-4 md:w-5 md:h-5" />
+      <span class="text-sm hidden sm:block">0</span>
+
     </div>
 
-    <!-- Login (desktop only) -->
-<!-- ✅ LOGIN BUTTON (only if NOT logged in) -->
-<button *ngIf="!isLoggedIn"
-  (click)="openLoginModal()"
-  class="hidden md:block px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white w-[104px] h-[50px]">
-  Entrar
-</button>
+    <!-- 🔐 LOGIN (VISIBLE ON MOBILE + DESKTOP) -->
+    <button *ngIf="!isLoggedIn"
+      (click)="openLoginModal()"
+      class="flex items-center justify-center px-3 md:px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white h-[40px] md:h-[50px]">
 
-<!-- ✅ PROFILE BUTTON (only if logged in) -->
-<button *ngIf="isLoggedIn"
-  (click)="openPointsModal()"
-  class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 h-[50px]">
+      <span class="hidden sm:block">Entrar</span>
+      <i class="fa-solid fa-user sm:hidden"></i>
 
-  <img src="login/user.png" class="w-6 h-6 rounded-full object-cover" />
+    </button>
 
-  <span class="text-sm font-medium">
-    Profile
-  </span>
+    <!-- 👤 PROFILE (VISIBLE ON MOBILE + DESKTOP) -->
+    <button *ngIf="isLoggedIn"
+      (click)="openPointsModal()"
+      class="flex items-center gap-2 px-2 md:px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 h-[40px] md:h-[50px]">
 
-</button>
+      <img src="login/user.png" class="w-5 h-5 md:w-6 md:h-6 rounded-full" />
 
-    <!-- Mobile Menu Button -->
-    <button class="md:hidden text-2xl text-black" (click)="toggleMenu()">
+      <span class="hidden sm:block text-sm font-medium">
+        Profile
+      </span>
+
+    </button>
+
+    <!-- 📱 Mobile Menu Button -->
+    <button class="md:hidden text-2xl" (click)="toggleMenu()">
       <i class="fa-solid fa-bars"></i>
     </button>
 
   </div>
+
 </header>
 
-<!-- ✅ OVERLAY -->
+<!-- OVERLAY -->
 <div *ngIf="isMenuOpen" class="fixed inset-0 bg-black/40 z-40" (click)="closeMenu()"></div>
 
-<!-- ✅ MOBILE SLIDE MENU -->
+<!-- MOBILE MENU -->
 <div class="fixed top-0 left-0 h-full w-[260px] bg-white z-50 shadow-lg transform transition-transform duration-300"
   [ngClass]="{
     '-translate-x-full': !isMenuOpen,
     'translate-x-0': isMenuOpen
   }">
+
   <!-- Header -->
   <div class="p-4 border-b flex justify-between items-center">
     <h2 class="font-bold text-lg">Menu</h2>
@@ -169,16 +135,27 @@
     </button>
   </div>
 
-  <!-- Menu Items -->
-  <nav class="p-4 space-y-4 text-gray-800 font-medium">
-    <a class="block cursor-pointer" (click)="closeMenu()">Home</a>
-    <a class="block cursor-pointer" (click)="closeMenu()">Jogos</a>
-    <a class="block cursor-pointer" (click)="closeMenu()">Central de Ajuda</a>
+  <!-- Links -->
+  <nav class="p-4 space-y-4 font-medium">
 
-    <!-- Mobile Login -->
-    <button (click)="openLoginModal(); closeMenu()"
+    <a (click)="closeMenu()">Home</a>
+    <a (click)="closeMenu()">Jogos</a>
+    <a (click)="closeMenu()">Central de Ajuda</a>
+
+    <!-- LOGIN -->
+    <button *ngIf="!isLoggedIn"
+      (click)="openLoginModal(); closeMenu()"
       class="w-full mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
       Entrar
     </button>
+
+    <!-- PROFILE -->
+    <button *ngIf="isLoggedIn"
+      (click)="openPointsModal(); closeMenu()"
+      class="w-full mt-4 px-4 py-2 rounded-lg bg-gray-100">
+      Profile
+    </button>
+
   </nav>
+
 </div>

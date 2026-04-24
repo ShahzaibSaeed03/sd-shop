@@ -85,10 +85,11 @@
       </div>
 
       <!-- Review -->
-      <textarea
-        class="w-full h-32 md:h-40 bg-gray-100 rounded-lg p-3 mb-4 outline-none text-sm"
-        placeholder="Your review *"
-      ></textarea>
+    <textarea
+  [(ngModel)]="reviewText"
+  class="w-full h-32 md:h-40 bg-gray-100 rounded-lg p-3 mb-4 outline-none text-sm"
+  placeholder="Your review *"
+></textarea>
 
       <!-- Name -->
       <input
@@ -109,9 +110,10 @@
       </label>
 
       <!-- Submit -->
-      <button class="mx-auto block bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-[5px] px-[20px] py-[10px] h-[51px] min-w-[223px] flex items-center justify-center gap-[10px] text-sm">
-        Submit
-      </button>
+     <button (click)="submitReview()"
+  class="mx-auto block bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-[5px] px-[20px] py-[10px] h-[51px] min-w-[223px] flex items-center justify-center gap-[10px] text-sm">
+  Submit
+</button>
 
     </div>
 
