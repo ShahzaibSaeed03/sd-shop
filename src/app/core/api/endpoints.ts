@@ -23,8 +23,14 @@ export const API_ENDPOINTS = {
     MY: 'orders/my'
   },
   PRODUCTS: {
-  LIST: 'products'
-},
+    LIST: 'products',
+
+    // ✅ ADD THIS
+    BY_CATEGORY: (categoryId: string) => `products/category/${categoryId}`,
+
+    // OPTIONAL (already using)
+    BY_ID: (id: string) => `products/${id}`
+  },
 
   REVIEWS: {
     CREATE: 'reviews',

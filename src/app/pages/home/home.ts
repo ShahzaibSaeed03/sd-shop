@@ -7,10 +7,12 @@ import { Faq } from '../../shared/components/faq/faq';
 import { AdvantagSd } from '../../shared/components/advantag-sd/advantag-sd';
 import { Router } from '@angular/router';
 import { SectionApi } from '../../core/services/section.api';
+import { ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
   selector: 'app-home',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush, // ✅ ADD THIS
   imports: [Slider, TabMenu, SectionBlock, CommonModule, Faq, AdvantagSd],
   templateUrl: './home.html',
 })
@@ -18,7 +20,8 @@ export class Home implements OnInit {
   constructor(
     private router: Router,
     private sectionApi: SectionApi,
-    private cdr: ChangeDetectorRef,
+      private cdr: ChangeDetectorRef,
+
   ) {}
 
   // ✅ Tabs
@@ -35,79 +38,68 @@ export class Home implements OnInit {
 
   // ==========================
   // ✅ API CALL (ONLY ONCE)
-  // ==========================
-  getSections() {
-    this.sectionApi.getFrontendSections().subscribe({
-      next: (res: any) => {
-        const data = res.data || res;
+getSections() {
+  this.sectionApi.getFrontendSections().subscribe({
+    next: (res: any) => {
+      const data = res.data || res;
 
-        // ✅ FORMAT DATA
-        this.allSections = data
-          .filter((s: any) => s.isActive)
-          .sort((a: any, b: any) => a.order - b.order)
-          .map((section: any) => ({
-            name: section.name,
-            apiSource: section.apiSource,
-            mode: section.mode,
-            items: this.mapItems(section.items || []),
-          }));
+      this.allSections = data.map((section: any) => ({
+        name: section.name,
+        mode: section.mode,
+        apiSource: section.apiSource,
+        items: this.mapItems(section.items || [])
+      }));
 
-        // ✅ BUILD UNIQUE TABS
-        const uniqueNames = [...new Set(this.allSections.map((s) => s.name))];
+      const uniqueNames = [...new Set(this.allSections.map(s => s.name))];
 
-        this.tabs = [
-          { label: 'All', value: 'all' },
-          ...uniqueNames.map((name) => ({
-            label: name,
-            value: name,
-          })),
-        ];
+      this.tabs = [
+        { label: 'All', value: 'all' },
+        ...uniqueNames.map(name => ({
+          label: name,
+          value: name
+        }))
+      ];
 
-        // ✅ DEFAULT → SHOW ALL
-        this.sections = this.allSections;
+      this.sections = this.allSections;
 
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error(err),
-    });
-  }
+      // ✅ IMPORTANT
+      this.cdr.markForCheck();
+    },
+    error: (err) => console.error(err),
+  });
+}
 
   // ==========================
   // ✅ FILTER (NO API CALL)
   // ==========================
-  onTabChange(tab: string) {
-    this.activeTab = tab;
+onTabChange(tab: string) {
+  this.activeTab = tab;
 
-    if (tab === 'all') {
-      this.sections = this.allSections;
-    } else {
-      this.sections = this.allSections.filter((s) => s.name === tab);
-    }
+  if (tab === 'all') {
+    this.sections = this.allSections;
+  } else {
+    this.sections = this.allSections.filter(s => s.name === tab);
   }
+}
 
   // ==========================
   // ✅ MAP ITEMS
   // ==========================
 mapItems(items: any[]) {
   return items.map(item => ({
-    title: item.displayName || item.name || 'No Title',
+    title: item.name,
     image: item.image || 'cards/card-images.png',
-    price: item.price,
-
-    rating: Number(item.rating || 0),
-    sold: `${item.sold || 0} Sold`,
-    soldCount: Number(item.sold || 0),
+    slug: item.slug,
 
     raw: item
   }));
 }
-
   // ==========================
   // ✅ NAVIGATION
   // ==========================
-  goToProduct(product: any) {
-    this.router.navigate(['/product-details'], {
-      queryParams: { id: product.raw._id },
-    });
-  }
+goToProduct(item: any) {
+  this.router.navigate(['/products'], {
+    queryParams: { category: item.raw._id }
+  });
+}
 }

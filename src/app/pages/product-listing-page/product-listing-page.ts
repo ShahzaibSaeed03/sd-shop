@@ -7,6 +7,7 @@ import { AdvantagSd } from '../../shared/components/advantag-sd/advantag-sd';
 import { Router } from '@angular/router';
 import { ProductApi } from '../../core/services/product.api';
 import { ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-listing-page',
@@ -19,6 +20,7 @@ export class ProductListingPage implements OnInit {
     private router: Router,
     private productApi: ProductApi,
     private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute 
   ) {}
 
   // 🔹 Tabs
@@ -34,41 +36,54 @@ export class ProductListingPage implements OnInit {
   // 🔥 REAL DATA
   allProducts: any[] = [];
 
-  ngOnInit(): void {
-    this.getProducts();
-  }
+ngOnInit(): void {
+  this.route.queryParams.subscribe(params => {
+    const categoryId = params['category'];
 
-  // ✅ API CALL
-  getProducts() {
-    this.productApi.getProducts().subscribe({
-      next: (res: any) => {
-        const data = res.data || [];
+    if (categoryId) {
+      this.getByCategory(categoryId);
+    } else {
+      this.getAllProducts();
+    }
+  });
+}
 
-        this.allProducts = data
-          .filter((p: any) => p.isActive)
-          .map((p: any) => ({
-            id: p._id,
-            title: p.displayName || p.name,
-            image: p.image || 'assets/cards/card-images.png',
+getAllProducts() {
+  this.productApi.getProducts().subscribe({
+    next: (res: any) => {
+      this.setProducts(res.data || []);
+    },
+    error: (err) => console.error(err),
+  });
+}
 
-            // ✅ FIXED VALUES FROM API
-            sold: `${p.sold || 0} Sold`,
-            soldCount: p.sold || 0,
-            rating: p.rating || 0,
-            totalReviews: p.totalReviews || 0,
+getByCategory(categoryId: string) {
+  this.productApi.getByCategory(categoryId).subscribe({
+    next: (res: any) => {
+      this.setProducts(res.data || []);
+    },
+    error: (err) => console.error(err),
+  });
+}
+setProducts(data: any[]) {
+  this.allProducts = data
+    .filter((p: any) => p.isActive)
+    .map((p: any) => ({
+      id: p._id,
+      title: p.displayName || p.name,
+      image: p.image || 'assets/cards/card-images.png',
 
-            category: 'topup',
+      sold: `${p.sold || 0} Sold`,
+      soldCount: p.sold || 0,
+      rating: p.rating || 0,
+      totalReviews: p.totalReviews || 0,
 
-            raw: p,
-          }));
-        this.activeTab = 'topup';
-        this.cdr.detectChanges();
-        console.log('PRODUCTS:', this.allProducts); // debug
-      },
-      error: (err) => console.error(err),
-    });
-  }
+      category: 'topup',
+      raw: p,
+    }));
 
+  this.cdr.detectChanges();
+}
   // 🔥 CATEGORY MAPPING (IMPORTANT)
   mapCategory(p: any): string {
     return 'topup'; // ✅ FIX

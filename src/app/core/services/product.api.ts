@@ -8,11 +8,19 @@ export class ProductApi {
 
   constructor(private api: ApiService) {}
 
-  // GET PRODUCT DETAILS
-  getProductById(id: string): Observable<any> {
-    return this.api.get(`products/${id}`);
-  }
-   getProducts(): Observable<any[]> {
-    return this.api.get<any[]>(API_ENDPOINTS.PRODUCTS.LIST);
-  }
+getProducts(): Observable<any[]> {
+  return this.api.get<any[]>(API_ENDPOINTS.PRODUCTS.LIST);
+}
+
+getByCategory(categoryId: string): Observable<any[]> {
+  return this.api.get<any[]>(
+    API_ENDPOINTS.PRODUCTS.BY_CATEGORY(categoryId)
+  );
+}
+
+getProductById(id: string): Observable<any> {
+  return this.api.get(
+    API_ENDPOINTS.PRODUCTS.BY_ID(id)
+  );
+}
 }
