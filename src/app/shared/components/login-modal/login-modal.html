@@ -45,7 +45,7 @@
 
   <!-- MAIN WRAPPER -->
   <div
-    class="w-full h-full md:h-[764px] md:w-[1128px]
+    class="w-full h-[95%]  md:w-[1128px]
            bg-[#E5E5E5] md:rounded-[30px]
            flex flex-col md:flex-row
            overflow-y-auto md:overflow-hidden
@@ -119,15 +119,23 @@
     <div
       class="relative w-full md:w-[539px]
              order-2 md:order-1
-             h-[180px] sm:h-[220px] md:h-auto">
+             h-[180px] sm:h-[220px] md:h-full
+             flex items-center">
 
+      <!-- Background Image -->
       <img src="login/login-bg.png"
         class="absolute inset-0 w-full h-full object-cover" />
 
+      <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50"></div>
 
       <!-- CONTENT -->
-      <div class="relative z-10 flex flex-col justify-center items-center md:items-start text-white p-4 md:p-8 gap-4">
+      <div
+        class="relative z-10 flex flex-col
+               justify-center
+               items-center md:items-start
+               h-full
+               text-white p-4 md:p-8 gap-4 w-full">
 
         <h2 class="text-lg sm:text-xl md:text-3xl font-semibold text-center md:text-left">
           Why Join SD Shop?
