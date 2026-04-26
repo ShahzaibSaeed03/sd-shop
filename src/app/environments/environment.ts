@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://api.sdshop.gg/api'
+  apiUrl: 'https://api.sdshop.gg/api'
 };
