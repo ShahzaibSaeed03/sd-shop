@@ -238,6 +238,7 @@ async pay() {
       productId: this.data.id,
       method: this.selectedMethod,
       user_id: this.data.userId,
+       email: this.data.email || '',
       server_id: this.data.server,
       nickname: this.data.nickname,
       buyerName: this.buyerName,

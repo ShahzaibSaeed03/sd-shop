@@ -86,98 +86,70 @@ export class ProductReview implements OnInit {
       }
     });
   }
-  checkUserId() {
-    console.log('🔥 checkUserId called');
-    console.log('FORM DATA:', this.form);
+ checkUserId() {
+  if (!this.form.userId) return;
+  if (!this.form.server) return; // ✅ silent, no error
 
-    if (!this.form.userId) return;
+  this.checkingUser = true;
+  this.userError = '';
+  this.username = '';
 
-    if (!this.form.server) {
-      this.userError = 'Please select server first';
-      return;
-    }
-
-    this.checkingUser = true;
-    this.userError = '';
-    this.username = '';
-
-    this.orderApi
-      .checkUser({
-        categoryCode: this.selectedProduct?.raw?.supplierCategory,
-        userId: this.form.userId,
-        serverId: this.form.server,
-        nickname: this.form.nickname,
-      })
-      .subscribe({
-        next: (res) => {
-          console.log('✅ API RESPONSE:', res);
-
-          this.checkingUser = false;
-
-          if (res.success) {
-            this.username = res.username;
-
-            // 🔥 MAIN FIX: AUTO SET NICKNAME
-            this.form.nickname = res.username;
-          } else {
-            this.userError = 'Invalid ID';
-          }
-        },
-        error: (err) => {
-          console.log('❌ API ERROR:', err);
-
-          this.checkingUser = false;
-          this.userError = 'Invalid ID';
-        },
-      });
-  }
-  loading = false;
-  requireLogin(): boolean {
-    if (!this.authService.isLoggedIn()) {
-      // 🔥 OPTION 1: trigger modal (recommended)
-      window.dispatchEvent(new CustomEvent('openLoginModal'));
-
-      // 🔥 OPTION 2 (fallback): redirect
-      // this.router.navigate(['/login']);
-
-      return false;
-    }
-
-    return true;
-  }
-applyCoupon() {
-  if (!this.requireLogin()) return;
-  if (!this.coupon) return;
-
-  const payload = {
-    code: this.coupon,
-    totalAmount: this.totalPrice, // ✅ original total
-    cartProducts: [{ _id: this.selectedProduct?.raw?._id }],
-  };
-
-  this.couponApi.applyCoupon(payload).subscribe({
-    next: (res: any) => {
-
-      console.log('COUPON RESPONSE:', res);
-
-      this.discount = res.discount;
-
-      // ✅ ONLY STORE HERE
-      this.finalAmount = res.finalAmount;
-
-      this.couponApplied = true;
-
-      // ❌ NEVER TOUCH selectedProduct.price
+  this.orderApi.checkUser({
+    categoryCode: this.selectedProduct?.raw?.supplierCategory,
+    userId: this.form.userId,
+    serverId: this.form.server,
+    nickname: this.form.nickname,
+  }).subscribe({
+    next: (res) => {
+      this.checkingUser = false;
+      if (res.success) {
+        this.username = res.username;
+        this.form.nickname = res.username;
+      }
+      // ✅ no error if invalid, just continue
     },
-    error: (err) => {
-      alert(err.error?.message || 'Invalid coupon');
-
-      this.discount = 0;
-      this.finalAmount = this.totalPrice;
-      this.couponApplied = false;
-    },
+    error: () => {
+      this.checkingUser = false;
+      // ✅ silent fail, allow checkout anyway
+    }
   });
 }
+  loading = false;
+ requireLogin(): boolean {
+  return true; // ✅ allow everyone, login check removed
+}
+  applyCoupon() {
+    if (!this.requireLogin()) return;
+    if (!this.coupon) return;
+
+    const payload = {
+      code: this.coupon,
+      totalAmount: this.totalPrice, // ✅ original total
+      cartProducts: [{ _id: this.selectedProduct?.raw?._id }],
+    };
+
+    this.couponApi.applyCoupon(payload).subscribe({
+      next: (res: any) => {
+        console.log('COUPON RESPONSE:', res);
+
+        this.discount = res.discount;
+
+        // ✅ ONLY STORE HERE
+        this.finalAmount = res.finalAmount;
+
+        this.couponApplied = true;
+
+        // ❌ NEVER TOUCH selectedProduct.price
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Invalid coupon');
+
+        this.discount = 0;
+        this.finalAmount = this.totalPrice;
+        this.couponApplied = false;
+      },
+    });
+  }
 
   removeCoupon() {
     this.coupon = '';
@@ -220,7 +192,7 @@ applyCoupon() {
             raw: data,
           },
         ];
-     console.log(this.product)
+        console.log(this.product);
         this.selectedProduct = this.products[0];
 
         // 🔥🔥🔥 NEW: CALL CATEGORY PRODUCTS
@@ -234,30 +206,29 @@ applyCoupon() {
     });
   }
 
- getCategoryProducts(categoryId: string, currentProductId: string) {
-  this.productApi.getByCategory(categoryId).subscribe({
-    next: (res: any) => {
+  getCategoryProducts(categoryId: string, currentProductId: string) {
+    this.productApi.getByCategory(categoryId).subscribe({
+      next: (res: any) => {
+        const list = res.data || [];
 
-      const list = res.data || [];
+        this.products = list
+          .filter((p: any) => p._id !== currentProductId)
+          .map((p: any) => ({
+            id: p._id,
+            title: p.displayName || p.name,
+            subtitle: p.categoryName,
+            price: p.finalPrice, // ✅ always finalPrice
+            img: p.image || p.category?.image || 'assets/cards/card-images.png',
+            raw: p,
+          }));
 
-      this.products = list
-        .filter((p: any) => p._id !== currentProductId)
-        .map((p: any) => ({
-          id: p._id,
-          title: p.displayName || p.name,
-          subtitle: p.categoryName,
-          price: p.finalPrice, // ✅ always finalPrice
-          img: p.image || p.category?.image || 'assets/cards/card-images.png',
-          raw: p,
-        }));
+        // ❌ DO NOT TOUCH selectedProduct HERE
 
-      // ❌ DO NOT TOUCH selectedProduct HERE
-
-      this.cdr.detectChanges();
-    },
-    error: (err) => console.error(err),
-  });
-}
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err),
+    });
+  }
   // ================= SELECT =================
   selectProduct(p: any) {
     this.selectedProduct = p;
@@ -274,50 +245,55 @@ applyCoupon() {
   }
 
   // ================= PRICE =================
-get totalPrice(): number {
-  const total = this.selectedProduct
-    ? this.selectedProduct.price * this.quantity
-    : 0;
+  get totalPrice(): number {
+    const total = this.selectedProduct ? this.selectedProduct.price * this.quantity : 0;
 
-  console.log('PRICE DEBUG:', {
-    price: this.selectedProduct?.price,
-    qty: this.quantity,
-    total: total
-  });
+    console.log('PRICE DEBUG:', {
+      price: this.selectedProduct?.price,
+      qty: this.quantity,
+      total: total,
+    });
 
-  return total;
-}
+    return total;
+  }
   get payableAmount(): number {
     return this.couponApplied ? this.finalAmount : this.totalPrice;
   }
   // ================= VALIDATION =================
-  validate(): boolean {
-    this.errors = {};
-    if (!this.isLoggedIn && !this.form.email) {
-      this.errors.email = 'Email required';
-    }
-    if (this.product?.requiresUserId && !this.form.userId) {
-      this.errors.userId = 'User ID required';
-    }
+validate(): boolean {
+  this.errors = {};
 
-    if (this.product?.requiresServer && !this.form.server) {
-      this.errors.server = 'Server required';
-    }
-
-    if (this.product?.requiresNickname && !this.form.nickname) {
-      this.errors.nickname = 'Nickname required';
-    }
-
-    if (this.product?.requiresZone && !this.form.zone) {
-      this.errors.zone = 'Zone required';
-    }
-
-    return Object.keys(this.errors).length === 0;
+  if (!this.isLoggedIn && !this.form.email) {
+    this.errors.email = 'Email required';
   }
+
+  if (this.product?.requiresUserId && !this.form.userId) {
+    this.errors.userId = 'User ID required';
+  }
+
+  // ❌ REMOVE THIS
+  // if (this.product?.requiresUserId && this.form.userId && !this.userVerified) {
+  //   this.errors.userId = 'Please verify your User ID first';
+  // }
+
+  if (this.product?.requiresServer && !this.form.server) {
+    this.errors.server = 'Server required';
+  }
+
+  if (this.product?.requiresNickname && !this.form.nickname) {
+    this.errors.nickname = 'Nickname required';
+  }
+
+  if (this.product?.requiresZone && !this.form.zone) {
+    this.errors.zone = 'Zone required';
+  }
+
+  return Object.keys(this.errors).length === 0;
+}
 
   // ================= CHECKOUT =================
   checkout() {
-    if (!this.requireLogin()) return;
+    // if (!this.requireLogin()) return;
 
     if (!this.validate()) return;
 

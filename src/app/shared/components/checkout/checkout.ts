@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReviewOrder } from "../../../pages/review-order/review-order";
-import { Payment } from "../../../pages/payment/payment";
-import { SucessPayment } from "../../../pages/sucess-payment/sucess-payment";
+import { ReviewOrder } from '../../../pages/review-order/review-order';
+import { Payment } from '../../../pages/payment/payment';
+import { SucessPayment } from '../../../pages/sucess-payment/sucess-payment';
 
 @Component({
   selector: 'app-checkout',
@@ -12,36 +12,34 @@ import { SucessPayment } from "../../../pages/sucess-payment/sucess-payment";
   templateUrl: './checkout.html',
 })
 export class Checkout implements OnInit {
-
   step = 1;
 
   // 🔥 RECEIVED DATA
   orderData: any = {};
-paymentMethod: 'card' | 'pix' = 'card';
+  paymentMethod: 'card' | 'pix' = 'card';
 
-paymentForm = {
-  buyerName: '',
-  cpf: '',
-  cardNumber: '',
-  expiry: '',
-  cvv: '',
-  installments: 1,
-};
+  paymentForm = {
+    buyerName: '',
+    cpf: '',
+    cardNumber: '',
+    expiry: '',
+    cvv: '',
+    installments: 1,
+  };
 
-installmentOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+  installmentOptions = Array.from({ length: 12 }, (_, i) => i + 1);
 
-errors: any = {};
-  constructor(private route: ActivatedRoute) { }
+  errors: any = {};
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-
+    this.route.queryParams.subscribe((params) => {
       this.orderData = {
         id: params['id'],
         title: params['title'],
         subtitle: params['subtitle'],
         image: params['image'],
-
+        email: params['email'] || '',
         price: +params['price'] || 0,
 
         // ✅ SAFE FALLBACK
@@ -57,7 +55,7 @@ errors: any = {};
         server: params['server'],
         nickname: params['nickname'],
         zone: params['zone'],
-        coupon: params['coupon'] || ''
+        coupon: params['coupon'] || '',
       };
 
       console.log('CHECKOUT DATA:', this.orderData);
