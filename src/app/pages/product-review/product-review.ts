@@ -9,6 +9,18 @@ import { CouponApi } from '../../core/services/coupon.api';
 import { AuthService } from '../../core/services/auth.service';
 import { OrderApi } from '../../core/services/order.api';
 
+interface Product {
+  _id: string;
+  name: string;
+  displayName: string;
+  price: number;
+  finalPrice: number;
+  categoryName: string;
+  image?: string;
+  category?: {
+    image?: string;
+  };
+}
 @Component({
   selector: 'app-product-review',
   standalone: true,
@@ -33,7 +45,7 @@ export class ProductReview implements OnInit {
   product: any = null;
   products: any[] = [];
   selectedProduct: any = null;
-
+  isLoggedIn = false;
   // ================= UI =================
   quantity = 1;
   coupon = '';
@@ -45,6 +57,7 @@ export class ProductReview implements OnInit {
   userError = '';
   // ================= FORM =================
   form = {
+    email: '', // ✅ ADD THIS
     userId: '',
     server: '',
     nickname: '',
@@ -64,6 +77,8 @@ export class ProductReview implements OnInit {
 
   // ================= INIT =================
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+
     this.route.queryParamMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -71,50 +86,51 @@ export class ProductReview implements OnInit {
       }
     });
   }
-checkUserId() {
-  console.log('🔥 checkUserId called');
-  console.log('FORM DATA:', this.form);
+  checkUserId() {
+    console.log('🔥 checkUserId called');
+    console.log('FORM DATA:', this.form);
 
-  if (!this.form.userId) return;
+    if (!this.form.userId) return;
 
-  if (!this.form.server) {
-    this.userError = 'Please select server first';
-    return;
-  }
-
-  this.checkingUser = true;
-  this.userError = '';
-  this.username = '';
-
-  this.orderApi.checkUser({
-    categoryCode: this.selectedProduct?.raw?.supplierCategory,
-    userId: this.form.userId,
-    serverId: this.form.server,
-    nickname: this.form.nickname
-  }).subscribe({
-    next: (res) => {
-      console.log('✅ API RESPONSE:', res);
-
-      this.checkingUser = false;
-
-      if (res.success) {
-        this.username = res.username;
-
-        // 🔥 MAIN FIX: AUTO SET NICKNAME
-        this.form.nickname = res.username;
-
-      } else {
-        this.userError = 'Invalid ID';
-      }
-    },
-    error: (err) => {
-      console.log('❌ API ERROR:', err);
-
-      this.checkingUser = false;
-      this.userError = 'Invalid ID';
+    if (!this.form.server) {
+      this.userError = 'Please select server first';
+      return;
     }
-  });
-}
+
+    this.checkingUser = true;
+    this.userError = '';
+    this.username = '';
+
+    this.orderApi
+      .checkUser({
+        categoryCode: this.selectedProduct?.raw?.supplierCategory,
+        userId: this.form.userId,
+        serverId: this.form.server,
+        nickname: this.form.nickname,
+      })
+      .subscribe({
+        next: (res) => {
+          console.log('✅ API RESPONSE:', res);
+
+          this.checkingUser = false;
+
+          if (res.success) {
+            this.username = res.username;
+
+            // 🔥 MAIN FIX: AUTO SET NICKNAME
+            this.form.nickname = res.username;
+          } else {
+            this.userError = 'Invalid ID';
+          }
+        },
+        error: (err) => {
+          console.log('❌ API ERROR:', err);
+
+          this.checkingUser = false;
+          this.userError = 'Invalid ID';
+        },
+      });
+  }
   loading = false;
   requireLogin(): boolean {
     if (!this.authService.isLoggedIn()) {
@@ -129,31 +145,39 @@ checkUserId() {
 
     return true;
   }
-  applyCoupon() {
-    if (!this.requireLogin()) return;
+applyCoupon() {
+  if (!this.requireLogin()) return;
+  if (!this.coupon) return;
 
-    if (!this.coupon) return;
+  const payload = {
+    code: this.coupon,
+    totalAmount: this.totalPrice, // ✅ original total
+    cartProducts: [{ _id: this.selectedProduct?.raw?._id }],
+  };
 
-    const payload = {
-      code: this.coupon,
-      totalAmount: this.totalPrice,
-      cartProducts: [{ _id: this.selectedProduct?.raw?._id }],
-    };
+  this.couponApi.applyCoupon(payload).subscribe({
+    next: (res: any) => {
 
-    this.couponApi.applyCoupon(payload).subscribe({
-      next: (res: any) => {
-        this.discount = res.discount;
-        this.finalAmount = res.finalAmount;
-        this.couponApplied = true;
-      },
-      error: (err) => {
-        alert(err.error?.message || 'Invalid coupon');
-        this.discount = 0;
-        this.finalAmount = this.totalPrice;
-        this.couponApplied = false;
-      },
-    });
-  }
+      console.log('COUPON RESPONSE:', res);
+
+      this.discount = res.discount;
+
+      // ✅ ONLY STORE HERE
+      this.finalAmount = res.finalAmount;
+
+      this.couponApplied = true;
+
+      // ❌ NEVER TOUCH selectedProduct.price
+    },
+    error: (err) => {
+      alert(err.error?.message || 'Invalid coupon');
+
+      this.discount = 0;
+      this.finalAmount = this.totalPrice;
+      this.couponApplied = false;
+    },
+  });
+}
 
   removeCoupon() {
     this.coupon = '';
@@ -166,49 +190,74 @@ checkUserId() {
       next: (res: any) => {
         const data = res.data || res;
 
-        // ✅ MAIN PRODUCT (UI usage)
+        // ✅ MAIN PRODUCT
         this.product = {
           id: data._id,
           name: data.name,
           image: data.image,
           categoryName: data.categoryName,
-          price: data.finalPrice || data.price,
-
-          // ❌ no need for these anymore if using forms
+          price: data.finalPrice, // ✅ ALWAYS FINAL PRICE
+          originalPrice: data.price, // optional
           requiresUserId: data.requiresUserId,
           requiresServer: data.requiresServer,
           requiresNickname: data.requiresNickname,
           requiresZone: data.requiresZone,
         };
 
-        // ✅ IMPORTANT: SAVE FORMS FROM API
-        this.forms = data.forms || [];
-
-        // ✅ PRODUCT CARD (for UI list)
+        // ✅ FORMS
+        this.forms = [
+          { name: 'email', type: 'text' }, // 🔥 ADD EMAIL FIELD
+          ...(data.forms || []),
+        ];
+        // ✅ MAIN PRODUCT CARD
         this.products = [
           {
             id: data._id,
             title: data.name,
             subtitle: data.categoryName,
-            price: data.finalPrice || data.price,
-            oldPrice: (data.finalPrice || data.price) + 100,
-            discount: 100,
-            img: data.image || 'assets/cards/card-images.png',
-            raw: data, // 🔥 keep full data here
+            price: data.finalPrice,
+            img: data.image || 'cards/card-images.png',
+            raw: data,
           },
         ];
-
+     console.log(this.product)
         this.selectedProduct = this.products[0];
+
+        // 🔥🔥🔥 NEW: CALL CATEGORY PRODUCTS
+        if (data.category?._id) {
+          this.getCategoryProducts(data.category._id, data._id);
+        }
 
         this.cdr.detectChanges();
       },
-
-      error: (err) => {
-        console.error('❌ getProduct error:', err);
-      },
+      error: (err) => console.error(err),
     });
   }
 
+ getCategoryProducts(categoryId: string, currentProductId: string) {
+  this.productApi.getByCategory(categoryId).subscribe({
+    next: (res: any) => {
+
+      const list = res.data || [];
+
+      this.products = list
+        .filter((p: any) => p._id !== currentProductId)
+        .map((p: any) => ({
+          id: p._id,
+          title: p.displayName || p.name,
+          subtitle: p.categoryName,
+          price: p.finalPrice, // ✅ always finalPrice
+          img: p.image || p.category?.image || 'assets/cards/card-images.png',
+          raw: p,
+        }));
+
+      // ❌ DO NOT TOUCH selectedProduct HERE
+
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error(err),
+  });
+}
   // ================= SELECT =================
   selectProduct(p: any) {
     this.selectedProduct = p;
@@ -225,16 +274,28 @@ checkUserId() {
   }
 
   // ================= PRICE =================
-  get totalPrice(): number {
-    return this.selectedProduct ? this.selectedProduct.price * this.quantity : 0;
-  }
+get totalPrice(): number {
+  const total = this.selectedProduct
+    ? this.selectedProduct.price * this.quantity
+    : 0;
+
+  console.log('PRICE DEBUG:', {
+    price: this.selectedProduct?.price,
+    qty: this.quantity,
+    total: total
+  });
+
+  return total;
+}
   get payableAmount(): number {
     return this.couponApplied ? this.finalAmount : this.totalPrice;
   }
   // ================= VALIDATION =================
   validate(): boolean {
     this.errors = {};
-
+    if (!this.isLoggedIn && !this.form.email) {
+      this.errors.email = 'Email required';
+    }
     if (this.product?.requiresUserId && !this.form.userId) {
       this.errors.userId = 'User ID required';
     }
@@ -267,12 +328,13 @@ checkUserId() {
         subtitle: this.selectedProduct?.subtitle,
         image: this.selectedProduct?.img,
 
-        // 🔥 IMPORTANT FIX
-        price: this.selectedProduct?.price, // original
-        finalPrice: this.payableAmount, // ✅ after coupon
-        discount: this.discount, // ✅ discount value
+        price: this.selectedProduct?.price,
+        finalPrice: this.payableAmount,
+        discount: this.discount,
 
         qty: this.quantity,
+
+        ...(this.isLoggedIn ? {} : { email: this.form.email }),
 
         userId: this.form.userId,
         server: this.form.server,

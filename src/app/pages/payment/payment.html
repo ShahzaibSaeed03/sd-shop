@@ -1,57 +1,48 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
   <div *ngIf="!showPix">
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-
       <!-- LEFT SIDE -->
       <div class="lg:col-span-2 space-y-4">
-
         <!-- ORDER STATUS -->
         <div class="bg-white rounded-xl p-4 shadow-sm">
-
-          <h3 class="font-medium text-[24px] leading-[150%] mb-3 text-gray-900">
-            Order Status
-          </h3>
+          <h3 class="font-medium text-[24px] leading-[150%] mb-3 text-gray-900">Order Status</h3>
 
           <div
-            class="w-full h-[100px] bg-[#E9A5FF] border border-gray-200 rounded-[10px] p-[20px] flex items-center gap-[12px]">
-
-            <div class="w-[60px] h-[60px] rounded-full bg-[#F2CAFF] flex items-center justify-center">
+            class="w-full h-[100px] bg-[#E9A5FF] border border-gray-200 rounded-[10px] p-[20px] flex items-center gap-[12px]"
+          >
+            <div
+              class="w-[60px] h-[60px] rounded-full bg-[#F2CAFF] flex items-center justify-center"
+            >
               <i class="fa-regular fa-clock text-[#7E00A6] text-[30px]"></i>
             </div>
 
             <div>
-              <p class="text-black font-medium text-base sm:text-xl">
-                Awaiting payment
-              </p>
+              <p class="text-black font-medium text-base sm:text-xl">Awaiting payment</p>
 
               <p class="text-black text-[16px] font-light">
                 Expires in <span class="font-medium">14:50</span>
               </p>
             </div>
-
           </div>
 
           <!-- PRODUCT -->
           <div class="mt-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-
             <div class="flex items-center gap-3">
-
-              <img [src]="order?.image || 'assets/cards/card-images.png'" class="w-10 h-10 sm:w-12 sm:h-12 rounded" />
+              <img
+                [src]="order?.image || 'assets/cards/card-images.png'"
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded"
+              />
 
               <p class="text-sm sm:text-base font-medium leading-tight">
                 {{ order?.title }} (x{{ order?.qty }})
               </p>
-
             </div>
 
             <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
-
           </div>
 
           <!-- ORDER ID -->
           <div class="mt-3 flex justify-between items-center">
-
             <div>
               <p class="text-xs sm:text-sm text-gray-500">ORDER ID</p>
               <p class="text-sm sm:text-base font-semibold">
@@ -63,17 +54,12 @@
               <img src="icons/copy.png" class="w-[20px] h-[20px]" />
               <span class="text-[14px]">Copy</span>
             </span>
-
           </div>
-
         </div>
 
         <!-- SUMMARY -->
         <div class="bg-white rounded-xl p-4 shadow-sm">
-
-          <h3 class="font-medium text-base sm:text-lg mb-3">
-            Order Summary
-          </h3>
+          <h3 class="font-medium text-base sm:text-lg mb-3">Order Summary</h3>
 
           <!-- COUPON -->
           <div class="flex justify-between text-sm sm:text-base">
@@ -96,16 +82,14 @@
           <div class="flex justify-between text-sm sm:text-base">
             <span>Subtotal</span>
             <span>
-              {{ summary?.subtotal | currency:'USD' }}
+              {{ summary?.subtotal | currency: 'USD' }}
             </span>
           </div>
 
           <!-- DISCOUNT -->
           <div class="flex justify-between text-sm sm:text-base">
             <span>Discount</span>
-            <span class="text-green-500">
-              -{{ summary?.discount | currency:'USD' }}
-            </span>
+            <span class="text-green-500"> -{{ summary?.discount | currency: 'USD' }} </span>
           </div>
 
           <hr class="my-3" />
@@ -114,13 +98,13 @@
           <div class="flex justify-between items-center font-bold">
             <span class="text-[18px]">Total</span>
             <span class="text-[24px]">
-              {{ summary?.total | currency:'USD' }}
+              {{ summary?.total | currency: 'USD' }}
             </span>
           </div>
 
           <!-- SAVE MESSAGE -->
           <p *ngIf="summary?.discount" class="text-green-600 text-xs mt-2">
-            You saved {{ summary?.discount | currency:'USD' }}
+            You saved {{ summary?.discount | currency: 'USD' }}
           </p>
 
           <!-- NOTE -->
@@ -128,103 +112,146 @@
             <img src="icons/Vector.png" class="w-[25px] h-[25px]" />
             <p class="text-gray-500 text-sm">
               Securely pay with our
-              <span class="text-gray-900 font-medium">
-                trusted payment partner
-              </span>
+              <span class="text-gray-900 font-medium"> trusted payment partner </span>
             </p>
           </div>
-
         </div>
-
       </div>
 
       <!-- RIGHT SIDE -->
-      <div class="bg-white rounded-xl p-4 shadow-sm space-y-4 h-fit">
+      <div class="bg-white rounded-xl p-5 shadow-sm space-y-5">
+        <!-- TITLE -->
+        <h2 class="text-[22px] font-semibold text-gray-900">Selecionar método de pagamento</h2>
 
-        <h3 class="font-medium text-lg sm:text-xl">
-          Select Payment
-        </h3>
-
-        <!-- CREDIT CARD -->
-        <label class="flex justify-between items-center border p-3 rounded-lg cursor-pointer">
-          <div class="flex items-center gap-2">
-            <img src="https://img.icons8.com/color/48/visa.png" class="w-6" />
-            <span class="text-sm sm:text-base">Credit Card</span>
-          </div>
-          <input type="radio" [(ngModel)]="selectedMethod" value="card" (change)="calculate()">
-
-
-        </label>
-
-        <!-- CARD FORM -->
-        <div *ngIf="selectedMethod === 'card'" class="space-y-3">
-
-          <input type="text" placeholder="Cardholder"
-            class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
-
-          <input type="text" placeholder="Card number"
-            class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
-
-          <div class="grid grid-cols-2 gap-2">
-            <input type="text" placeholder="MM/YY"
-              class="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
-            <input type="text" placeholder="CVV"
-              class="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-400" />
+        <!-- CREDIT CARD OPTION -->
+        <div
+          class="border rounded-xl p-4 flex justify-between items-center cursor-pointer"
+          (click)="selectedMethod = 'card'; calculate()"
+        >
+          <div class="flex items-center gap-3">
+            <img src="https://img.icons8.com/color/48/mastercard.png" class="w-10" />
+            <span class="text-lg">Cartão de Crédito</span>
           </div>
 
+          <input type="radio" [checked]="selectedMethod === 'card'" />
         </div>
 
-        <!-- APPLE PAY -->
-        <label class="flex justify-between items-center border p-2 rounded-lg cursor-pointer">
-          <div class="flex items-center gap-2">
-            <img src="icons/PixPay.png" class="w-[49px] h-[32px]" />
-            <span class="text-sm sm:text-base">Pix Pay</span>
+        <!-- CARD FORM -->
+        <div *ngIf="selectedMethod === 'card'" class="space-y-4">
+          <!-- NAME + CPF -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm text-gray-700">Nome no cartão</label>
+              <input
+                [(ngModel)]="buyerName"
+                placeholder="Nome do Titular"
+                class="w-full border rounded-lg px-3 py-3 mt-1"
+              />
+            </div>
+
+            <div>
+              <label class="text-sm text-gray-700">CPF do Titular</label>
+              <input
+                [(ngModel)]="cpf"
+                placeholder="Digite seu CPF"
+                class="w-full border rounded-lg px-3 py-3 mt-1"
+              />
+            </div>
           </div>
-          <input type="radio" [(ngModel)]="selectedMethod" value="pix" (change)="calculate()">
-        </label>
+
+          <!-- CARD NUMBER -->
+          <div>
+            <label class="text-sm text-gray-700">Número do cartão</label>
+            <input
+              [(ngModel)]="card.number"
+              (input)="onCardInput()"
+              placeholder="0000 0000 0000 0000"
+              class="w-full border rounded-lg px-3 py-3 mt-1"
+            />
+          </div>
+
+          <!-- EXPIRY + CVV -->
+          <div class="grid grid-cols-2 gap-4">
+            <input
+              [(ngModel)]="card.expiry"
+              placeholder="MM/YY"
+              class="border rounded-lg px-3 py-3"
+            />
+
+            <input [(ngModel)]="card.cvv" placeholder="CVV" class="border rounded-lg px-3 py-3" />
+          </div>
+
+          <!-- INSTALLMENTS -->
+          <div>
+            <label class="text-sm text-gray-700">Parcelamento</label>
+
+            <select
+              [(ngModel)]="selectedInstallment"
+              (change)="onInstallmentChange(selectedInstallment)"
+              class="w-full border rounded-lg px-3 py-3 mt-1"
+            >
+              <option *ngFor="let inst of installmentsList" [ngValue]="inst">
+                {{ inst.recommended_message }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PIX OPTION -->
+        <div
+          class="border rounded-xl p-4 flex justify-between items-center cursor-pointer"
+          (click)="selectedMethod = 'pix'; calculate()"
+        >
+          <div class="flex items-center gap-3">
+            <img src="icons/pix.png" class="w-10" />
+            <span class="text-lg">Pix</span>
+          </div>
+
+          <input type="radio" [checked]="selectedMethod === 'pix'" />
+        </div>
+
+        <!-- PIX EXTRA FIELDS -->
+        <div *ngIf="selectedMethod === 'pix'" class="grid grid-cols-2 gap-4">
+          <input
+            [(ngModel)]="buyerName"
+            placeholder="Nome completo"
+            class="border rounded-lg px-3 py-3"
+          />
+
+          <input [(ngModel)]="cpf" placeholder="CPF" class="border rounded-lg px-3 py-3" />
+        </div>
 
         <!-- PAY BUTTON -->
-        <button [disabled]="isPaying" (click)="pay()" class="w-full bg-purple-600 text-white py-3 rounded-lg">
-
-          {{ isPaying
-          ? 'Processing...'
-          : ('Pay ' + (summary?.total | currency:'USD')) }}
-
+        <button
+          (click)="pay()"
+          class="w-full py-4 rounded-xl text-white text-lg font-medium bg-gradient-to-r from-[#7C3AED] to-[#6D28D9]"
+        >
+          Pagar {{ summary?.total | currency: 'BRL' }}
         </button>
 
         <!-- INFO -->
-        <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-3 px-3 py-2">
-          <i class="fa-regular fa-clock text-[#7E00A6] text-[16px]"></i>
-          <p class="text-gray-500 text-sm">
-            After payment, please stay on this page for a few seconds.
-          </p>
+        <div class="bg-gray-100 p-3 rounded-lg text-sm text-gray-600">
+          Após o pagamento, permaneça nessa página por alguns segundos — a confirmação será feita
+          automaticamente.
         </div>
-
-        <!-- BACK -->
-        <button class="w-full border py-2 rounded-lg hover:bg-gray-100 transition" (click)="back.emit()">
-          Back
-        </button>
-
       </div>
-
     </div>
   </div>
 
   <div *ngIf="showPix && pixData" class="max-w-2xl mx-auto p-6 text-center">
-
     <h2 class="text-xl font-semibold mb-4">Scan & Pay (PIX)</h2>
 
     <!-- QR IMAGE -->
     <img [src]="pixData.qrImage" class="mx-auto w-64 h-64 border rounded-lg" />
 
     <!-- COPY CODE -->
-    <textarea class="w-full mt-4 border p-2 text-xs rounded" rows="4" readonly>
-{{ pixData.qr }}
-  </textarea>
+    <textarea class="w-full mt-4 border p-2 text-xs rounded" rows="4" readonly
+      >{{ pixData.qr }}
+  </textarea
+    >
 
     <button (click)="copyPix()" class="mt-3 bg-purple-600 text-white px-4 py-2 rounded">
       Copy Code
     </button>
-
   </div>
 </div>

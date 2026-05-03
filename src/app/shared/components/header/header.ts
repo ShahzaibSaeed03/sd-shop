@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { RouterLink } from '@angular/router';
 
@@ -9,11 +9,24 @@ import { RouterLink } from '@angular/router';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header {
+export class Header implements OnInit{
 
   constructor(private authService: AuthService) {}
-  
-
+   ngOnInit(): void {
+    if (this.isLoggedIn) {
+      this.loadCashback();
+    }
+  }
+  loadCashback() {
+    this.authService.getCashback().subscribe({
+      next: (res: any) => {
+        this.coins = res.points || 0; // ✅ set coins
+      },
+      error: () => {
+        this.coins = 0;
+      }
+    });
+  }
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }

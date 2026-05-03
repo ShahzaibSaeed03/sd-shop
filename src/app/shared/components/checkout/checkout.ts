@@ -17,7 +17,20 @@ export class Checkout implements OnInit {
 
   // 🔥 RECEIVED DATA
   orderData: any = {};
+paymentMethod: 'card' | 'pix' = 'card';
 
+paymentForm = {
+  buyerName: '',
+  cpf: '',
+  cardNumber: '',
+  expiry: '',
+  cvv: '',
+  installments: 1,
+};
+
+installmentOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+
+errors: any = {};
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {

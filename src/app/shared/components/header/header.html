@@ -1,16 +1,16 @@
 <header class="px-4 mx-auto py-3 flex items-center justify-between rounded-xl relative z-50 max-w-7xl">
 
   <!-- LEFT -->
-  <div class="flex items-center gap-4 md:gap-[30px]">
+  <div class="flex items-center gap-4 md:gap-[30px]" >
 
     <!-- Logo -->
-    <img src="icons/Logo.png" class="w-[140px] md:w-[180px] h-[40px] object-contain" />
+    <img src="icons/Logo.png" routerLink="/" class="w-[140px] md:w-[180px] h-[40px] object-contain" />
 
     <!-- Desktop Menu -->
     <nav class="hidden md:flex items-center gap-[20px] text-gray-800 font-medium">
-      <a class="hover:text-black cursor-pointer">Home</a>
+      <a class="hover:text-black cursor-pointer" routerLink="/">Home</a>
 
-      <a class="hover:text-black cursor-pointer flex items-center gap-1" routerLink="/product-all">
+      <a class="hover:text-black cursor-pointer flex items-center gap-1" routerLink="/products">
         Jogos
         <i class="fa-solid fa-chevron-down text-xs"></i>
       </a>
@@ -81,7 +81,7 @@
       class="flex items-center gap-2 px-2 md:px-3 py-2 rounded-lg bg-[#C200FF] text-white h-[40px] md:h-[50px]">
 
       <img src="icons/coin.png" class="w-4 h-4 md:w-5 md:h-5" />
-      <span class="text-sm hidden sm:block">0</span>
+      <span class="text-sm hidden sm:block">{{coins}}</span>
 
     </div>
 

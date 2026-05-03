@@ -33,6 +33,7 @@
     "@fortawesome/angular-fontawesome": "^4.0.0",
     "@fortawesome/fontawesome-free": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@mercadopago/sdk-js": "^0.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.16.1"

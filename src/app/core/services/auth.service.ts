@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private _user: any = null;
 
-  constructor() {
-    this.loadUser(); // 🔥 important
-  }
+constructor(private http: HttpClient) {
+  this.loadUser();
+}
 
   setSession(data: any) {
     localStorage.setItem('token', data.token);
@@ -38,4 +41,14 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+  getCashback(): Observable<any> {
+  return this.http.get(`${environment.apiUrl}/auth/cashback`).pipe(
+    tap((res: any) => {
+      // optional: user object me merge kar do
+      if (this._user) {
+        this._user.cashbackPoints = res.points;
+      }
+    })
+  );
+}
 }

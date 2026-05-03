@@ -37,6 +37,8 @@ export class Slider implements OnInit, OnDestroy {
       clearInterval(this.intervalId);
     }
   }
+loaded: boolean[] = [];
+
 
   // ✅ CALL API HERE
 getBanners(): void {
@@ -53,12 +55,25 @@ getBanners(): void {
           : b.desktopImage
         );
 
+      this.preloadImages();
       this.startAutoSlide();
     }
   });
 }
+allImagesLoaded = false;
 
+onImageLoad(index: number) {
+  this.loaded[index] = true;
 
+  // check if all images loaded
+  this.allImagesLoaded = this.loaded.filter(Boolean).length === this.slides.length;
+}
+preloadImages() {
+  this.slides.forEach((url, index) => {
+    const img = new Image();
+    img.src = url;
+  });
+}
   startAutoSlide(): void {
     if (!this.slides.length) return;
 

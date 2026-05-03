@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,15 +11,16 @@ import { Router } from '@angular/router';
   styleUrl: './profile.css',
 })
 export class Profile implements OnInit {
-
   user: any = null;
   cashback: number = 0;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,  private authService: AuthService
+) {}
 
-  ngOnInit(): void {
-    this.loadUser();
-  }
+ngOnInit(): void {
+  this.loadUser();
+  this.loadCashback(); // 🔥 ADD THIS
+}
 
   // ✅ LOAD USER FROM LOCAL STORAGE
   loadUser() {
@@ -29,9 +31,9 @@ export class Profile implements OnInit {
 
       this.user = {
         name: parsed.name || 'User',
-        avatar: parsed.avatar || 'https://i.pravatar.cc/100',
+        avatar: parsed.picture || '/login/google.png',
         provider: parsed.provider || 'local',
-        memberSince: this.formatDate(parsed.createdAt)
+        memberSince: this.formatDate(parsed.createdAt),
       };
     } else {
       // ❌ if not logged in redirect
@@ -39,9 +41,17 @@ export class Profile implements OnInit {
     }
 
     // 🔥 optional (later from API)
-    this.cashback = 50;
   }
-
+loadCashback() {
+  this.authService.getCashback().subscribe({
+    next: (res: any) => {
+      this.cashback = res.points || 0;
+    },
+    error: () => {
+      this.cashback = 0;
+    }
+  });
+}
   // ✅ FORMAT DATE
   formatDate(date: string) {
     if (!date) return '-';
@@ -50,7 +60,7 @@ export class Profile implements OnInit {
 
     return d.toLocaleString('en-US', {
       month: 'short',
-      year: 'numeric'
+      year: 'numeric',
     });
   }
 

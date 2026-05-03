@@ -1,0 +1,24 @@
+/* default state */
+.card {
+    background-color: #f5f5f5;
+    transition: all 0.3s ease;
+
+}
+
+/* hover pe background image */
+.card:hover {
+    background-image: linear-gradient(rgba(126, 0, 166, 0.6), rgba(126, 0, 166, 0.6)),
+        url('/cards/card-bg.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+/* highlight card (optional always styled) */
+.card.highlight {
+    background-image: linear-gradient(rgba(126, 0, 166, 0.6), rgba(126, 0, 166, 0.6)),
+        url('/cards/card-bg.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}

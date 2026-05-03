@@ -37,5 +37,8 @@ export const API_ENDPOINTS = {
     GET_BY_PRODUCT: (productId: string) => `reviews/product/${productId}`,
     UPDATE: (id: string) => `reviews/${id}`,
     DELETE: (id: string) => `reviews/${id}`
-  }
+  },
+  PAYMENTS: {
+  INSTALLMENTS: 'payments/installments'
+}
 };

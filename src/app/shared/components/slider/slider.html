@@ -2,49 +2,45 @@
 
   <!-- Slider -->
   <div class="relative w-full max-w-[1280px] 
-            h-[200px] sm:h-[280px] md:h-[350px] lg:h-[417px]
-            overflow-hidden rounded-[20px] border border-gray-200">
+              h-[200px] sm:h-[280px] md:h-[350px] lg:h-[417px]
+              overflow-hidden rounded-[20px] border border-gray-200">
+
+    <!-- 🔹 Placeholder -->
+    <div
+      *ngIf="!allImagesLoaded"
+      class="absolute inset-0 bg-gray-200 animate-pulse z-10">
+    </div>
 
     <!-- Images -->
     <img
       *ngFor="let slide of slides; let i = index"
       [src]="slide"
+      (load)="onImageLoad(i)"
+      [attr.loading]="i === 0 ? 'eager' : 'lazy'"
       class="absolute w-full h-full object-cover transition-opacity duration-700"
       [class.opacity-100]="i === currentIndex"
       [class.opacity-0]="i !== currentIndex"
     />
 
-    <!-- Left Arrow -->
-    <button
-      (click)="prev()"
-      class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 
-             bg-black/20 md:bg-black/30 hover:bg-black/50 text-white 
-             w-8 h-8 md:w-12 md:h-12 
-             flex items-center justify-center 
-             rounded-full text-sm md:text-xl transition">
-
+    <!-- Arrows (same as before) -->
+    <button (click)="prev()" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 
+      bg-black/20 md:bg-black/30 hover:bg-black/50 text-white 
+      w-8 h-8 md:w-12 md:h-12 flex items-center justify-center 
+      rounded-full text-sm md:text-xl transition">
       <i class="fa-solid fa-chevron-left"></i>
-
     </button>
 
-    <!-- Right Arrow -->
-    <button
-      (click)="next()"
-      class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 
-             bg-black/20 md:bg-black/30 hover:bg-black/50 text-white 
-             w-8 h-8 md:w-12 md:h-12 
-             flex items-center justify-center 
-             rounded-full text-sm md:text-xl transition">
-
+    <button (click)="next()" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 
+      bg-black/20 md:bg-black/30 hover:bg-black/50 text-white 
+      w-8 h-8 md:w-12 md:h-12 flex items-center justify-center 
+      rounded-full text-sm md:text-xl transition">
       <i class="fa-solid fa-chevron-right"></i>
-
     </button>
 
   </div>
 
   <!-- Dots -->
   <div class="flex gap-2 mt-2 md:mt-4 justify-center">
-
     <span
       *ngFor="let s of slides; let i = index"
       class="h-2 rounded-full cursor-pointer transition-all duration-300"
@@ -54,7 +50,6 @@
       }"
       (click)="currentIndex = i">
     </span>
-
   </div>
 
 </div>
