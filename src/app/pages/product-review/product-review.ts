@@ -488,6 +488,7 @@ export class ProductReview implements OnInit {
 
   // ================= CHECKOUT =================
   checkout() {
+    if (!this.validate()) return;
 
     this.router.navigate(['/checkout'], {
       queryParams: {
