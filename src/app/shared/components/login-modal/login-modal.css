@@ -1,0 +1,14 @@
+/* Google Sign-in button ko full width banao */
+:host ::ng-deep asl-google-signin-button {
+  width: 100% !important;
+  display: block !important;
+}
+
+:host ::ng-deep asl-google-signin-button > div {
+  width: 100% !important;
+}
+
+:host ::ng-deep asl-google-signin-button iframe {
+  width: 100% !important;
+  min-width: 100% !important;
+}

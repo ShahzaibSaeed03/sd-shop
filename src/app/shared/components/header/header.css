@@ -1,0 +1,9 @@
+.logo-link {
+  display: inline-block;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logo-link:hover {
+  opacity: 0.7; /* or whatever effect your Home link uses */
+}

@@ -206,29 +206,54 @@ export class ProductReview implements OnInit {
     });
   }
 
-  getCategoryProducts(categoryId: string, currentProductId: string) {
-    this.productApi.getByCategory(categoryId).subscribe({
-      next: (res: any) => {
-        const list = res.data || [];
+getCategoryProducts(categoryId: string, currentProductId: string) {
+  this.productApi.getByCategory(categoryId).subscribe({
+    next: (res: any) => {
+      const list = res.data || [];
 
-        this.products = list
-          .filter((p: any) => p._id !== currentProductId)
-          .map((p: any) => ({
-            id: p._id,
-            title: p.displayName || p.name,
-            subtitle: p.categoryName,
-            price: p.finalPrice, // ✅ always finalPrice
-            img: p.image || p.category?.image || 'assets/cards/card-images.png',
-            raw: p,
-          }));
+      // ✅ include current selected product also
+      this.products = list.map((p: any) => ({
+        id: p._id,
+        title: p.displayName || p.name || 'No Name',
 
-        // ❌ DO NOT TOUCH selectedProduct HERE
+        // ✅ FIX CATEGORY NAME
+        subtitle:
+          p.categoryName ||
+          p.category?.name ||
+          this.product?.categoryName ||
+          'Game Top Up',
 
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error(err),
-    });
-  }
+        // ✅ FIX PRICE
+        price: Number(p.finalPrice || p.price || 0),
+
+        // ✅ FIX IMAGE
+        img:
+          p.image ||
+          p.category?.image ||
+          this.product?.image ||
+          'assets/cards/card-images.png',
+
+        // ✅ extra UI fields
+        sold: p.sold || 0,
+        rating: p.rating || 5,
+        reviews: p.reviews || 0,
+        tag: p.tag || 'Popular',
+
+        raw: p,
+      }));
+
+      // ✅ reselect current product
+      const current = this.products.find((x) => x.id === currentProductId);
+
+      if (current) {
+        this.selectedProduct = current;
+      }
+
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error(err),
+  });
+}
   // ================= SELECT =================
   selectProduct(p: any) {
     this.selectedProduct = p;

@@ -5,46 +5,36 @@
     <!-- TOP -->
     <div class="flex flex-col items-center md:flex-row md:justify-between gap-4 mb-6 text-center md:text-left">
 
-      <!-- Payment -->
+      <!-- ✅ Payment Methods — Brazilian (Pix, Visa, Mastercard, Amex, Elo) -->
       <div class="flex items-center justify-center md:justify-start gap-3 flex-nowrap">
         <p class="text-gray-400 text-sm whitespace-nowrap">
-          Payment Methods:
+          Formas de pagamento:
         </p>
         <div class="flex items-center gap-2 flex-nowrap">
-          <img src="payments/stripe.png" class="h-6 bg-white rounded px-1" />
-          <img src="payments/amex.png" class="h-6 bg-white rounded px-1" />
-          <img src="payments/mastercard.png" class="h-6 bg-white rounded px-1" />
-          <img src="payments/applepay.png" class="h-6 bg-white rounded px-1" />
-          <img src="payments/alipay.png" class="h-6 bg-white rounded px-1" />
+                    <img src="payments/mastercard-1.png" class="h-12 rounded" alt="Amex" />
+
+          <img src="payments/pix.png" class="h-12 rounded" alt="Pix" />
+          <img src="payments/mastercard.png" class="h-12 rounded" alt="Mastercard" />
+          <img src="payments/visa.png" class="h-12 rounded" alt="Visa" />
         </div>
       </div>
 
       <!-- Language -->
       <div class="relative lang-dropdown">
-
-        <!-- Selected -->
         <button (click)="toggleDropdown()" class="flex items-center gap-2 text-sm cursor-pointer">
-
           <img [src]="selectedLanguage.flag" class="w-5 h-4 rounded-sm" />
           <span>{{ selectedLanguage.name }}</span>
           <i class="fa-solid fa-chevron-down text-xs"></i>
-
         </button>
 
-        <!-- Dropdown -->
         <div *ngIf="isDropdownOpen"
           class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-lg z-50">
-
           <div *ngFor="let lang of languages" (click)="selectLanguage(lang)"
             class="flex items-center gap-2 px-3 py-2 hover:bg-gray-800 cursor-pointer">
-
             <img [src]="lang.flag" class="w-5 h-4 rounded-sm" />
             <span class="text-sm">{{ lang.name }}</span>
-
           </div>
-
         </div>
-
       </div>
 
     </div>
@@ -52,71 +42,72 @@
     <!-- DIVIDER -->
     <div class="border-t border-gray-800 mb-8"></div>
 
-    <!-- LOGO (CENTER MOBILE) -->
-    <div class="flex justify-center md:hidden mb-6">
-      <div>
-        <div class="flex items-center gap-3 mb-4">
-          <img src="cards/logowhite.png" alt="" class="w-72">
-
-        </div>
-      </div>
+    <!-- LOGO -->
+    <div class="flex justify-center md:justify-start mb-6">
+      <a routerLink="/" class="cursor-pointer hover:opacity-80 transition">
+        <img src="cards/logowhite.png" alt="SD Shop" class="w-60 md:w-72">
+      </a>
     </div>
-    <div class="hidden md:block">
-      <div>
-        <div class="flex items-center gap-3 mb-4">
-          <img src="cards/logowhite.png" alt="" class="w-72">
 
-        </div>
-      </div>
-    </div>
     <!-- MAIN GRID -->
-    <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-8 text-center md:text-left">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 text-center md:text-left">
 
-      <!-- LOGO DESKTOP -->
-
-
-      <!-- Useful Links -->
+      <!-- ✅ Useful Links → Links Úteis -->
       <div class="md:border-l md:border-gray-800 md:pl-6">
-        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Useful Links</h3>
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Links Úteis</h3>
         <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
-          <li>About Us</li>
-          <li>FAQs</li>
+          <li *ngFor="let link of usefulLinks">
+            <a [routerLink]="link.route" class="hover:text-purple-400 transition">
+              {{ link.label }}
+            </a>
+          </li>
         </ul>
       </div>
 
-      <!-- Contact -->
+      <!-- ✅ Contact Us → Fale Conosco -->
       <div class="md:border-l md:border-gray-800 md:pl-6">
-        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Contact Us</h3>
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Fale Conosco</h3>
         <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
           <li class="flex flex-col md:flex-row items-center gap-1 md:gap-2">
             <i class="fa-solid fa-envelope"></i>
-            <span class="break-words">support@sdshop.gg</span>
+            <a href="mailto:support@sdshop.gg" class="break-words hover:text-purple-400 transition">
+              support@sdshop.gg
+            </a>
           </li>
           <li class="flex items-center justify-center md:justify-start gap-1 md:gap-2">
             <i class="fa-brands fa-whatsapp"></i>
-            Chat Whatsapp
+            <a href="https://wa.me/" target="_blank" class="hover:text-purple-400 transition">
+              Chat WhatsApp
+            </a>
           </li>
         </ul>
       </div>
 
-      <!-- Social -->
+      <!-- ✅ Follow Us → Siga-nos -->
       <div class="md:border-l md:border-gray-800 md:pl-6">
-        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Follow Us</h3>
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Siga-nos</h3>
         <div class="flex justify-center md:justify-start gap-3 text-sm md:text-lg">
-          <i class="fa-brands fa-discord"></i>
-          <i class="fa-brands fa-instagram"></i>
-          <i class="fa-brands fa-x-twitter"></i>
+          <a href="#" target="_blank" class="hover:text-purple-400 transition">
+            <i class="fa-brands fa-discord"></i>
+          </a>
+          <a href="#" target="_blank" class="hover:text-purple-400 transition">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#" target="_blank" class="hover:text-purple-400 transition">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
         </div>
       </div>
 
-      <!-- Hot Selling -->
+      <!-- ✅ Hot Selling → Mais Vendidos -->
       <div class="md:border-l md:border-gray-800 md:pl-6">
-        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Hot Selling</h3>
+        <h3 class="text-white font-semibold text-xs md:text-base mb-3">Mais Vendidos</h3>
         <ul class="space-y-1 md:space-y-2 text-[11px] md:text-sm">
-          <li>Honkai: Star Rail</li>
-          <li>Genshin Impact</li>
-          <li>Zenless Zone Zero</li>
-          <li>Wuthering Waves</li>
+          <li *ngFor="let game of hotSelling">
+            <a [routerLink]="game.route" class="hover:text-purple-400 transition">
+              {{ game.label }}
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -125,21 +116,18 @@
     <!-- BOTTOM -->
     <div class="border-t border-gray-800 mt-8 pt-5 text-center">
 
-      <!-- Links -->
-      <div class="flex flex-wrap justify-center gap-3 mb-3">
-        <a href="#" class="text-purple-500 font-normal text-[24px] leading-none tracking-normal hover:underline">
-          Terms Of Service
-        </a>
-        <a href="#" class="text-gray-300 font-normal text-[24px] leading-none tracking-normal hover:underline">
-          Privacy Policy
-        </a>
-        <a href="#" class="text-gray-300 font-normal text-[24px] leading-none tracking-normal hover:underline">
-          Store Refund Policy
+      <!-- ✅ Bottom Links — white default, purple on hover, smaller size -->
+      <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-3">
+        <a *ngFor="let link of bottomLinks"
+           [routerLink]="link.route"
+           class="text-white text-[13px] md:text-[14px] font-normal hover:text-purple-500 transition">
+          {{ link.label }}
         </a>
       </div>
-      <!-- Copyright -->
-      <p class="text-gray-500 font-normal text-[20px] leading-none tracking-normal">
-        © 2026 SH SHOP. All rights reserved.
+
+      <!-- ✅ Copyright — "SH SHOP" → "SD Shop" + smaller size -->
+      <p class="text-gray-500 text-[11px] md:text-[12px]">
+        © 2026 SD Shop. Todos os direitos reservados.
       </p>
     </div>
   </div>
@@ -147,23 +135,18 @@
   <!-- Floating Avatar -->
   <div class="absolute -top-[30px] right-[20px] z-50 cursor-pointer hover:scale-105 active:scale-95 transition"
     (click)="isSupportOpen = true">
-
     <div
       class="w-[60px] h-[60px] rounded-[44.5px] p-[11px] bg-white shadow-[0px_4px_8px_0px_#00000040] flex items-center justify-center relative">
-
-      <img src="icons/support.png" alt="user" class="w-[34px] h-[30px] object-cover rounded-full" />
-
+      <img src="icons/support.png" alt="Suporte" class="w-[34px] h-[30px] object-cover rounded-full" />
       <span class="absolute bottom-1 right-1 w-[10px] h-[10px] bg-green-500 rounded-full border-2 border-white"></span>
-
     </div>
-
   </div>
 
 </footer>
 
+<!-- SUPPORT BOT MODAL (unchanged — already in Portuguese) -->
 <div *ngIf="isSupportOpen" class="fixed inset-0 z-[999]" (click)="isSupportOpen = false">
 
-  <!-- Modal -->
   <div class="absolute bottom-[90px] right-[90px] w-[400px] bg-[#EDEDED] rounded-xl overflow-hidden shadow-lg"
     (click)="$event.stopPropagation()">
 
@@ -171,76 +154,65 @@
     <div class="flex items-center gap-3 p-4 bg-white rounded-t-xl">
       <div class="w-[50px] h-[50px] rounded-full bg-gray-100 flex items-center justify-center relative">
         <img src="icons/support.png" class="w-[30px] h-[30px]" />
-
-        <span
-          class="absolute bottom-1 right-1 w-[10px] h-[10px] bg-green-500 rounded-full border-2 border-white"></span>
+        <span class="absolute bottom-1 right-1 w-[10px] h-[10px] bg-green-500 rounded-full border-2 border-white"></span>
       </div>
-
       <div>
         <h3 class="font-semibold text-[18px]">Support Bot</h3>
-        <p class="text-sm text-gray-500">Online</p>
+        <p class="text-sm text-gray-500">Disponível</p>
       </div>
     </div>
 
     <!-- BODY -->
     <div class="p-4 space-y-3 bg-[#f3f3f3]">
 
-      <!-- TOP -->
       <div class="flex items-center w-[95px] h-[34px] gap-[9px]">
         <img src="icons/footer-logo.png" alt="logo" class="w-[34px] h-[34px] object-contain" />
-
-        <span
-          class="font-normal text-[14px] leading-none tracking-[-0.02em] w-[52px] h-[17px] inline-flex items-center text-[#A1A1A1]">
+        <span class="font-normal text-[14px] leading-none tracking-[-0.02em] w-[52px] h-[17px] inline-flex items-center text-[#A1A1A1]">
           SD Shop
         </span>
       </div>
 
-      <!-- Message -->
       <div class="bg-white p-3 rounded-lg text-sm text-[#404040]">
         Se você tiver alguma dúvida ou precisar de suporte, envie sua mensagem através do chat.
       </div>
 
-      <!-- Inputs -->
       <div class="grid grid-cols-2 gap-3">
-
-        <!-- NAME -->
         <div class="flex flex-col gap-[6px]">
-          <label class="font-normal text-[14px] leading-none tracking-[-0.02em] text-[#737373]">Name</label>
-          <input type="text" placeholder="Your Name"
+          <label class="font-normal text-[14px] leading-none tracking-[-0.02em] text-[#737373]">Nome</label>
+          <input type="text" placeholder="Seu nome" [(ngModel)]="supportName"
             class="w-[173px] h-[50px] rounded-[6px] bg-white outline-none text-[14px] px-[12px]" />
         </div>
 
-        <!-- EMAIL -->
         <div class="flex flex-col gap-[6px]">
           <label class="font-normal text-[14px] leading-none tracking-[-0.02em] text-[#737373]">E-mail</label>
-          <input type="text" placeholder="Your E-mail"
+          <input type="email" placeholder="Seu e-mail" [(ngModel)]="supportEmail"
             class="w-[173px] h-[50px] rounded-[6px] bg-white outline-none text-[14px] px-[12px]" />
         </div>
-
       </div>
 
-      <!-- QUESTION -->
       <div class="flex flex-col gap-[6px]">
-        <label class="font-normal text-[14px] leading-none tracking-[-0.02em] text-[#737373]">Question</label>
-        <textarea placeholder="Type your message" class="w-full h-[75px] p-[12px] bg-white outline-none text-[14px]
+        <label class="font-normal text-[14px] leading-none tracking-[-0.02em] text-[#737373]">Pergunta</label>
+        <textarea placeholder="Digite sua mensagem" [(ngModel)]="supportMessage"
+          class="w-full h-[75px] p-[12px] bg-white outline-none text-[14px]
          rounded-tl-[2px] rounded-tr-[6px] rounded-br-[2px] rounded-bl-[6px]"></textarea>
       </div>
 
-      <!-- Button -->
+      <p *ngIf="sendStatus === 'success'" class="text-sm text-green-600 text-center">
+        Mensagem enviada com sucesso!
+      </p>
+      <p *ngIf="sendStatus === 'error'" class="text-sm text-red-600 text-center">
+        Algo deu errado. Por favor, tente novamente.
+      </p>
+
       <div class="flex justify-center items-center">
-        <button
-          class="w-[163px] h-[50px] rounded-[6px] bg-[#7B5CF5] text-white text-[14px] hover:opacity-90 transition flex items-center justify-center">
-
-          <span
-            class="font-normal text-[14px] leading-none tracking-[-0.02em] w-[117px] h-[17px] inline-flex items-center justify-center">
-            Send your message
+        <button (click)="sendSupportMessage()" [disabled]="isSending"
+          class="w-[163px] h-[50px] rounded-[6px] bg-[#7B5CF5] text-white text-[14px] hover:opacity-90 transition flex items-center justify-center disabled:opacity-50">
+          <span class="font-normal text-[14px] leading-none tracking-[-0.02em] inline-flex items-center justify-center">
+            {{ isSending ? 'Enviando...' : 'Enviar mensagem' }}
           </span>
-
         </button>
       </div>
 
     </div>
-
   </div>
-
 </div>

@@ -9,40 +9,44 @@ import { Component } from '@angular/core';
 })
 export class AdvantagSd {
 
-
   items = [
     {
-      title: 'Lightning-Fast Reload',
-      desc: 'Instant top up into your favorite games',
+      title: 'Recarga Instantânea',
+      desc: 'Receba seus itens em poucos segundos após a confirmação do pagamento, sem complicações ou espera desnecessária.',
       icon: 'cards/icon1.png',
+      bgImage: 'cards/bg1.png',
       highlight: true
     },
     {
-      title: 'Safest Top Ups',
-      desc: 'Every transaction is protected in an ironclad fortress',
-      icon: 'cards/icon2.png'
+      title: 'Transações Seguras',
+      desc: 'Todos os pedidos passam por um sistema seguro e verificado, garantindo proteção total durante todo o processo de compra.',
+      icon: 'cards/icon2.png',
+      bgImage: 'cards/bg2.png'
     },
     {
-      title: 'Games Galore',
-      desc: 'More than 50 games available. No boring games',
-      icon: 'cards/icon3.png'
+      title: 'Ampla Variedade de Jogos',
+      desc: 'Explore um catálogo completo com mais de 30 títulos disponíveis.',
+      icon: 'cards/icon3.png',
+      bgImage: 'cards/bg3.png'
     },
     {
-      title: 'Best Game Credits',
-      desc: 'Instant top up into your favorite games',
-      icon: 'cards/icon4.png'
+      title: 'Créditos Confiáveis',
+      desc: 'Entrega rápida e segura diretamente na sua conta, sem complicações.',
+      icon: 'cards/icon4.png',
+      bgImage: 'cards/bg4.png'
     },
     {
-      title: 'Get Rewarded Everytime',
-      desc: 'Save more as you buy SD Shop Credits',
-      icon: 'cards/icon5.png'
+      title: 'Benefícios a cada compra',
+      desc: 'Seja recompensado com cashback e acumule SD Coins para usar em compras futuras.',
+      icon: 'cards/icon5.png',
+      bgImage: 'cards/bg5.png'
     },
     {
-      title: 'Convenient Payment',
-      desc: 'Save more as you buy SD Shop Credits',
-      icon: 'cards/icon6.png'
+      title: 'Pagamentos Facilitados',
+      desc: 'Pague com Pix ou cartão de crédito, com opção de parcelamento para maior flexibilidade.',
+      icon: 'cards/icon6.png',
+      bgImage: 'cards/bg6.png'
     }
   ];
-
 
 }
