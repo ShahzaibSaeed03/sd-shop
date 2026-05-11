@@ -1,202 +1,170 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SectionBlock } from '../../shared/components/section-block/section-block';
 import { TabMenu } from '../../shared/components/tab-menu/tab-menu';
 import { Faq } from '../../shared/components/faq/faq';
 import { AdvantagSd } from '../../shared/components/advantag-sd/advantag-sd';
-import { Router } from '@angular/router';
-import { ProductApi } from '../../core/services/product.api';
-import { ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { CategoryApi } from '../../core/services/category.api';
 
 @Component({
   selector: 'app-product-listing-page',
   standalone: true,
-  imports: [CommonModule, TabMenu, SectionBlock, Faq, AdvantagSd],
+  imports: [CommonModule, TabMenu, SectionBlock, Faq, AdvantagSd, RouterLink],
   templateUrl: './product-listing-page.html',
 })
 export class ProductListingPage implements OnInit {
+
   constructor(
     private router: Router,
-    private productApi: ProductApi,
     private categoryApi: CategoryApi,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {}
 
-  // 🔹 Tabs
+  // ✅ Tabs — Portuguese
   tabs = [
-    { label: 'Top Up', value: 'topup', image: 'tabs/tab1.png' },
-    { label: 'Games', value: 'games', image: 'tabs/tab2.png' },
-    { label: 'Services', value: 'services', image: 'tabs/tab3.png' },
+    { label: 'Top Ups', value: 'topup', image: 'tabs/tab1.png' },
+    { label: 'Moedas', value: 'moedas', image: 'tabs/tab2.png' },
+    { label: 'Vouchers', value: 'vouchers', image: 'tabs/tab3.png' },
   ];
 
   activeTab: string = 'topup';
+
+  // ✅ Sort dropdown state
   sortOption: string = 'popular';
+  isSortOpen: boolean = false;
 
-  // 🔥 PRODUCTS
-  allProducts: any[] = [];
+  sortOptions = [
+    { value: 'popular', label: 'Mais Populares' },
+    { value: 'rating', label: 'Melhor Avaliados' },
+    { value: 'sold', label: 'Mais Vendidos' },
+  ];
 
-  // 🔥 CATEGORIES
-  categories: any[] = [];
+  // ✅ Categories data
+  allCategories: any[] = [];
+
+  // Loading/Error states
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   ngOnInit(): void {
-    // ✅ LOAD CATEGORIES
-    this.getCategories();
-
-    // ✅ CHECK QUERY PARAMS
-    this.route.queryParams.subscribe((params) => {
-      const categoryId = params['category'];
-
-      if (categoryId) {
-        this.getByCategory(categoryId);
-      } else {
-        this.getAllProducts();
-      }
-    });
+    this.loadCategories();
   }
 
-  // ✅ GET ALL CATEGORIES
-// ✅ GET ALL CATEGORIES
-getCategories() {
-  this.categoryApi.getCategories().subscribe({
-    next: (res: any) => {
-
-      const data = res.data || [];
-
-      this.categories = data.map((cat: any) => ({
-        id: cat._id,
-
-        // ✅ card title
-        title: cat.name,
-
-        // ✅ fallback image
-        image:
-          cat.image ||
-          'assets/cards/card-images.png',
-
-        // ✅ ui badges
-        sold: `${cat.totalProducts || 0} Products`,
-        soldCount: cat.totalProducts || 0,
-
-        rating: 5,
-        totalReviews: cat.totalProducts || 0,
-
-        // ✅ category
-        category: 'topup',
-
-        // ✅ raw data
-        raw: cat,
-      }));
-
-      console.log('MAPPED CATEGORIES:', this.categories);
-
-      this.cdr.detectChanges();
-    },
-
-    error: (err) => {
-      console.error(err);
-    },
-  });
-}
-
-  // ✅ GET ALL PRODUCTS
-  getAllProducts() {
-    this.productApi.getProducts().subscribe({
-      next: (res: any) => {
-        this.setProducts(res.data || []);
-      },
-      error: (err) => console.error(err),
-    });
-  }
-
-  // ✅ GET PRODUCTS BY CATEGORY
-  getByCategory(categoryId: string) {
-    this.productApi.getByCategory(categoryId).subscribe({
-      next: (res: any) => {
-        this.setProducts(res.data || []);
-      },
-      error: (err) => console.error(err),
-    });
-  }
-
-  // ✅ SET PRODUCTS
-  setProducts(data: any[]) {
-    this.allProducts = data
-      .filter((p: any) => p.isActive)
-      .map((p: any) => ({
-        id: p._id,
-        title: p.displayName || p.name,
-        image: p.image || 'assets/cards/card-images.png',
-
-        sold: `${p.sold || 0} Sold`,
-        soldCount: p.sold || 0,
-
-        rating: p.rating || 0,
-        totalReviews: p.totalReviews || 0,
-
-        category: 'topup',
-
-        raw: p,
-      }));
-
-    console.log('PRODUCTS:', this.allProducts);
-
+  // ✅ Load all categories (games) from backend
+  loadCategories(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
     this.cdr.detectChanges();
-  }
 
-  // 🔥 CATEGORY MAPPING
-  mapCategory(p: any): string {
-    return 'topup';
-  }
-
-  // ✅ FILTERED PRODUCTS
-  get filteredProducts() {
-    if (!this.allProducts.length) return [];
-
-    let products = this.allProducts;
-
-    // 🔥 SHOW ALL
-    if (this.activeTab === 'topup') {
-      products = this.allProducts;
-    } else {
-      products = this.allProducts.filter(
-        (p) => p.category === this.activeTab
-      );
-    }
-
-    // 🔥 SORT BY RATING
-    if (this.sortOption === 'rating') {
-      products = [...products].sort((a, b) => b.rating - a.rating);
-    }
-
-    // 🔥 SORT BY SOLD
-    if (this.sortOption === 'sold') {
-      products = [...products].sort(
-        (a, b) => b.soldCount - a.soldCount
-      );
-    }
-
-    return products;
-  }
-
-  // ✅ GO TO DETAILS
-  goToDetails(product: any) {
-    this.router.navigate(['/product-details'], {
-      queryParams: {
-        id: product.raw._id,
+    this.categoryApi.getCategories().subscribe({
+      next: (res: any) => {
+        // Backend response handle karo — kabhi `res.data`, kabhi direct array
+        const data = Array.isArray(res) ? res : (res?.data || res?.categories || []);
+        console.log('Categories loaded:', data); // debug ke liye
+        this.setCategories(data);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load categories:', err);
+        this.errorMessage = 'Erro ao carregar jogos. Tente novamente.';
+        this.isLoading = false;
+        this.allCategories = [];
+        this.cdr.detectChanges();
       },
     });
   }
 
-  // 🔹 TAB CHANGE
-  onTabChange(tab: string) {
+  // ✅ Map backend categories to UI format
+  setCategories(data: any[]): void {
+    if (!Array.isArray(data) || data.length === 0) {
+      this.allCategories = [];
+      return;
+    }
+
+    this.allCategories = data
+      .filter((c: any) => c?.isActive !== false)
+      .map((c: any) => ({
+        id: c._id,
+        title: c.displayName || c.name || 'Untitled',
+        image: c.image || 'assets/cards/card-images.png',
+        sold: `${this.formatSold(c.totalSold || c.sold || 0)} Vendidos`,
+        soldCount: c.totalSold || c.sold || 0,
+        rating: c.rating || 0,
+        totalReviews: c.totalReviews || 0,
+        category: c.type || 'topup',
+        raw: c,
+      }));
+  }
+
+  // ✅ Format sold count (e.g. 1500 → "1.5K", 1000000 → "1M+")
+  private formatSold(count: number): string {
+    if (count >= 1000000) {
+      return (count / 1000000).toFixed(1).replace('.0', '') + 'M+';
+    }
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1).replace('.0', '') + 'K+';
+    }
+    return count.toString();
+  }
+
+  // 🔹 Filtered + Sorted categories
+  get filteredCategories(): any[] {
+    if (!this.allCategories.length) return [];
+
+    let items = [...this.allCategories];
+
+    // Tab filter
+    if (this.activeTab !== 'topup') {
+      items = items.filter((c) => c.category === this.activeTab);
+    }
+
+    // Sort
+    if (this.sortOption === 'rating') {
+      items.sort((a, b) => b.rating - a.rating);
+    } else if (this.sortOption === 'sold') {
+      items.sort((a, b) => b.soldCount - a.soldCount);
+    }
+
+    return items;
+  }
+
+  // ✅ Breadcrumb label
+  get currentTabLabel(): string {
+    return this.tabs.find(t => t.value === this.activeTab)?.label || 'Top Ups';
+  }
+
+  // ✅ Sort button label
+  get currentSortLabel(): string {
+    return this.sortOptions.find(o => o.value === this.sortOption)?.label || 'Mais Populares';
+  }
+
+  // ✅ Game pe click → product detail page khole
+  goToDetails(category: any): void {
+    if (!category?.raw?._id) {
+      console.warn('No category id found', category);
+      return;
+    }
+
+    this.router.navigate(['/product-details'], {
+      queryParams: { category: category.raw._id },
+    });
+  }
+
+  // 🔹 Tab change
+  onTabChange(tab: string): void {
     this.activeTab = tab;
   }
 
-  // 🔹 SORT CHANGE
-  onSortChange(event: any) {
-    this.sortOption = event.target.value;
+  // ✅ Sort dropdown handlers
+  toggleSort(): void {
+    this.isSortOpen = !this.isSortOpen;
+  }
+
+  selectSort(value: string): void {
+    this.sortOption = value;
+    this.isSortOpen = false;
   }
 }

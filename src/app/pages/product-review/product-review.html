@@ -1,283 +1,389 @@
-<div class="bg-gray-100 min-h-screen p-4">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto">
-    <!-- LEFT SIDE -->
-    <div class="lg:col-span-9">
-      <!-- HEADER -->
-      <!-- HEADER -->
-      <div
-        *ngIf="product"
-        class="bg-[#f3f4f6] p-4 rounded-xl flex flex-col md:flex-row justify-between gap-4"
+<div class="bg-[#f5f5f5] min-h-screen p-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- ✅ BREADCRUMB -->
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+      <a
+        routerLink="/"
+        class="flex items-center gap-1 hover:text-purple-600 transition cursor-pointer"
       >
-        <div class="flex gap-4 md:gap-6 items-center">
-          <!-- IMAGE -->
-          <img
-            [src]="product.image || 'cards/card-images.png'"
-            class="w-[90px] h-[90px] md:w-[120px] md:h-[120px] rounded-xl object-cover"
-          />
+        <i class="fa-solid fa-house text-xs"></i>
+        <span>Home</span>
+      </a>
+      <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+      <a routerLink="/products" class="hover:text-purple-600 transition cursor-pointer">Top Up</a>
+      <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+      <span class="text-gray-700 font-medium">{{ product?.name || 'Game' }} Top Up</span>
+    </nav>
 
-          <!-- INFO -->
-          <div>
-            <!-- NAME -->
-            <h2 class="text-lg md:text-xl font-semibold mb-2">
-              {{ product.name }}
-            </h2>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <!-- ========== LEFT SIDE ========== -->
+      <div class="lg:col-span-8 space-y-4">
+        <!-- ✅ GAME HEADER + AFFILIATE (single white container) -->
+        <div *ngIf="product" class="bg-white rounded-2xl p-4 shadow-sm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+            <!-- LEFT: Game info -->
+            <div class="flex gap-4 items-center">
+              <img
+                [src]="product.image || 'cards/card-images.png'"
+                [alt]="product.name"
+                class="w-[100px] h-[110px] rounded-xl object-cover flex-shrink-0"
+              />
 
-            <!-- FEATURES (STATIC OK) -->
-            <div class="flex flex-wrap gap-3 text-xs md:text-sm text-gray-500 mb-2">
-              <span class="flex items-center gap-1"> <i class="fas fa-bolt"></i> Rápido </span>
-              <span class="flex items-center gap-1">
-                <i class="fas fa-shield-alt"></i> Seguro
-              </span>
-              <span class="flex items-center gap-1"> <i class="fas fa-headset"></i> 24/7 </span>
+              <div class="flex-1 min-w-0">
+                <h2 class="text-xl font-bold mb-1.5 text-gray-900">
+                  {{ product.name }}
+                </h2>
+
+                <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-2">
+                  <span class="flex items-center gap-1"> <i class="fas fa-bolt"></i> Rápido </span>
+                  <span class="flex items-center gap-1">
+                    <i class="fas fa-shield-alt"></i> Seguro
+                  </span>
+                  <span class="flex items-center gap-1"> <i class="fas fa-headset"></i> 24/7 </span>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+                  <span
+                    class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium"
+                  >
+                    {{ product.tag || 'Popular' }}
+                  </span>
+                  <span class="text-gray-700"> {{ formatSold(product.sold) }} Vendidos </span>
+                </div>
+
+                <div class="flex items-center gap-3 text-xs mt-1.5">
+                  <span class="text-purple-600 flex items-center gap-1 font-semibold">
+                    <i class="fas fa-star"></i>
+                    {{ product.rating || 0 }}
+                  </span>
+                  <span class="text-gray-600"> {{ product.reviews || 0 }} Avaliações </span>
+                </div>
+              </div>
             </div>
 
-            <!-- 🔥 DYNAMIC STATS -->
-            <div class="flex flex-wrap gap-4 text-xs md:text-sm">
-              <span>{{ product.tag || 'Popular' }}</span>
-
-              <span> {{ product.sold || '0' }} Sold </span>
-
-              <span class="text-purple-600 flex items-center gap-1">
-                <i class="fas fa-star"></i>
-                {{ product.rating || 0 }}
-              </span>
-
-              <span> {{ product.reviews || 0 }} Reviews </span>
+            <!-- RIGHT: Affiliate box -->
+            <div
+              class="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-xl p-3 flex items-center gap-3"
+            >
+              <img
+                [src]="affiliate?.avatar || 'cards/card-images.png'"
+                alt="affiliate"
+                class="w-14 h-14 rounded-full object-cover flex-shrink-0 bg-gray-200"
+                onerror="this.src = 'cards/card-images.png'"
+              />
+              <div class="flex-1 min-w-0">
+                <p class="text-sm text-gray-600">
+                  Indicação de
+                  <span class="font-semibold text-purple-700"
+                    >@{{ affiliate?.handle || 'MegaHSR' }}</span
+                  >
+                </p>
+                <p class="text-sm text-gray-700 mt-0.5">
+                  Código:
+                  <span class="font-bold text-purple-700">{{ affiliate?.code || 'MEGA' }}</span>
+                </p>
+                <p class="text-[11px] text-gray-500 mt-1">Apoie criadores parceiros</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- TABS -->
-      <div class="flex gap-3 overflow-x-auto mb-6 mt-4">
-        <button
-          *ngFor="let tab of tabs"
-          (click)="activeTab = tab.key"
-          class="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm whitespace-nowrap"
-          [ngClass]="{
-            'bg-purple-300': activeTab === tab.key,
-            'bg-gray-100': activeTab !== tab.key,
-          }"
-        >
-          {{ tab.label }}
-        </button>
-      </div>
-
-      <!-- PRODUCTS -->
-      <div class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
-        <div
-          *ngFor="let p of products"
-          (click)="selectProduct(p)"
-          class="bg-white rounded-xl overflow-hidden cursor-pointer border transition"
-          [ngClass]="{
-            'border-purple-400': selectedProduct?.id === p.id,
-            'border-gray-200': selectedProduct?.id !== p.id,
-          }"
-        >
-          <!-- IMAGE -->
-          <div
-            class="bg-gradient-to-br from-purple-200 to-blue-200 flex items-center justify-center"
+        <!-- ✅ TABS (capsule, Figma style) -->
+        <div class="flex gap-3 overflow-x-auto pb-1">
+          <button
+            *ngFor="let tab of tabs"
+            (click)="activeTab = tab.key"
+            class="px-5 py-2.5 rounded-full text-sm whitespace-nowrap font-medium transition flex-shrink-0"
+            [ngClass]="{
+              'bg-purple-300 text-purple-900': activeTab === tab.key,
+              'bg-white text-gray-700 hover:bg-gray-50': activeTab !== tab.key,
+            }"
           >
-            <img [src]="p.img" class="w-full h-[110px] md:h-[180px] object-cover" />
-          </div>
+            {{ tab.label }}
+          </button>
+        </div>
 
-          <!-- CONTENT -->
-          <div class="p-2 md:p-3 text-center">
-            <p class="text-[10px] md:text-xs text-gray-500 mb-1">
-              {{ p.subtitle || 'Passe de Suprimentos' }}
-            </p>
+        <!-- ✅ PRODUCTS GRID -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div
+            *ngFor="let p of products"
+            (click)="selectProduct(p)"
+            class="bg-white rounded-xl overflow-hidden cursor-pointer border-2 transition hover:shadow-md"
+            [ngClass]="{
+              'border-purple-500': selectedProduct?.id === p.id,
+              'border-transparent': selectedProduct?.id !== p.id,
+            }"
+          >
+            <div
+              class="bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center aspect-square overflow-hidden"
+            >
+              <img
+                [src]="p.img"
+                [alt]="p.title"
+                class="w-full h-full object-cover"
+                onerror="this.src = 'cards/card-images.png'"
+              />
+            </div>
 
-            <h4 class="text-xs md:text-sm font-medium mb-1 line-clamp-2">
-              {{ p.title }}
-            </h4>
-
-            <div class="text-sm md:text-base font-semibold">R$ {{ p.price }}</div>
-
-            <!-- <div class="flex justify-center gap-1 md:gap-2 text-[10px] md:text-xs mt-1">
-              <span class="text-purple-600"> -R$ {{ p.discount }} </span>
-              <span class="text-gray-400 line-through"> R$ {{ p.oldPrice }} </span>
-            </div> -->
+            <div class="p-3 text-center">
+              <h4 class="text-sm font-medium mb-1 line-clamp-2 text-gray-800">
+                {{ p.title }}
+              </h4>
+              <div class="text-base font-bold text-gray-900">
+                R$ {{ p.price | number: '1.2-2' }}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="lg:col-span-3" *ngIf="product">
-      <div class="col-span-12 lg:col-span-3 mt-6 lg:mt-0">
-        <div class="bg-white rounded-2xl shadow-sm p-3 md:p-4 space-y-5 w-full">
+        <div *ngIf="!products.length" class="text-center py-10 bg-white rounded-xl">
+          <p class="text-gray-500">Nenhum produto encontrado.</p>
+        </div>
+      </div>
+
+      <!-- ========== RIGHT PANEL ========== -->
+      <div class="lg:col-span-4" *ngIf="product">
+        <div class="bg-white rounded-2xl shadow-sm p-4 space-y-4 sticky top-4">
           <!-- PAYMENT METHODS -->
-          <div class="flex items-center gap-2 justify-center lg:justify-start">
-            <img src="https://img.icons8.com/color/48/visa.png" class="w-8" />
-            <img src="https://img.icons8.com/color/48/mastercard.png" class="w-8" />
+          <div class="flex items-center gap-2">
+            <img
+              src="payments/pix.png"
+              class="h-7 rounded border border-gray-200"
+              alt="Pix"
+              onerror="this.style.display = 'none'"
+            />
+            <img
+              src="payments/visa.png"
+              class="h-7 rounded border border-gray-200"
+              alt="Visa"
+              onerror="this.style.display = 'none'"
+            />
+            <img
+              src="payments/mastercard.png"
+              class="h-7 rounded border border-gray-200"
+              alt="Mastercard"
+              onerror="this.style.display = 'none'"
+            />
+            <img
+              src="payments/amex.png"
+              class="h-7 rounded border border-gray-200"
+              alt="Amex"
+              onerror="this.style.display = 'none'"
+            />
           </div>
 
           <!-- GUARANTEE -->
-          <div class="flex justify-between items-center text-sm text-gray-500 cursor-pointer">
-            <span>Garantia de Reembolso</span>
-            <i class="fa-solid fa-chevron-right"></i>
+          <div
+            class="flex justify-between items-center text-sm bg-gray-50 rounded-lg px-3 py-2.5 cursor-pointer hover:bg-gray-100 transition"
+          >
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-purple-600"></i>
+              <span class="text-gray-700">Garantia de Reembolso</span>
+            </div>
+            <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
           </div>
 
-          <!-- ACCOUNT BOX -->
-          <div class="bg-gray-50 rounded-xl p-3 md:p-4 space-y-4">
-            <h3 class="font-medium text-sm md:text-base">Recarregar Conta</h3>
+          <!-- ✅ RECARREGAR CONTA -->
+          <div>
+            <h3 class="font-semibold text-base text-gray-900 mb-1">Recarregar Conta</h3>
+            <p class="text-xs text-gray-500 mb-3">Dados do Usuário</p>
 
-            <div *ngFor="let field of forms">
-              <div *ngIf="field.name === 'email' && !isLoggedIn">
-                <label class="text-xs text-gray-600">
-                  <span class="text-red-500">*</span> Email
-                </label>
-
-                <input
-                  type="email"
-                  [(ngModel)]="form.email"
-                  placeholder="Digite seu e-mail"
-                  class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-              <!-- USER ID -->
-              <div *ngIf="field.name === 'user_id'">
-                <label class="text-xs text-gray-600">
-                  <span class="text-red-500">*</span> UID
-                </label>
-
-                <input
-                  [(ngModel)]="form.userId"
-                  (blur)="checkUserId()"
-                  class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
-                />
-
-                <p class="text-red-500 text-xs" *ngIf="userError">
-                  {{ userError }}
-                </p>
-              </div>
-
-              <!-- SERVER -->
-              <div *ngIf="field.name === 'additional_id'">
-                <label class="text-xs text-gray-600">
-                  <span class="text-red-500">*</span> Server
-                </label>
-
-                <select
-                  [(ngModel)]="form.server"
-                  (change)="checkUserId()"
-                  class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
-                >
-                  <option value="">Select Server</option>
-
-                  <option *ngFor="let opt of field.options" [value]="opt.value">
-                    {{ opt.name }}
-                  </option>
-                </select>
-              </div>
+            <!-- ✅ E-MAIL — HAMESHA DIKHE (logged in ya out) -->
+            <div class="mb-3">
+              <label class="text-sm text-gray-700 block mb-1">
+                <span class="text-red-500">*</span> Digite seu e-mail
+              </label>
+              <input
+                type="email"
+                [(ngModel)]="form.email"
+                placeholder="Por favor, digite seu e-mail"
+                class="w-full bg-gray-100 border-0 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-purple-400 outline-none placeholder:text-gray-400"
+              />
+              <p class="text-red-500 text-xs mt-1" *ngIf="errors.email">{{ errors.email }}</p>
             </div>
 
-            <!-- NICKNAME -->
-            <div *ngIf="product.requiresNickname">
-              <label class="text-xs text-gray-600">Nickname</label>
+            <div class="mb-3">
+              <label class="text-sm text-gray-700 block mb-1">
+                <span class="text-red-500">*</span> Servidor
+              </label>
 
+              <select
+                [(ngModel)]="form.server"
+                (change)="checkUserId()"
+                class="w-full h-11 bg-gray-100 border border-gray-200 rounded-lg px-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              >
+                <option value="" disabled>Por favor, selecione o Servidor</option>
+
+                <option *ngFor="let opt of getServerOptions()" [value]="opt.value">
+                  {{ opt.name }}
+                </option>
+              </select>
+
+              <p class="text-red-500 text-xs mt-1" *ngIf="errors.server">
+                {{ errors.server }}
+              </p>
+            </div>
+
+            <div class="mb-3">
+              <label class="text-sm text-gray-700 block mb-1">
+                <span class="text-red-500">*</span>
+                UID do Jogo
+              </label>
+
+              <input
+                [(ngModel)]="form.userId"
+                (blur)="checkUserId()"
+                placeholder="Por favor, digite seu UID"
+                class="w-full bg-gray-100 border rounded-lg px-3 py-2.5 text-sm outline-none placeholder:text-gray-400"
+                [ngClass]="{
+                  'border-red-500 focus:ring-red-300': userError,
+                  'border-green-500 focus:ring-green-300': username && !userError,
+                  'border-gray-200 focus:ring-purple-400': !userError && !username,
+                }"
+              />
+
+              <!-- loading -->
+              <p *ngIf="checkingUser" class="text-xs text-gray-500 mt-1">Verificando UID...</p>
+
+              <!-- error -->
+              <p *ngIf="userError" class="text-red-500 text-xs mt-1">
+                {{ userError }}
+              </p>
+
+              <!-- success -->
+              <p *ngIf="username && !userError" class="text-green-600 text-xs mt-1">
+                ✓ {{ username }}
+              </p>
+            </div>
+
+            <!-- NICKNAME (optional — sirf agar product require kare) -->
+            <div *ngIf="product.requiresNickname" class="mb-3">
+              <label class="text-sm text-gray-700 block mb-1">Apelido</label>
               <input
                 [(ngModel)]="form.nickname"
-                class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+                placeholder="Seu apelido"
+                class="w-full bg-gray-100 border-0 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-purple-400 outline-none"
               />
             </div>
 
-            <!-- ZONE -->
-            <div *ngIf="product.requiresZone">
-              <label class="text-xs text-gray-600">Zone</label>
-
+            <!-- ZONE (optional) -->
+            <div *ngIf="product.requiresZone" class="mb-3">
+              <label class="text-sm text-gray-700 block mb-1">Zona</label>
               <input
                 [(ngModel)]="form.zone"
-                class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+                placeholder="Sua zona"
+                class="w-full bg-gray-100 border-0 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-purple-400 outline-none"
               />
             </div>
 
-            <!-- SAVE UID -->
-            <label class="flex items-start gap-2 text-xs text-gray-500">
-              <input type="checkbox" class="mt-1" />
-              Salvar UID para próxima compra
+            <!-- SAVE UID checkbox -->
+            <label class="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
+              <input type="checkbox" class="w-3.5 h-3.5 accent-purple-600" />
+              Salvar UID para a próxima compra
             </label>
           </div>
 
-          <!-- WRAPPER CARD -->
-          <div class="space-y-5">
-            <!-- COUPON HEADER -->
+          <!-- ✅ COUPON SECTION -->
+          <div class="border-t pt-4 space-y-3">
             <div class="flex justify-between items-center">
-              <h3 class="text-[18px] font-medium text-gray-800">Tem um Cupom?</h3>
-
+              <h3 class="text-base font-semibold text-gray-900">Tem um Cupom?</h3>
               <button
-                class="px-5 py-2 rounded-full bg-[#E9D5FF] text-[#6B21A8] text-sm font-medium"
+                class="px-4 py-1.5 rounded-full bg-purple-200 text-purple-800 text-xs font-semibold hover:bg-purple-300 transition"
               >
                 Resgatar
               </button>
             </div>
 
-            <!-- INPUT GROUP -->
-            <div class="flex items-center bg-[#E5E7EB] rounded-xl p-1">
+            <div class="flex items-center gap-2">
               <input
                 [(ngModel)]="coupon"
                 placeholder="Inserir cupom"
-                class="flex-1 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-gray-400"
+                class="flex-1 bg-gray-100 rounded-lg px-3 py-2.5 text-sm outline-none placeholder:text-gray-400"
               />
-
               <button
                 (click)="applyCoupon()"
-                class="px-5 py-3 rounded-lg text-white text-sm font-medium bg-gradient-to-r from-[#7C3AED] to-[#6D28D9]"
+                class="px-4 py-2.5 rounded-lg text-purple-700 text-sm font-semibold bg-purple-100 hover:bg-purple-200 transition"
               >
                 Aplicar
               </button>
             </div>
 
-            <!-- QUANTITY -->
-            <div class="flex justify-between items-center">
-              <span class="text-[16px] text-gray-800">Quantidade</span>
+            <p *ngIf="couponApplied" class="text-green-600 text-xs">
+              ✓ Cupom aplicado! Desconto: R$ {{ discount | number: '1.2-2' }}
+            </p>
+          </div>
 
-              <div class="flex items-center gap-2">
-                <button
-                  (click)="decrease()"
-                  class="w-10 h-10 rounded-md bg-gray-200 text-lg flex items-center justify-center"
-                >
-                  −
-                </button>
-
-                <div
-                  class="w-14 h-10 rounded-md bg-gray-200 flex items-center justify-center text-sm"
-                >
-                  {{ quantity }}
-                </div>
-
-                <button
-                  (click)="increase()"
-                  class="w-10 h-10 rounded-md bg-gray-200 text-lg flex items-center justify-center"
-                >
-                  +
-                </button>
+          <!-- ✅ QUANTITY -->
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-800">Quantidade</span>
+            <div class="flex items-center gap-2">
+              <button
+                (click)="decrease()"
+                class="w-8 h-8 rounded-md bg-gray-100 text-lg flex items-center justify-center hover:bg-gray-200 transition"
+              >
+                −
+              </button>
+              <div class="w-10 h-8 flex items-center justify-center text-sm font-semibold">
+                {{ quantity }}
               </div>
+              <button
+                (click)="increase()"
+                class="w-8 h-8 rounded-md bg-gray-100 text-lg flex items-center justify-center hover:bg-gray-200 transition"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- ✅ PRICE -->
+          <div class="flex justify-between items-end">
+            <span class="text-sm text-gray-600">Preço</span>
+            <div class="text-2xl font-bold text-gray-900">
+              R$ {{ payableAmount | number: '1.2-2' }}
+            </div>
+          </div>
+
+          <!-- ✅ USE SD COINS TOGGLE (Figma feature) -->
+          <div
+            *ngIf="userCoins > 0"
+            class="flex justify-between items-center bg-gray-50 rounded-lg p-3"
+          >
+            <div class="flex items-center gap-2 text-sm text-gray-700">
+              <span>Usar:</span>
+              <img src="icons/coin.png" class="w-4 h-4" onerror="this.style.display = 'none'" />
+              <span class="font-semibold">{{ userCoins }}</span>
             </div>
 
-            <!-- PRICE -->
-            <div>
-              <p class="text-sm text-gray-500 mb-1">Preço</p>
-
-              <div class="text-[32px] font-semibold text-gray-800">
-                R$ {{ payableAmount | number: '1.2-2' }}
-              </div>
-            </div>
-
-            <!-- BUTTON -->
+            <!-- Toggle switch -->
             <button
-              (click)="checkout()"
-              class="w-full py-4 rounded-xl text-white text-lg font-medium bg-gradient-to-r from-[#7C3AED] to-[#6D28D9]"
+              (click)="toggleUseCoins()"
+              class="relative w-11 h-6 rounded-full transition"
+              [ngClass]="useCoins ? 'bg-purple-600' : 'bg-gray-300'"
             >
-              Top Up
+              <span
+                class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
+                [ngClass]="useCoins ? 'translate-x-5' : 'translate-x-0.5'"
+              ></span>
             </button>
           </div>
 
-          <!-- FOOTER -->
-          <p class="text-[10px] text-gray-400 text-center">
+          <button
+            (click)="checkout()"
+            class="w-full py-3 rounded-xl text-white text-base font-semibold transition shadow-sm"
+            [ngClass]="
+              checkingUser || !!userError || !username
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:opacity-90'
+            "
+          >
+            {{ checkingUser ? 'Validando...' : 'Top Up' }}
+          </button>
+
+          <!-- ✅ FOOTER terms — purple links -->
+          <p class="text-[11px] text-gray-500 text-center leading-relaxed">
             Ao finalizar a compra você concorda com nossos
-            <span class="text-purple-600">Termos</span> e
-            <span class="text-purple-600">Política</span>.
+            <a class="text-purple-600 cursor-pointer hover:underline">Termos de Serviço</a> e
+            <a class="text-purple-600 cursor-pointer hover:underline">Política de Reembolso</a>.
           </p>
         </div>
       </div>
@@ -285,5 +391,5 @@
   </div>
 </div>
 
-<app-review *ngIf="product?.id" [productId]="product.id"> </app-review
-><app-info-page></app-info-page>
+<app-review *ngIf="product?.id" [productId]="product.id"></app-review>
+<app-info-page></app-info-page>

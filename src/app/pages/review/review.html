@@ -2,7 +2,7 @@
 
   <!-- Title -->
   <h2 class="font-medium text-[32px] leading-tight mb-6 md:mb-8 text-gray-900">
-    Customer Reviews
+    Avaliações dos Clientes
   </h2>
 
   <!-- Top Section -->
@@ -22,7 +22,7 @@
         </div>
 
         <div class="text-gray-500 mt-2 text-sm md:text-base">
-          {{ totalReviews }} Reviews
+          {{ totalReviews }} Avaliações
         </div>
       </div>
 
@@ -61,16 +61,16 @@
     <div>
 
       <h3 class="font-medium mb-2 text-sm md:text-base">
-        Add a review
+        Adicionar uma avaliação
       </h3>
 
       <p class="text-xs md:text-sm text-gray-500 mb-4">
-        Your email address will not be published. Required fields are marked *
+        Seu endereço de e-mail não será publicado. Os campos obrigatórios estão marcados com *
       </p>
 
       <!-- Rating -->
       <div class="mb-4">
-        <span class="text-sm">Your rating *</span>
+        <span class="text-sm">Sua avaliação *</span>
 
         <div class="text-gray-400 text-lg md:text-xl mt-1">
           <i
@@ -85,35 +85,35 @@
       </div>
 
       <!-- Review -->
-    <textarea
-  [(ngModel)]="reviewText"
-  class="w-full h-32 md:h-40 bg-gray-100 rounded-lg p-3 mb-4 outline-none text-sm"
-  placeholder="Your review *"
-></textarea>
+      <textarea
+        [(ngModel)]="reviewText"
+        class="w-full h-32 md:h-40 bg-gray-100 rounded-lg p-3 mb-4 outline-none text-sm"
+        placeholder="Sua avaliação *"
+      ></textarea>
 
       <!-- Name -->
       <input
         class="w-full bg-gray-100 rounded-lg p-3 mb-3 outline-none text-sm"
-        placeholder="Enter Your Name"
+        placeholder="Digite seu nome"
       />
 
       <!-- Email -->
       <input
         class="w-full bg-gray-100 rounded-lg p-3 mb-3 outline-none text-sm"
-        placeholder="Enter Your Email"
+        placeholder="Digite seu e-mail"
       />
 
       <!-- Checkbox -->
       <label class="flex items-start gap-2 text-xs md:text-sm text-gray-600 mb-6">
         <input type="checkbox" class="mt-1" />
-        Save my name, email, and website in this browser for the next time I comment.
+        Salvar meu nome, e-mail e site neste navegador para a próxima vez que eu comentar.
       </label>
 
       <!-- Submit -->
-     <button (click)="submitReview()"
-  class="mx-auto block bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-[5px] px-[20px] py-[10px] h-[51px] min-w-[223px] flex items-center justify-center gap-[10px] text-sm">
-  Submit
-</button>
+      <button (click)="submitReview()"
+        class="mx-auto block bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-[5px] px-[20px] py-[10px] h-[51px] min-w-[223px] flex items-center justify-center gap-[10px] text-sm">
+        Enviar
+      </button>
 
     </div>
 

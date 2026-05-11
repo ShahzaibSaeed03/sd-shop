@@ -1,7 +1,6 @@
 <div
-  class="max-w-[1128px] min-h-[644px] mx-auto bg-[#F5F5F5] border border-[#F5F5F5] rounded-[30px] p-[50px] py-6 sm:py-10">
-
-
+  class="max-w-[1128px] min-h-[644px] mx-auto bg-[#F5F5F5] border border-[#F5F5F5] rounded-[30px] p-[50px] py-6 sm:py-10"
+>
   <!-- MAIN -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
@@ -17,31 +16,35 @@
           <div class="relative w-[70px] h-[70px]">
 
             <!-- IMAGE -->
-            <img [src]="order?.image || 'assets/cards/card-images.png'"
-              class="w-full h-full rounded-[8px] border border-[#7E00A6] p-[6px] object-cover" />
+            <img
+              [src]="order?.image || 'assets/cards/card-images.png'"
+              class="w-full h-full rounded-[8px] border border-[#7E00A6] p-[6px] object-cover"
+            />
 
-            <!-- 🔥 QTY BADGE -->
-            <div class="absolute top-[4px] right-[4px] 
-        w-[16px] h-[16px] 
-        bg-[#E5E5E5] 
-        rounded-full 
-        flex items-center justify-center 
-        text-[10px] font-medium">
-
+            <!-- QTY -->
+            <div
+              class="absolute top-[4px] right-[4px]
+              w-[16px] h-[16px]
+              bg-[#E5E5E5]
+              rounded-full
+              flex items-center justify-center
+              text-[10px] font-medium"
+            >
               {{ order?.qty || 1 }}
-
             </div>
           </div>
 
           <!-- TEXT -->
-          <div class="flex flex-col gap-[6px]">
+          <div class="flex flex-col gap-[4px]">
 
-            <h3 class="font-normal text-[16px] sm:text-[18px] lg:text-[20px]">
-              {{ order?.title || 'Product' }}
+            <!-- GAME NAME -->
+            <h3 class="font-semibold text-[16px] sm:text-[18px] text-[#262626]">
+              {{ order?.subtitle || '-' }}
             </h3>
 
-            <p class="text-gray-500 text-[13px] sm:text-[14px]">
-              {{ order?.subtitle || '-' }}
+            <!-- PRODUCT NAME -->
+            <p class="text-[#737373] text-[13px] sm:text-[14px]">
+              {{ order?.title || 'Product' }}
             </p>
 
           </div>
@@ -52,76 +55,125 @@
 
           <!-- FINAL PRICE -->
           <span class="font-normal text-[18px] text-[#525252]">
-            {{ total | currency:'USD':'symbol':'1.2-2' }}
-          </span>
-
-          <!-- OLD PRICE -->
-          <span *ngIf="summary.discount" class="text-xs text-gray-400 line-through">
-            {{ summary.subtotal | currency:'USD' }}
+            R${{ total | number:'1.2-2' }}
           </span>
 
           <!-- REMOVE -->
-          <img src="icons/trash.png" class="w-[20px] h-[20px] cursor-pointer hover:opacity-70 transition object-contain"
-            (click)="removeItem()" />
+          <img
+            src="icons/trash.png"
+            class="w-[20px] h-[20px] cursor-pointer hover:opacity-70 transition object-contain"
+            (click)="removeItem()"
+          />
 
         </div>
-
       </div>
 
       <!-- SUMMARY -->
       <div class="bg-white rounded-xl p-4">
 
-        <div class="flex justify-between items-center cursor-pointer" (click)="toggleSummary()">
-          <h3 class="font-medium text-base sm:text-xl">Order Summary</h3>
+        <div
+          class="flex justify-between items-center cursor-pointer"
+          (click)="toggleSummary()"
+        >
+          <h3 class="font-medium text-base sm:text-xl">
+            Resumo do pedido
+          </h3>
 
-          <i class="fa-solid fa-chevron-down transition-transform duration-300" [class.rotate-180]="summaryOpen"></i>
+          <i
+            class="fa-solid fa-chevron-down transition-transform duration-300"
+            [class.rotate-180]="summaryOpen"
+          ></i>
         </div>
 
-        <div *ngIf="summaryOpen" class="mt-4 space-y-2 text-sm sm:text-base">
+        <div
+          *ngIf="summaryOpen"
+          class="mt-4 space-y-2 text-sm sm:text-base"
+        >
 
+          <!-- SUBTOTAL -->
           <div class="flex justify-between">
             <span>Subtotal</span>
-            <span>${{ summary.subtotal }}</span>
-          </div>
-
-          <div class="flex justify-between">
-            <span>Discount</span>
-            <span class="text-green-500"> ${{ summary.discount.toFixed(2) }}</span>
-          </div>
-
-          <div class="flex justify-between">
-            <span>Coupon</span>
-            <span class="text-purple-600 font-semibold text-[16px] leading-none tracking-normal">{{ summary.coupon
-              }}</span>
-          </div>
-
-
-
-          <hr />
-
-          <div class="flex justify-between text-lg sm:text-xl">
-            <span class="font-medium">Total</span>
-            <span class="font-normal">
-              ${{ total }}
+            <span>
+              R${{ summary.subtotal | number:'1.2-2' }}
             </span>
           </div>
 
-        </div>
+          <!-- COUPON -->
+          <div
+            *ngIf="summary.coupon && summary.coupon !== '-'"
+            class="flex justify-between"
+          >
+            <span>Cupom</span>
 
+            <span
+              class="text-purple-600 font-semibold text-[16px] leading-none tracking-normal"
+            >
+              {{ summary.coupon }}
+            </span>
+          </div>
+
+          <!-- SD COINS -->
+          <div
+            *ngIf="data?.useCoins"
+            class="flex justify-between"
+          >
+            <span>SD Coins utilizadas</span>
+
+            <div class="flex items-center gap-1">
+
+              <!-- coins -->
+              <span class="text-black">
+                -{{ data?.coinsUsed || 0 }}
+              </span>
+
+              <!-- discount -->
+              <span class="text-green-600">
+                (R${{
+                  ((data?.coinsUsed || 0) / 100)
+                    | number:'1.2-2'
+                }})
+              </span>
+
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- TOTAL -->
+          <div class="flex justify-between text-lg sm:text-xl">
+
+            <span class="font-medium">
+              Total
+            </span>
+
+            <span class="font-normal">
+              R${{ total | number:'1.2-2' }}
+            </span>
+
+          </div>
+
+        </div>
       </div>
 
       <!-- BUTTONS -->
-      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6 sm:justify-end">
+      <div
+        class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6 sm:justify-end"
+      >
 
+        <!-- CONTINUE -->
         <button
           class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg transition"
-          (click)="proceed()">
-          Proceed to payment
+          (click)="proceed()"
+        >
+          Continuar para o pagamento
         </button>
 
+        <!-- BACK -->
         <button
-          class="bg-white border border-[#7E00A6] w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition">
-          Go back home
+          routerLink="/"
+          class="bg-white border border-[#7E00A6] w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition"
+        >
+          Voltar para a página inicial
         </button>
 
       </div>
@@ -131,21 +183,43 @@
     <!-- RIGHT -->
     <div class="bg-white rounded-xl p-4 h-fit">
 
-      <div class="flex justify-between items-center cursor-pointer" (click)="toggleAccount()">
-        <h3 class="font-medium text-base sm:text-lg">Game Account Info</h3>
+      <div
+        class="flex justify-between items-center cursor-pointer"
+        (click)="toggleAccount()"
+      >
+        <h3 class="font-medium text-base sm:text-lg">
+          Dados da Conta
+        </h3>
 
-        <i class="fa-solid fa-chevron-down transition-transform duration-300" [class.rotate-180]="accountOpen"></i>
+        <i
+          class="fa-solid fa-chevron-down transition-transform duration-300"
+          [class.rotate-180]="accountOpen"
+        ></i>
       </div>
 
-      <div *ngIf="accountOpen"
-        class="mt-4 space-y-2 text-[14px] font-normal leading-none tracking-normal text-[#737373]">
-        <p><span>Server:</span> {{ account.server }}</p>
-        <p><span>User ID:</span> {{ account.userId }}</p>
-        <p><span>Nickname:</span> {{ account.nickname }}</p>
+      <div
+        *ngIf="accountOpen"
+        class="mt-4 space-y-2 text-[14px] font-normal leading-none tracking-normal text-[#737373]"
+      >
+
+        <p>
+          <span>Servidor:</span>
+          {{ account.server }}
+        </p>
+
+        <p>
+          <span>UID:</span>
+          {{ account.userId }}
+        </p>
+
+        <p>
+          <span>Apelido:</span>
+          {{ account.nickname }}
+        </p>
+
       </div>
 
     </div>
 
   </div>
-
 </div>

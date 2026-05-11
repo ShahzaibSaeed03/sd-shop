@@ -1,17 +1,27 @@
-<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+<div class="max-w-7xl mx-auto px-4 py-6 space-y-5">
+
+  <!-- BREADCRUMB -->
+  <nav class="flex items-center gap-2 text-sm text-gray-500">
+    <a routerLink="/" class="flex items-center gap-1 hover:text-purple-600 transition cursor-pointer">
+      <i class="fa-solid fa-house text-xs"></i>
+      <span>Home</span>
+    </a>
+    <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
+    <span class="text-gray-700 font-medium">{{ currentTabLabel }}</span>
+  </nav>
 
   <!-- HEADER -->
   <div>
-    <h1 class="font-bold text-[32px] uppercase text-gray-900">
-      GAME TOP-UP & RECHARGE
+    <h1 class="font-bold text-[28px] md:text-[32px] uppercase text-gray-900">
+      CATÁLOGO DE JOGOS
     </h1>
-    <p class="text-gray-500 text-sm">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <p class="text-gray-500 text-sm mt-2 max-w-2xl">
+      Escolha seu jogo favorito e recarregue em segundos com segurança e os melhores preços.
     </p>
   </div>
 
   <!-- TABS + SORT -->
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-0">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
     <app-tab-menu
       [tabs]="tabs"
@@ -19,26 +29,58 @@
       (tabChange)="onTabChange($event)"
     ></app-tab-menu>
 
-    <select
-      class="border rounded-lg px-3 py-2 text-sm"
-      (change)="onSortChange($event)"
-    >
-      <option value="popular">Sort by Popular</option>
-      <option value="rating">Sort by Rating</option>
-      <option value="sold">Sort by Sold</option>
-    </select>
+    <!-- Custom Sort Dropdown -->
+    <div class="relative" (click)="$event.stopPropagation()">
+      <button
+        (click)="toggleSort()"
+        class="flex items-center gap-3 px-4 py-2.5 bg-white border border-gray-200 rounded-full text-sm text-gray-700 hover:border-purple-400 transition shadow-sm min-w-[160px] justify-between"
+      >
+        <span>{{ currentSortLabel }}</span>
+        <i class="fa-solid fa-chevron-down text-xs text-gray-500 transition-transform"
+           [class.rotate-180]="isSortOpen"></i>
+      </button>
+
+      <div *ngIf="isSortOpen"
+        class="absolute right-0 mt-2 w-[180px] bg-white border border-gray-200 rounded-lg shadow-lg z-20 overflow-hidden">
+        <div *ngFor="let option of sortOptions"
+          (click)="selectSort(option.value)"
+          class="px-4 py-2.5 text-sm cursor-pointer hover:bg-purple-50 transition"
+          [class.bg-purple-50]="sortOption === option.value"
+          [class.text-purple-600]="sortOption === option.value"
+          [class.font-medium]="sortOption === option.value">
+          {{ option.label }}
+        </div>
+      </div>
+    </div>
 
   </div>
 
-  <!-- ✅ USE YOUR COMPONENT -->
-  <app-section-block
-    title=""
-    [games]="categories"
-    [columns]="5"
-      (productClick)="goToDetails($event)"
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-10">
+    <div class="inline-block w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-gray-500 mt-3">Carregando jogos...</p>
+  </div>
 
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" class="text-center py-10 bg-red-50 rounded-lg">
+    <i class="fa-solid fa-circle-exclamation text-red-500 text-3xl mb-3"></i>
+    <p class="text-red-600 font-medium">{{ errorMessage }}</p>
+    <button (click)="loadCategories()" 
+      class="mt-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+      Tentar novamente
+    </button>
+  </div>
+
+  <!-- ✅ GAMES GRID — categories use ho rahi hain, products nahi -->
+  <app-section-block
+    *ngIf="!isLoading && !errorMessage"
+    title=""
+    [games]="filteredCategories"
+    [columns]="5"
+    (productClick)="goToDetails($event)"
   ></app-section-block>
 
 </div>
-  <app-faq></app-faq>
+
+<app-faq></app-faq>
 <app-advantag-sd></app-advantag-sd>
