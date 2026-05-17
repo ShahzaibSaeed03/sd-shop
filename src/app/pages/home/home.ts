@@ -151,10 +151,8 @@ export class Home implements OnInit {
   // ==========================
   // ✅ NAVIGATION
   // ==========================
-  goToProduct(item: any) {
-    this.router.navigate(['/product-details'], {
-      queryParams: { category: item.raw._id }
-    });
-  }
+goToProduct(item: any) {
+  this.router.navigate(['/product', item.slug]);
+}
 
 }
