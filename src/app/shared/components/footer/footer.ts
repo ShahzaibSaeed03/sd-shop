@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SupportService } from '../../service/support.service';
 
 @Component({
   selector: 'app-footer',
@@ -12,8 +13,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Footer {
   private http = inject(HttpClient);
-
-  isSupportOpen = false;
+  supportService = inject(SupportService); // ✅ public so template can read it
 
   // Support form fields
   supportName = '';
@@ -22,13 +22,13 @@ export class Footer {
   isSending = false;
   sendStatus: 'idle' | 'success' | 'error' = 'idle';
 
-  // ✅ Useful Links — Portuguese with routes
+  // ... keep usefulLinks, hotSelling, bottomLinks, languages as-is ...
+
   usefulLinks = [
     { label: 'Sobre Nós', route: '/about' },
     { label: 'Perguntas Frequentes', route: '/faqs' }
   ];
 
-  // ✅ Hot Selling games (game names international rakhe — same hain Portuguese mein)
   hotSelling = [
     { label: 'Honkai: Star Rail', route: '/products/honkai-star-rail' },
     { label: 'Genshin Impact', route: '/products/genshin-impact' },
@@ -36,7 +36,6 @@ export class Footer {
     { label: 'Wuthering Waves', route: '/products/wuthering-waves' }
   ];
 
-  // ✅ Bottom links
   bottomLinks = [
     { label: 'Termos de Serviço', route: '/terms' },
     { label: 'Política de Privacidade', route: '/privacy' },
@@ -44,19 +43,21 @@ export class Footer {
   ];
 
   languages = [
-    {
-      name: 'Brasil (Português) / BRL',
-      flag: 'https://flagcdn.com/w20/br.png'
-    }
+    { name: 'Brasil (Português) / BRL', flag: 'https://flagcdn.com/w20/br.png' }
   ];
 
   selectedLanguage = this.languages[0];
   isDropdownOpen = false;
 
+  // ✅ NOW USES SERVICE
   openSupport(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.isSupportOpen = true;
+    this.supportService.open();
+  }
+
+  closeSupport() {
+    this.supportService.close();
   }
 
   sendSupportMessage() {

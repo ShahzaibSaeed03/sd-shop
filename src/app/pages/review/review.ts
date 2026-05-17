@@ -1,22 +1,53 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ReviewService } from '../../core/services/review.api';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
+
+import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  ReviewService
+} from '../../core/services/review.api';
 
 @Component({
   selector: 'app-review',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './review.html',
   styleUrl: './review.css',
 })
-export class Review implements OnChanges {
+export class Review
+implements OnChanges, OnInit {
 
-  // ✅ Receive from parent
-  @Input() productId!: string;
+  @Input()
+  categoryId!: string;
 
   rating = 0;
+
   totalReviews = 0;
+
+  selectedRating = 0;
+
+  reviewText = '';
+
+  reviews: any[] = [];
+
+  currentUser: any = null;
+
+  editingReviewId:
+    string | null = null;
 
   breakdown = [
     { stars: 5, count: 0 },
@@ -26,102 +57,448 @@ export class Review implements OnChanges {
     { stars: 1, count: 0 }
   ];
 
-  selectedRating = 0;
-  reviewText = '';
+  constructor(
 
-  reviews: any[] = [];
+    private reviewService:
+      ReviewService,
 
-  constructor(private reviewService: ReviewService,  private cdr: ChangeDetectorRef
-) {}
+    private cdr:
+      ChangeDetectorRef
 
-  // ✅ Trigger when productId changes
- ngOnChanges(changes: SimpleChanges) {
-  console.log('Product ID:', this.productId); // 👈 check here
+  ) {}
 
-  if (changes['productId'] && this.productId) {
-    this.loadReviews();
+  // =====================
+  // INIT
+  // =====================
+
+  ngOnInit(): void {
+
+    const user =
+      localStorage.getItem(
+        'user'
+      );
+
+    if (user) {
+
+      this.currentUser =
+        JSON.parse(user);
+
+    }
+
   }
-}
 
-  // ✅ Load reviews from backend
-loadReviews() {
-  this.reviewService.getProductReviews(this.productId)
-    .subscribe((res: any) => {
+  // =====================
+  // CHANGES
+  // =====================
 
-      this.rating = res.averageRating;
-      this.totalReviews = res.totalReviews;
+  ngOnChanges(
+    changes: SimpleChanges
+  ) {
 
-      this.reviews = res.reviews.map((r: any) => ({
-        name: r.user?.name || 'User',
-        date: new Date(r.createdAt).toLocaleDateString(),
-        rating: r.rating,
-        text: r.comment,
-        likes: 0,
-        dislikes: 0
-      }));
+    if (
+      changes['categoryId'] &&
+      this.categoryId
+    ) {
 
-      this.calculateBreakdown(res.reviews);
+      this.loadReviews();
 
-      this.cdr.detectChanges(); // 🔥 FORCE UI UPDATE
-    });
-}
-  // ✅ Breakdown calculation
-  calculateBreakdown(reviews: any[]) {
-    this.breakdown.forEach(b => b.count = 0);
+    }
+
+  }
+
+  // =====================
+  // LOAD REVIEWS
+  // =====================
+
+  loadReviews() {
+
+    this.reviewService
+      .getCategoryReviews(
+        this.categoryId
+      )
+      .subscribe({
+
+        next: (res: any) => {
+
+          this.rating =
+            res.averageRating || 0;
+
+          this.totalReviews =
+            res.totalReviews || 0;
+
+          this.reviews =
+            (res.reviews || [])
+            .map((r: any) => ({
+
+              _id: r._id,
+
+              userId:
+                r.user?._id,
+
+              name:
+                r.user?.name ||
+                'User',
+
+              image:
+                r.user?.avatar ||
+                r.user?.picture ||
+                'profile/user.png',
+
+              date:
+                new Date(
+                  r.createdAt
+                ).toLocaleDateString(),
+
+              rating:
+                r.rating,
+
+              text:
+                r.comment,
+
+              likes:
+                r.likesCount || 0,
+
+              dislikes:
+                r.dislikesCount || 0,
+
+              liked:
+                r.liked || false,
+
+              disliked:
+                r.disliked || false,
+
+              isOwner:
+                this.currentUser?._id ===
+                r.user?._id
+
+            }));
+
+          this.calculateBreakdown(
+            res.reviews || []
+          );
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+        }
+
+      });
+
+  }
+
+  // =====================
+  // BREAKDOWN
+  // =====================
+
+  calculateBreakdown(
+    reviews: any[]
+  ) {
+
+    this.breakdown.forEach(
+      b => b.count = 0
+    );
 
     reviews.forEach(r => {
-      const found = this.breakdown.find(b => b.stars === r.rating);
-      if (found) found.count++;
+
+      const found =
+        this.breakdown.find(
+          b => b.stars === r.rating
+        );
+
+      if (found) {
+        found.count++;
+      }
+
     });
+
   }
 
-  // ✅ Submit review
+  // =====================
+  // SUBMIT REVIEW
+  // =====================
+
   submitReview() {
 
-    if (!this.productId) {
-      console.error('❌ ProductId missing');
+    const token =
+      localStorage.getItem(
+        'token'
+      );
+
+    if (!token) {
+
+      alert(
+        'Please login first to submit a review.'
+      );
+
       return;
+
+    }
+
+    if (!this.categoryId) {
+
+      console.error(
+        'CategoryId missing'
+      );
+
+      return;
+
     }
 
     if (!this.selectedRating) {
-      alert('Please select rating');
+
+      alert(
+        'Please select rating'
+      );
+
       return;
+
     }
 
-    if (!this.reviewText) {
-      alert('Please write review');
+    if (!this.reviewText?.trim()) {
+
+      alert(
+        'Please write review'
+      );
+
       return;
+
     }
 
-    this.reviewService.createReview({
-      productId: this.productId,
-      rating: this.selectedRating,
-      comment: this.reviewText
-    }).subscribe({
+    const request =
+      this.editingReviewId
+
+        ? this.reviewService
+            .updateReview(
+
+              this.editingReviewId,
+
+              {
+
+                rating:
+                  this.selectedRating,
+
+                comment:
+                  this.reviewText
+
+              }
+
+            )
+
+        : this.reviewService
+            .createReview({
+
+              categoryId:
+                this.categoryId,
+
+              rating:
+                this.selectedRating,
+
+              comment:
+                this.reviewText
+
+            });
+
+    request.subscribe({
+
       next: () => {
 
-        // reset form
         this.selectedRating = 0;
+
         this.reviewText = '';
 
-        // reload reviews
+        this.editingReviewId =
+          null;
+
         this.loadReviews();
+
       },
+
       error: (err) => {
-        console.error('❌ Create review error:', err);
+
+        console.error(err);
+
+        alert(
+          err?.error?.message ||
+          'Review submit failed'
+        );
+
       }
+
     });
+
   }
 
-  // ✅ Select star
+  // =====================
+  // EDIT
+  // =====================
+
+  editReview(review: any) {
+
+    this.selectedRating =
+      review.rating;
+
+    this.reviewText =
+      review.text;
+
+    this.editingReviewId =
+      review._id;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+  }
+
+  // =====================
+  // DELETE
+  // =====================
+
+  deleteReview(review: any) {
+
+    const ok =
+      confirm(
+        'Delete this review?'
+      );
+
+    if (!ok) {
+      return;
+    }
+
+    this.reviewService
+      .deleteReview(review._id)
+      .subscribe({
+
+        next: () => {
+
+          this.loadReviews();
+
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+        }
+
+      });
+
+  }
+
+  // =====================
+  // LIKE
+  // =====================
+
+likeReview(review: any) {
+
+  const token =
+    localStorage.getItem(
+      'token'
+    );
+
+  if (!token) {
+
+    alert(
+      'Please login first.'
+    );
+
+    return;
+
+  }
+
+  this.reviewService
+    .likeReview(review._id)
+    .subscribe({
+
+      next: () => {
+
+        // ✅ reload latest reviews
+        this.loadReviews();
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+      }
+
+    });
+
+}
+
+  // =====================
+  // DISLIKE
+  // =====================
+
+dislikeReview(review: any) {
+
+  const token =
+    localStorage.getItem(
+      'token'
+    );
+
+  if (!token) {
+
+    alert(
+      'Please login first.'
+    );
+
+    return;
+
+  }
+
+  this.reviewService
+    .dislikeReview(review._id)
+    .subscribe({
+
+      next: () => {
+
+        // ✅ reload latest reviews
+        this.loadReviews();
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+      }
+
+    });
+
+}
+
+  // =====================
+  // STAR SELECT
+  // =====================
+
   setRating(i: number) {
+
     this.selectedRating = i;
+
   }
 
-  // ✅ Progress bar %
-  getPercentage(count: number) {
+  // =====================
+  // %
+  // =====================
+
+  getPercentage(
+    count: number
+  ) {
+
     return this.totalReviews
-      ? (count / this.totalReviews) * 100
+
+      ? (count /
+          this.totalReviews) * 100
+
       : 0;
+
   }
+
 }

@@ -24,7 +24,6 @@ interface Product {
 
 @Component({
   selector: 'app-product-review',
-  standalone: true,
   imports: [CommonModule, Review, InfoPage, FormsModule, RouterLink],
   templateUrl: './product-review.html',
 })
@@ -44,17 +43,16 @@ export class ProductReview implements OnInit {
   products: any[] = [];
   selectedProduct: any = null;
   isLoggedIn = false;
+  bundles: any[] = [];
 
-  // ✅ Affiliate data (backend se aaye toh load karo, filhal hardcoded)
-  affiliate: any = {
-    handle: 'MegaHSR',
-    code: 'MEGA',
-    avatar: 'assets/affiliate-avatar.png',
-  };
+  selectedBundle: any = null;
 
-  // ✅ SD Coins (logged-in user ke cashback points)
+  bundlePopup = false;
+  affiliate: any = null;
+  // ✅ SD Coins
   userCoins: number = 0;
   useCoins: boolean = false;
+  slug: string = '';
 
   // ================= COUPON =================
   couponResult: any = null;
@@ -67,14 +65,12 @@ export class ProductReview implements OnInit {
   // ================= FORMS =================
   forms: any[] = [];
 
-  // ================= UI STATE =================
   quantity = 1;
   username: string = '';
   checkingUser = false;
   userError = '';
   loading = false;
 
-  // ================= FORM =================
   form = {
     email: '',
     userId: '',
@@ -85,38 +81,33 @@ export class ProductReview implements OnInit {
 
   errors: any = {};
 
-  // ================= TABS (Portuguese) =================
-  activeTab = 'crystals';
-  tabs = [
-    { key: 'crystals', label: 'Event Bundles' },
-    { key: 'packages', label: 'Produtos Recentes' },
-    { key: 'subscription', label: 'Passe de Suprimentos' },
-    { key: 'topup', label: 'Fragmentos' },
-  ];
-
   // ================= INIT =================
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+
+    // ✅ Pehle localStorage se quick load (UI flicker se bachne ke liye)
     this.loadUserCoins();
 
-    // ✅ Logged in user ka email auto-fill karo
+    // ✅ Phir backend se realtime coins fetch karo (header ki tarah)
     if (this.isLoggedIn) {
+      this.loadRealtimeCoins();
       this.loadUserEmail();
     }
 
-    this.route.queryParamMap.subscribe((params) => {
-      const productId = params.get('id');
-      const categoryId = params.get('category');
+    this.route.paramMap.subscribe((params) => {
+      const slug = params.get('slug');
 
-      if (categoryId) {
-        this.loadByCategory(categoryId);
-      } else if (productId) {
-        this.getProduct(productId);
+      if (!slug) {
+        return;
       }
+
+      this.slug = slug;
+
+      this.loadByCategorySlug(slug);
     });
   }
 
-  // ✅ User ka email localStorage se load karo
+  // ✅ Logged in user ka email auto-fill karo
   loadUserEmail(): void {
     try {
       const stored = localStorage.getItem('user');
@@ -128,7 +119,8 @@ export class ProductReview implements OnInit {
       console.error('Failed to load user email', e);
     }
   }
-  // ✅ Load coins from localStorage user object
+
+  // ✅ localStorage se quick coins load (initial UI)
   loadUserCoins(): void {
     try {
       const stored = localStorage.getItem('user');
@@ -142,68 +134,126 @@ export class ProductReview implements OnInit {
     }
   }
 
-  // ✅ Toggle SD coins usage
+  // ✅ NEW: Backend se realtime coins fetch karo
+  loadRealtimeCoins(): void {
+    this.authService.getCashback().subscribe({
+      next: (res: any) => {
+        const realtimePoints = res.points || res.cashbackPoints || 0;
+        this.userCoins = realtimePoints;
+
+        // ✅ localStorage bhi sync karo (next page pe stale na ho)
+        this.syncLocalStorageCoins(realtimePoints);
+
+        console.log('💰 Realtime coins loaded:', realtimePoints);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to fetch realtime coins', err);
+        // Error pe fallback localStorage value pe — already loaded
+      },
+    });
+  }
+
+  // ✅ Helper: localStorage me coins sync karo
+  syncLocalStorageCoins(newCoins: number): void {
+    try {
+      const stored = localStorage.getItem('user');
+      if (stored) {
+        const user = JSON.parse(stored);
+        user.cashbackPoints = newCoins;
+        localStorage.setItem('user', JSON.stringify(user));
+      }
+    } catch (e) {
+      console.error('Failed to sync coins to localStorage', e);
+    }
+  }
+
   toggleUseCoins(): void {
     this.useCoins = !this.useCoins;
-    // Optional: yahan price recalculate kar sakte ho coins discount ke saath
+
+    if (this.useCoins && this.isLoggedIn) {
+      this.loadRealtimeCoins();
+    }
   }
 
   // ================= LOAD BY CATEGORY =================
-  loadByCategory(categoryId: string) {
-    this.productApi.getByCategory(categoryId).subscribe({
+  loadByCategorySlug(slug: string) {
+    this.productApi.getProductsByCategorySlug(slug).subscribe({
       next: (res: any) => {
         const list = res.data || [];
+
         if (!list.length) return;
 
-        // ✅ map products for the grid
         this.products = list.map((p: any) => ({
           id: p._id,
+
           title: p.displayName || p.name || 'No Name',
+
           subtitle: p.categoryName || p.category?.name || 'Game Top Up',
+
           price: Number(p.finalPrice || p.price || 0),
+
           img: p.image || p.category?.image || 'assets/cards/card-images.png',
+
           sold: p.sold || 0,
           rating: p.rating || 5,
           reviews: p.reviews || 0,
+
           tag: p.tag || 'Popular',
+
           raw: p,
         }));
 
-        // 🔥 auto-pick first product
+        // ✅ category data
+        const category = res.category;
+        this.product = {
+          ...this.product,
+
+          sold: category.sold || 0,
+
+          rating: category.rating || 0,
+
+          totalReviews: category.totalReviews || 0,
+        };
+        this.loadBundles(category._id);
+
         this.selectedProduct = this.products[0];
+
         this.setMainProduct(this.selectedProduct.raw);
 
         this.cdr.detectChanges();
       },
-      error: (err) => console.error(err),
+
+      error: (err) => {
+        console.error(err);
+      },
     });
   }
 
-  // ================= SET MAIN PRODUCT =================
   setMainProduct(data: any) {
     this.product = {
       id: data._id,
+      category: data.category,
       name: data.displayName || data.name,
-      image: data.image || data.category?.image || 'assets/cards/card-images.png',
+      image: data.image || data.category?.image || 'cards/card-images.png',
       categoryName: data.categoryName || data.category?.name || 'Game Top Up',
-      price: data.finalPrice ?? data.price,
+     price: data.customPrice ?? data.finalPrice ?? data.price ?? 0,
       originalPrice: data.price,
       requiresUserId: data.requiresUserId,
       requiresServer: data.requiresServer,
       requiresNickname: data.requiresNickname,
       requiresZone: data.requiresZone,
-      sold: data.sold || 0,
-      rating: data.rating || 5,
-      reviews: data.reviews || 0,
+      // ✅ CATEGORY STATS
+      sold: this.product?.sold || 0,
+
+      rating: this.product?.rating || 0,
+
+      totalReviews: this.product?.totalReviews || 0,
       tag: data.tag || 'Popular',
     };
-
-    // ✅ forms depend on selected product
+    this.affiliate = data.affiliate || null;
     this.forms = [{ name: 'email', type: 'text' }, ...(data.category?.forms || [])];
 
-    console.log('FORMS =>', this.forms);
-
-    // ✅ reset coupon, qty when product changes
     this.quantity = 1;
     this.coupon = '';
     this.discount = 0;
@@ -212,7 +262,6 @@ export class ProductReview implements OnInit {
     this.useCoins = false;
   }
 
-  // ✅ Sold count formatter (Brazilian style — 1500000 → "1.5Mil+")
   formatSold(count: number): string {
     if (!count) return '0';
     if (count >= 1000000) {
@@ -224,34 +273,24 @@ export class ProductReview implements OnInit {
     return count.toString();
   }
 
-  // ================= CHECK USER ID =================
-  // ================= USER VALIDATION =================
-
   checkUserId() {
     this.userError = '';
     this.username = '';
 
-    // ✅ empty validation
-    if (!this.form.userId?.trim()) {
-      return;
-    }
+    if (!this.form.userId?.trim()) return;
 
-    // ✅ UID format validation
     const cleanUid = this.form.userId.trim();
 
-    // only numbers allowed
     if (!/^\d+$/.test(cleanUid)) {
       this.userError = 'UID inválido. Apenas números são permitidos.';
       return;
     }
 
-    // length validation
     if (cleanUid.length < 6 || cleanUid.length > 20) {
       this.userError = 'UID inválido.';
       return;
     }
 
-    // ✅ server required only if options exist
     const hasServers = this.getServerOptions().length > 0;
 
     if (hasServers && !this.form.server) {
@@ -263,7 +302,7 @@ export class ProductReview implements OnInit {
 
     this.orderApi
       .checkUser({
-        categoryCode: this.selectedProduct?.raw?.supplierCategory,
+        categoryCode: this.selectedProduct?.raw?.category?.code || this.product?.category?.code,
         userId: cleanUid,
         serverId: this.form.server || '',
         nickname: this.form.nickname,
@@ -272,46 +311,36 @@ export class ProductReview implements OnInit {
         next: (res: any) => {
           this.checkingUser = false;
 
-          console.log('CHECK USER RESPONSE =>', res);
-
-          // ❌ invalid user
           if (!res || res.success === false) {
             this.username = '';
             this.form.nickname = '';
-
             this.userError = res?.message || res?.error || 'UID inválido. Conta não encontrada.';
-
             this.cdr.detectChanges();
             return;
           }
 
-          // ✅ valid user
           this.username = res.username || '';
           this.form.nickname = res.username || '';
           this.userError = '';
-
           this.cdr.detectChanges();
         },
-
         error: (err) => {
-          console.log('CHECK USER ERROR =>', err);
-
           this.checkingUser = false;
           this.username = '';
-
           this.userError = err?.error?.message || 'Não foi possível validar o UID.';
-
           this.cdr.detectChanges();
         },
       });
   }
+
   requireLogin(): boolean {
     return true;
   }
+
   get isUserValid(): boolean {
     return !!this.username && !this.userError;
   }
-  // ================= COUPON =================
+
   applyCoupon() {
     if (!this.requireLogin()) return;
     if (!this.coupon) return;
@@ -324,15 +353,19 @@ export class ProductReview implements OnInit {
 
     this.couponApi.applyCoupon(payload).subscribe({
       next: (res: any) => {
-        console.log('COUPON RESPONSE:', res);
-
+        // ✅ PREVIEW ONLY — backend will re-apply at order time
         this.discount = res.discount;
         this.finalAmount = res.finalAmount;
         this.couponApplied = true;
+
+        console.log('🎟️ Coupon preview:', {
+          code: this.coupon,
+          discount: this.discount,
+          afterCoupon: this.finalAmount,
+        });
       },
       error: (err) => {
         alert(err.error?.message || 'Cupom inválido');
-
         this.discount = 0;
         this.finalAmount = this.totalPrice;
         this.couponApplied = false;
@@ -348,16 +381,12 @@ export class ProductReview implements OnInit {
     this.discount = 0;
   }
 
-  // ================= API (DIRECT PRODUCT LINK) =================
   getProduct(id: string) {
     this.productApi.getProductById(id).subscribe({
       next: (res: any) => {
         const data = res.data || res;
-
-        // ✅ set main product (header + form + checkout)
         this.setMainProduct(data);
 
-        // ✅ start grid with this product
         this.products = [
           {
             id: data._id,
@@ -366,8 +395,6 @@ export class ProductReview implements OnInit {
             price: Number(data.finalPrice || data.price || 0),
             img: data.image || 'assets/cards/card-images.png',
             sold: data.sold || 0,
-            rating: data.rating || 5,
-            reviews: data.reviews || 0,
             tag: data.tag || 'Popular',
             raw: data,
           },
@@ -375,7 +402,6 @@ export class ProductReview implements OnInit {
 
         this.selectedProduct = this.products[0];
 
-        // 🔥 also load siblings from same category
         if (data.category?._id) {
           this.getCategoryProducts(data.category._id, data._id);
         }
@@ -386,7 +412,6 @@ export class ProductReview implements OnInit {
     });
   }
 
-  // ================= GET CATEGORY PRODUCTS =================
   getCategoryProducts(categoryId: string, currentProductId: string) {
     this.productApi.getByCategory(categoryId).subscribe({
       next: (res: any) => {
@@ -401,32 +426,180 @@ export class ProductReview implements OnInit {
           img:
             p.image || p.category?.image || this.product?.image || 'assets/cards/card-images.png',
           sold: p.sold || 0,
-          rating: p.rating || 5,
-          reviews: p.reviews || 0,
+          rating: p.rating,
+          reviews: p.reviews,
           tag: p.tag || 'Popular',
           raw: p,
         }));
-
+        this.loadBundles(categoryId);
         const current = this.products.find((x) => x.id === currentProductId);
-        if (current) {
-          this.selectedProduct = current;
-        }
+        if (current) this.selectedProduct = current;
 
         this.cdr.detectChanges();
       },
       error: (err) => console.error(err),
     });
   }
+loadBundles(categoryId: string) {
+  // ✅ agar bundles pehle se loaded hain same category ke liye to skip karo
+  if (this.bundles.length > 0 && 
+      this.bundles[0]?.category?._id === categoryId) {
+    return;
+  }
+  
+  this.productApi.getBundlesByCategory(categoryId).subscribe({
+    next: (res: any) => {
+      this.bundles = res.data || [];
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error(err);
+    },
+  });
+}
+getBundleBadges(): string[] {
+  const badges = this.bundles.map((x: any) => x.badge).filter((x: string) => !!x);
+  return ['Produtos', ...new Set(badges)];
+}
+  // ✅ TABS
+  tabs = [
+    {
+      key: 'ALL',
+      label: 'Todos',
+    },
 
-  // ================= SELECT (CLICK ON CARD) =================
-  selectProduct(p: any) {
-    this.selectedProduct = p;
-    // 🔥 update header + form + checkout
-    this.setMainProduct(p.raw);
+    ...this.getBundleBadges().map((badge: string) => ({
+      key: badge,
+      label: badge,
+    })),
+  ];
+
+activeTab = 'Produtos';
+
+  getBundleCount(badge: string): number {
+    if (badge === 'Produtos') {
+      return this.bundles.length;
+    }
+
+    return this.bundles.filter((x: any) => x.badge === badge).length;
+  }
+activeBundleBadge = 'Produtos';
+
+get filteredBundles() {
+  if (this.activeBundleBadge === 'Produtos') {
+    return this.products;
+  }
+  return this.bundles.filter((x: any) => x.badge === this.activeBundleBadge);
+}
+  selectedProductId: string | null = null;
+
+  selectBundle(bundle: any) {
+    this.selectedProductId = bundle._id;
+
+    this.selectedBundle = bundle;
+
+    // ✅ full product structure maintain
+    const mappedBundleProduct = {
+      _id: bundle._id,
+
+      displayName: bundle.name,
+      name: bundle.name,
+
+      image: bundle.image || bundle.baseProduct?.image,
+
+      categoryName: bundle.category?.name || this.product?.categoryName,
+
+      finalPrice: bundle.customPrice || bundle.finalPrice || 0,
+
+      price: bundle.customPrice || bundle.finalPrice || 0,
+
+      sold: bundle.sold || 0,
+      rating: bundle.rating || 5,
+      reviews: bundle.reviews || 0,
+      tag: bundle.badge || 'Bundle',
+
+      affiliate: this.affiliate,
+
+      // ✅ IMPORTANT
+      category: {
+        ...(this.selectedProduct?.raw?.category || {}),
+        ...(bundle.category || {}),
+      },
+
+      requiresUserId: this.selectedProduct?.raw?.requiresUserId ?? true,
+
+      requiresServer: this.selectedProduct?.raw?.requiresServer ?? false,
+
+      requiresNickname: this.selectedProduct?.raw?.requiresNickname ?? false,
+
+      requiresZone: this.selectedProduct?.raw?.requiresZone ?? false,
+
+      // ✅ bundle info
+      isBundle: true,
+      bundleId: bundle._id,
+      baseProductId: bundle.baseProduct?._id,
+      bundleQuantity: bundle.quantity,
+    };
+
+    // ✅ SAME STRUCTURE AS PRODUCTS
+const bundlePrice = Number(bundle.customPrice ?? bundle.finalPrice ?? bundle.baseProduct?.price ?? 0);
+
+this.selectedProduct = {
+  id: bundle._id,
+  _id: bundle._id,
+  title: bundle.name,
+  subtitle: bundle.category?.name || this.product?.categoryName,
+  price: bundlePrice,
+  img: bundle.image || bundle.baseProduct?.image,
+  raw: mappedBundleProduct,
+};
+
+    // ✅ NOW ALL FORMS + VERIFY APIs WORK
+// ✅ NOW ALL FORMS + VERIFY APIs WORK
+this.setMainProduct(mappedBundleProduct);
+
+// ✅ price explicitly set karo
+this.selectedProduct.price = Number(bundle.customPrice || bundle.finalPrice || 0);
+ // ✅ reset validation only if userId changed
+this.userError = '';
+// username reset mat karo agar pehle se valid hai
+if (!this.form.userId) {
+  this.username = '';
+}
     this.cdr.detectChanges();
   }
 
-  // ================= QUANTITY =================
+  openBundle(bundle: any) {
+    this.selectedBundle = bundle;
+
+    this.bundlePopup = true;
+  }
+
+  closeBundlePopup() {
+    this.bundlePopup = false;
+  }
+
+selectProduct(p: any) {
+  if (!p?.raw) return;
+  
+  this.selectedProductId = p.id || p._id;
+  this.selectedProduct = p;
+  this.selectedProduct.price = Number(
+    p.raw?.finalPrice || p.raw?.price || p.price || 0
+  );
+
+  const prevSold = this.product?.sold;
+  const prevRating = this.product?.rating;
+  const prevReviews = this.product?.totalReviews;
+
+  this.setMainProduct(p.raw);
+
+  this.product.sold = prevSold;
+  this.product.rating = prevRating;
+  this.product.totalReviews = prevReviews;
+
+  this.cdr.detectChanges();
+}
   increase() {
     if (this.quantity < 10) this.quantity++;
   }
@@ -435,22 +608,18 @@ export class ProductReview implements OnInit {
     if (this.quantity > 1) this.quantity--;
   }
 
-  // ================= PRICE =================
   get totalPrice(): number {
     return this.selectedProduct ? this.selectedProduct.price * this.quantity : 0;
   }
 
-  // ✅ SERVER OPTIONS
   getServerOptions(): any[] {
     const serverField = this.forms.find((f: any) => f.name === 'additional_id');
-
     return serverField?.options || [];
   }
+
   get payableAmount(): number {
     let amount = this.couponApplied ? this.finalAmount : this.totalPrice;
 
-    // ✅ Agar user SD coins use kar raha hai, discount lagao
-    // (100 pontos = R$1,00 ke ratio se)
     if (this.useCoins && this.userCoins > 0) {
       const coinsDiscount = this.userCoins / 100;
       amount = Math.max(0, amount - coinsDiscount);
@@ -459,26 +628,21 @@ export class ProductReview implements OnInit {
     return amount;
   }
 
-  // ================= VALIDATION (Portuguese errors) =================
   validate(): boolean {
     this.errors = {};
 
     if (!this.isLoggedIn && !this.form.email) {
       this.errors.email = 'E-mail obrigatório';
     }
-
     if (this.product?.requiresUserId && !this.form.userId) {
       this.errors.userId = 'UID obrigatório';
     }
-
     if (this.product?.requiresServer && !this.form.server) {
       this.errors.server = 'Servidor obrigatório';
     }
-
     if (this.product?.requiresNickname && !this.form.nickname) {
       this.errors.nickname = 'Apelido obrigatório';
     }
-
     if (this.product?.requiresZone && !this.form.zone) {
       this.errors.zone = 'Zona obrigatória';
     }
@@ -486,21 +650,19 @@ export class ProductReview implements OnInit {
     return Object.keys(this.errors).length === 0;
   }
 
-  // ================= CHECKOUT =================
   checkout() {
-    if (!this.validate()) return;
-
     this.router.navigate(['/checkout'], {
       queryParams: {
         id: this.selectedProduct?.raw?._id,
+
+        bundleId: this.selectedProduct?.raw?.bundleId || '',
+
+        isBundle: this.selectedProduct?.raw?.isBundle || false,
         title: this.selectedProduct?.title,
         subtitle: this.selectedProduct?.subtitle,
         image: this.selectedProduct?.img,
 
         price: this.selectedProduct?.price,
-        finalPrice: this.payableAmount,
-        discount: this.discount,
-
         qty: this.quantity,
 
         ...(this.isLoggedIn ? {} : { email: this.form.email }),
@@ -510,9 +672,8 @@ export class ProductReview implements OnInit {
         nickname: this.form.nickname,
         zone: this.form.zone,
 
-        coupon: this.coupon,
+        coupon: this.couponApplied ? this.coupon : '',
 
-        // ✅ Pass coins usage to checkout page
         useCoins: this.useCoins,
         coinsUsed: this.useCoins ? this.userCoins : 0,
       },

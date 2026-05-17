@@ -8,7 +8,10 @@
     <div class="lg:col-span-2 space-y-4">
 
       <!-- PRODUCT -->
-      <div class="flex items-center justify-between bg-white p-4 rounded-xl">
+      <div
+        *ngIf="order"
+        class="flex items-center justify-between bg-white p-4 rounded-xl"
+      >
 
         <!-- LEFT -->
         <div class="flex items-center gap-3 sm:gap-4">
@@ -37,14 +40,14 @@
           <!-- TEXT -->
           <div class="flex flex-col gap-[4px]">
 
-            <!-- GAME NAME -->
+            <!-- GAME NAME (BOLD, TOP) -->
             <h3 class="font-semibold text-[16px] sm:text-[18px] text-[#262626]">
-              {{ order?.subtitle || '-' }}
+              {{ order?.title || '-' }}
             </h3>
 
-            <!-- PRODUCT NAME -->
+            <!-- PRODUCT NAME (BELOW) -->
             <p class="text-[#737373] text-[13px] sm:text-[14px]">
-              {{ order?.title || 'Product' }}
+              {{ order?.subtitle || 'Product' }}
             </p>
 
           </div>
@@ -53,7 +56,7 @@
         <!-- RIGHT -->
         <div class="flex items-center gap-[20px]">
 
-          <!-- FINAL PRICE -->
+          <!-- FINAL PRICE (R$ for Brazilian Real) -->
           <span class="font-normal text-[18px] text-[#525252]">
             R${{ total | number:'1.2-2' }}
           </span>
@@ -98,7 +101,7 @@
             </span>
           </div>
 
-          <!-- COUPON -->
+          <!-- COUPON (only shown when applied) -->
           <div
             *ngIf="summary.coupon && summary.coupon !== '-'"
             class="flex justify-between"
@@ -112,26 +115,25 @@
             </span>
           </div>
 
-          <!-- SD COINS -->
+          <!-- SD COINS USED (only shown when user uses SD Coins) -->
+          <!-- NOTE: Standalone "Discount" line removed per platform rules. -->
+          <!-- Discount is only shown here, alongside SD Coins usage. -->
           <div
-            *ngIf="data?.useCoins"
+            *ngIf="summary.useCoins && summary.coinsUsed > 0"
             class="flex justify-between"
           >
             <span>SD Coins utilizadas</span>
 
             <div class="flex items-center gap-1">
 
-              <!-- coins -->
+              <!-- SD Coins amount (BLACK) -->
               <span class="text-black">
-                -{{ data?.coinsUsed || 0 }}
+                -{{ summary.coinsUsed }}
               </span>
 
-              <!-- discount -->
+              <!-- Discount value (GREEN) -->
               <span class="text-green-600">
-                (R${{
-                  ((data?.coinsUsed || 0) / 100)
-                    | number:'1.2-2'
-                }})
+                (R${{ summary.coinsDiscount | number:'1.2-2' }})
               </span>
 
             </div>
@@ -160,7 +162,7 @@
         class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6 sm:justify-end"
       >
 
-        <!-- CONTINUE -->
+        <!-- CONTINUE TO PAYMENT -->
         <button
           class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg transition"
           (click)="proceed()"
@@ -168,10 +170,11 @@
           Continuar para o pagamento
         </button>
 
-        <!-- BACK -->
+        <!-- BACK TO HOMEPAGE (fixed — now uses Router) -->
         <button
-          routerLink="/"
-          class="bg-white border border-[#7E00A6] w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition"
+          type="button"
+          (click)="goHome()"
+          class="bg-white border border-[#7E00A6] w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition cursor-pointer"
         >
           Voltar para a página inicial
         </button>
@@ -180,7 +183,7 @@
 
     </div>
 
-    <!-- RIGHT -->
+    <!-- RIGHT - ACCOUNT INFO -->
     <div class="bg-white rounded-xl p-4 h-fit">
 
       <div

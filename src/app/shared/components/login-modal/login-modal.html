@@ -31,15 +31,12 @@
 <!-- LOGIN MODAL — Compact size + Brazilian Portuguese -->
 <!-- ============================================================ -->
 <div *ngIf="modalType === 'login'"
-  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3 md:p-4">
 
-  <!-- MAIN WRAPPER — chota aur compact -->
-  <div
-    class="w-full max-w-[820px] max-h-[90vh]
-           bg-white rounded-[20px]
-           flex flex-col md:flex-row
-           overflow-hidden
-           shadow-2xl relative">
+  <div class="w-full max-w-[900px] max-h-[90vh] overflow-y-auto
+              bg-white rounded-[20px]
+              flex flex-col md:flex-row
+              shadow-2xl relative">
 
     <!-- Close -->
     <button
@@ -49,124 +46,117 @@
     </button>
 
     <!-- ================= LEFT (PURPLE PANEL) ================= -->
-    <div
-      class="relative w-full md:w-[420px]
-             order-2 md:order-1
-             p-6
-             flex flex-col justify-center
-             bg-gradient-to-br from-[#7B2CBF] via-[#9D4EDD] to-[#C77DFF]
-             overflow-hidden">
+    <div class="relative w-full md:w-[460px]
+                order-2 md:order-1
+                p-5 md:p-6
+                flex flex-col justify-center
+                bg-gradient-to-br from-[#7B2CBF] via-[#9D4EDD] to-[#C77DFF]
+                overflow-hidden
+                rounded-b-[20px] md:rounded-b-none md:rounded-l-[20px]">
 
-      <!-- Decorative coins background -->
       <img src="login/login-bg.png"
         class="absolute inset-0 w-full h-full object-cover opacity-30" />
 
-      <!-- CONTENT -->
-      <div class="relative z-10 flex flex-col gap-4 text-white">
+      <div class="relative z-10 flex flex-col gap-3 md:gap-4 text-white">
 
         <div class="text-center">
-          <h2 class="text-xl md:text-2xl font-bold leading-tight">
-            Por que juntar-se a<br/>SD Shop?
+          <h2 class="text-lg md:text-2xl font-bold leading-tight">
+            Por que juntar-se a SD Shop?
           </h2>
-          <p class="text-xs md:text-sm mt-2 opacity-90">
+          <p class="text-xs mt-1.5 md:mt-2 opacity-90">
             Cadastre-se agora e desbloqueie recompensas, ofertas exclusivas e vantagens contínuas.
           </p>
         </div>
 
-        <!-- FEATURES -->
-        <div class="flex flex-col gap-2.5">
+        <div class="flex flex-col gap-2">
 
           <!-- Feature 1 -->
-          <div class="bg-white text-black rounded-lg p-3 flex gap-3 items-start shadow">
-            <img src="login/user.png" class="w-8 h-8 flex-shrink-0" />
+          <div class="bg-white text-black rounded-lg p-2.5 md:p-3 flex gap-3 items-center shadow">
+            <div class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+             <img src="login/1st.png" alt="">
+            </div>
             <div>
-              <h4 class="font-semibold text-[13px] leading-tight">
-                Cadastro rápido, recompensas imediatas
-              </h4>
-              <p class="text-[11px] text-gray-500 mt-1">
-                Crie sua conta em poucos passos e receba seu bônus de boas-vindas.
-              </p>
+              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">Cadastro rápido, recompensas imediatas</h4>
+              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Crie sua conta em poucos passos e receba seu bônus de boas-vindas.</p>
             </div>
           </div>
 
           <!-- Feature 2 -->
-          <div class="bg-white text-black rounded-lg p-3 flex gap-3 items-start shadow">
-            <img src="login/icon-login.png" class="w-8 h-8 flex-shrink-0" />
+          <div class="bg-white text-black rounded-lg p-2.5 md:p-3 flex gap-3 items-center shadow">
+            <div class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+                          <img src="login/2nd.png" alt="">
+
+            </div>
             <div>
-              <h4 class="font-semibold text-[13px] leading-tight">
-                Ofertas e recompensas exclusivas
-              </h4>
-              <p class="text-[11px] text-gray-500 mt-1">
-                Tenha acesso a promoções e benefícios pensados para jogadores.
-              </p>
+              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">Ofertas e recompensas exclusivas</h4>
+              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Tenha acesso a promoções e benefícios pensados para jogadores.</p>
             </div>
           </div>
 
           <!-- Feature 3 -->
-          <div class="bg-white text-black rounded-lg p-3 flex gap-3 items-start shadow">
-            <img src="login/box.png" class="w-8 h-8 flex-shrink-0" />
+          <div class="bg-white text-black rounded-lg p-2.5 md:p-3 flex gap-3 items-center shadow">
+            <div class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
+              <img src="login/3rd.png" alt="">
+            </div>
             <div>
-              <h4 class="font-semibold text-[13px] leading-tight">
-                Ganhe pontos e troque por recompensas
-              </h4>
-              <p class="text-[11px] text-gray-500 mt-1">
-                Recarregue, acumule pontos e utilize em benefícios dentro da plataforma.
-              </p>
+              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">Ganhe pontos e troque por recompensas</h4>
+              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Recarregue, acumule pontos e utilize em benefícios dentro da plataforma.</p>
             </div>
           </div>
 
         </div>
-
       </div>
     </div>
 
     <!-- ================= RIGHT (FORM) ================= -->
-    <div class="w-full md:flex-1 order-1 md:order-2 flex items-center justify-center p-6 bg-white">
+    <div class="w-full md:flex-1 order-1 md:order-2 flex items-center justify-center p-5 md:p-6 bg-white
+                rounded-t-[20px] md:rounded-t-none md:rounded-r-[20px]">
 
-      <div class="w-full max-w-[340px] flex flex-col gap-5">
+      <div class="w-full max-w-[360px] flex flex-col gap-4 md:gap-5">
 
         <!-- Logo -->
-        <div class="flex justify-center">
-          <img src="icons/Logo.png" class="w-[140px] object-contain" />
+        <div class="flex justify-center pt-2 md:pt-0">
+          <img src="icons/Logo.png" class=" object-contain" />
         </div>
 
         <!-- Title -->
         <div class="text-center">
-          <h2 class="text-2xl font-bold text-gray-900">
-            Bem-vindo(a)!
-          </h2>
-          <p class="text-gray-500 text-sm mt-1">
-            As melhores ofertas apenas aqui!<br/>Junte-se a SD Shop.
+          <h2 class="text-xl md:text-2xl font-bold text-gray-900">Bem-vindo(a)!</h2>
+          <p class="text-gray-500 text-xs md:text-sm mt-1">
+            As melhores ofertas apenas aqui! Junte-se a SD Shop.
           </p>
         </div>
 
         <!-- Info Box -->
-        <div class="relative w-full bg-[#FFF8E7] border border-[#FCD34D] rounded-md p-3 flex items-center justify-center overflow-hidden">
+       <div class="relative w-full bg-[#FFF8E7] border border-[#FCD34D] rounded-md p-4 flex items-center justify-center overflow-hidden">
+  <!-- coins top-left -->
+  <img src="icons/coin.png" class="absolute top-[-8px] left-[-8px] w-[36px] opacity-70 rotate-[20deg]" />
+  <!-- coins top-right -->
+  <img src="icons/coin.png" class="absolute top-[-10px] right-[-10px] w-[40px] opacity-70 rotate-[-40deg]" />
+  <!-- coins bottom-left -->
+  <img src="icons/coin.png" class="absolute bottom-[-8px] left-[10px] w-[32px] opacity-60 rotate-[10deg]" />
+  <!-- coins bottom-right -->
+  <img src="icons/coin.png" class="absolute bottom-[-6px] right-[8px] w-[34px] opacity-70 rotate-[-20deg]" />
+  <!-- extra mid-right -->
+  <img src="icons/coin.png" class="absolute top-[50%] right-[-12px] w-[28px] opacity-50 -translate-y-1/2 rotate-[15deg]" />
 
-          <img src="icons/image1.png"
-            class="absolute top-[-10px] right-[-15px] w-[50px] opacity-60 rotate-[-60deg]" />
-
-          <img src="icons/image1.png"
-            class="absolute bottom-[-5px] left-[-20px] w-[50px] opacity-60" />
-
-          <p class="text-xs text-center text-gray-700 relative z-10">
-            Faça login e ganhe <span class="font-semibold">100 pontos (R$1,00)</span>, além de salvar seus pedidos para acompanhamento.
-          </p>
-        </div>
-
-        <!-- Google Sign-in -->
-       <!-- Google Sign-in -->
-<div class="w-full">
-  <asl-google-signin-button 
-    type="standard" 
-    size="large" 
-    class="w-full block">
-  </asl-google-signin-button>
+  <p class="text-[12px] text-center text-gray-700 relative z-10 px-6">
+    Faça login e ganhe <span class="font-semibold">100 pontos (R$1,00)</span>, além de salvar seus pedidos para acompanhamento.
+  </p>
 </div>
 
+        <!-- Google Sign-in -->
+        <div class="google-btn-wrapper w-full flex justify-center">
+          <asl-google-signin-button
+            type="standard"
+            size="large"
+            [width]="360">
+          </asl-google-signin-button>
+        </div>
+
         <!-- Footer -->
-        <p class="text-[11px] text-gray-500 text-center leading-relaxed">
-          Ao continuar, você concorda com nossa
+        <p class="text-[10px] md:text-[11px] text-gray-500 text-center leading-relaxed pb-2 md:pb-0">
+          Ao continuar, você concorda com nossa<br/>
           <span class="underline text-black font-medium cursor-pointer">Política de Privacidade</span>
           e
           <span class="underline text-black font-medium cursor-pointer">Termos de Uso</span>.
@@ -177,7 +167,6 @@
 
   </div>
 </div>
-
 
 <!-- ============================================================ -->
 <!-- PROFILE DROPDOWN — Brazilian Portuguese -->

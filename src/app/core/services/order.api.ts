@@ -45,7 +45,9 @@ export class OrderApi {
   createOrder(data: any): Observable<CreateOrderResponse> {
     return this.api.post<CreateOrderResponse>(API_ENDPOINTS.ORDERS.CREATE, data);
   }
-
+getOrder(id: string) {
+  return this.http.get(`/api/orders/${id}`);
+}
   getInstallments(amount: number, bin: string) {
     return this.api.get<any>(`payments/installments?amount=${amount}&bin=${bin}`);
   }

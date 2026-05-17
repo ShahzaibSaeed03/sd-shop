@@ -1,36 +1,50 @@
 <app-slider></app-slider>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-10 sm:space-y-14 bg-white">
+<div
+  class="max-w-7xl mx-auto  bg-white overflow-hidden sm:p-2 md:p-4 lg:p-6 xl:p-8" 
+>
   <!-- ONLY TOPUP TAB -->
-  <div class="flex justify-center">
-    <app-tab-menu [tabs]="tabs" [activeTab]="activeTab" (tabChange)="onTabChange($event)">
+  <div class="flex justify-center overflow-x-auto no-scrollbar">
+    <app-tab-menu
+      [tabs]="tabs"
+      [activeTab]="activeTab"
+      (tabChange)="onTabChange($event)"
+    >
     </app-tab-menu>
   </div>
 
   <!-- 🔥 DYNAMIC SECTIONS -->
   <ng-container *ngFor="let section of sections">
+
     <!-- SPECIAL DESIGN (ONLY TOP GAMES) -->
-    <div *ngIf="section.apiSource === 'top_games'" class="bg-[#D9B4E4] rounded-2xl px-6 py-8">
+    <div
+      *ngIf="section.apiSource === 'top_games'"
+      class="bg-[#D9B4E4] rounded-2xl px-3 sm:px-5 lg:px-6 py-5 sm:py-8 overflow-hidden"
+    >
       <app-section-block
         [title]="section.name"
         [games]="section.items"
         [columns]="4"
         [variant]="'purple'"
+        [showButton]="section.items.length > 15"
         (productClick)="goToProduct($event)"
       >
       </app-section-block>
     </div>
 
     <!-- DEFAULT SECTIONS -->
-    <app-section-block
-      *ngIf="section.apiSource !== 'top_games' || section.mode === 'manual'"
-      [title]="section.name"
-      [games]="section.items"
-      [columns]="5"
-      [showButton]="true"
-      (productClick)="goToProduct($event)"
-    >
-    </app-section-block>
+    <div class="overflow-hidden">
+      <app-section-block
+        *ngIf="section.apiSource !== 'top_games' || section.mode === 'manual'"
+        [title]="section.name"
+        [games]="section.items"
+        [columns]="5"
+        [showButton]="section.items.length > 15"
+        (productClick)="goToProduct($event)"
+      >
+      </app-section-block>
+    </div>
+
   </ng-container>
 </div>
 

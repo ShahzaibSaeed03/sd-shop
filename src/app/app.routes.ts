@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'product-details',
+    path: 'product/:slug',
     loadComponent: () =>
       import('./pages/product-review/product-review').then((m) => m.ProductReview),
   },

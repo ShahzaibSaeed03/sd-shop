@@ -142,16 +142,21 @@ export class ProductListingPage implements OnInit {
   }
 
   // ✅ Game pe click → product detail page khole
-  goToDetails(category: any): void {
-    if (!category?.raw?._id) {
-      console.warn('No category id found', category);
-      return;
-    }
+ goToDetails(category: any): void {
 
-    this.router.navigate(['/product-details'], {
-      queryParams: { category: category.raw._id },
-    });
+  const slug = category?.raw?.slug;
+
+  if (!slug) {
+    console.warn('No category slug found', category);
+    return;
   }
+
+  this.router.navigate([
+    '/product',
+    slug
+  ]);
+
+}
 
   // 🔹 Tab change
   onTabChange(tab: string): void {

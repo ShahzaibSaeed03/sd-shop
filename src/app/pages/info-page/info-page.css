@@ -1,0 +1,124 @@
+:host {
+  width: 100%;
+  display: block;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.game-content {
+  color: #334155;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+/* =========================
+   HEADINGS
+========================= */
+
+.game-content h1 {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 24px;
+  margin-bottom: 14px;
+  color: #141B2B;
+}
+
+.game-content h2 {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-top: 22px;
+  margin-bottom: 12px;
+  color: #141B2B;
+}
+
+.game-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #141B2B;
+}
+
+/* =========================
+   PARAGRAPH
+========================= */
+
+.game-content p {
+  margin-bottom: 14px;
+  color: #475569;
+}
+
+/* =========================
+   LISTS
+========================= */
+
+.game-content ul {
+  padding-left: 24px;
+  list-style: disc;
+  margin: 16px 0;
+}
+
+.game-content ol {
+  padding-left: 24px;
+  list-style: decimal;
+  margin: 16px 0;
+}
+
+.game-content li {
+  margin-bottom: 8px;
+}
+
+/* =========================
+   STRONG
+========================= */
+
+.game-content strong {
+  font-weight: 700;
+  color: #141B2B;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.game-content img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 18px;
+  margin: 20px 0;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.game-content a {
+  color: #3525CD;
+  text-decoration: underline;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.game-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.game-content table td,
+.game-content table th {
+  border: 1px solid #E2E8F0;
+  padding: 12px;
+}
+
+.game-content table th {
+  background: #F8FAFC;
+  font-weight: 700;
+}

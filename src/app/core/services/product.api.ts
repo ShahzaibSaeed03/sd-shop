@@ -3,24 +3,76 @@ import { ApiService } from './api';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../api/endpoints';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductApi {
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService
+  ) {}
 
-getProducts(): Observable<any[]> {
-  return this.api.get<any[]>(API_ENDPOINTS.PRODUCTS.LIST);
-}
+  getProducts(): Observable<any[]> {
 
-getByCategory(categoryId: string): Observable<any[]> {
-  return this.api.get<any[]>(
-    API_ENDPOINTS.PRODUCTS.BY_CATEGORY(categoryId)
-  );
-}
+    return this.api.get<any[]>(
+      API_ENDPOINTS.PRODUCTS.LIST
+    );
 
-getProductById(id: string): Observable<any> {
+  }
+
+  getByCategory(
+    categoryId: string
+  ): Observable<any[]> {
+
+    return this.api.get<any[]>(
+      API_ENDPOINTS.PRODUCTS.BY_CATEGORY(categoryId)
+    );
+
+  }
+
+  getProductById(
+    id: string
+  ): Observable<any> {
+
+    return this.api.get(
+      API_ENDPOINTS.PRODUCTS.BY_ID(id)
+    );
+
+  }
+
+  // ✅ GAME INFORMATION
+  getGameInformation(
+    categoryId: string
+  ): Observable<any> {
+
+    return this.api.get(
+      API_ENDPOINTS.PRODUCTS.GAME_INFORMATION(categoryId)
+    );
+
+  }
+// ✅ GET BUNDLES
+getBundlesByCategory(
+  categoryId: string
+): Observable<any> {
+
   return this.api.get(
-    API_ENDPOINTS.PRODUCTS.BY_ID(id)
+
+    API_ENDPOINTS.BUNDLES.BY_CATEGORY(
+      categoryId
+    )
+
   );
+
+}
+getProductsByCategorySlug(
+  slug: string
+): Observable<any> {
+
+  return this.api.get(
+
+    API_ENDPOINTS.PRODUCTS.BY_CATEGORY_SLUG(slug)
+
+  );
+
 }
 }

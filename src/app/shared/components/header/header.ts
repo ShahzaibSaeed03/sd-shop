@@ -1,16 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { SupportService } from '../../service/support.service';
 
 @Component({
   selector: 'app-header',
   imports: [CommonModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
+    host: { class: 'block w-full' } 
 })
 export class Header implements OnInit {
-
+  showCurrencyDropdown = false;
+  showLanguageDropdown = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -19,7 +30,24 @@ export class Header implements OnInit {
       this.loadCashback();
     }
   }
+  private supportService = inject(SupportService);
+  private router = inject(Router);
 
+  // ... keep all your existing properties/methods ...
+
+  // ✅ NEW: Open Support Bot (called by "Central de Ajuda" link)
+  openSupport(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.supportService.open();
+    this.closeMenu(); // close mobile menu if open
+  }
+
+  // ✅ NEW: Navigate home (used by logo on mobile menu etc, optional)
+  goHome(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/']);
+  }
   // ✅ User type — localStorage ke fields ke mutabiq
   user: {
     name?: string;
@@ -53,7 +81,7 @@ export class Header implements OnInit {
       },
       error: () => {
         this.coins = this.user?.cashbackPoints || 0;
-      }
+      },
     });
   }
 
@@ -116,12 +144,8 @@ export class Header implements OnInit {
   isCashbackOpen = false;
   isProfileOpen = false;
 
-  currencies = [
-    { code: 'BRL', name: 'Real Brasileiro', flag: 'https://flagcdn.com/w20/br.png' }
-  ];
-  languages = [
-    { code: 'pt-BR', name: 'Português (Brasil)' }
-  ];
+  currencies = [{ code: 'BRL', name: 'Real Brasileiro', flag: 'https://flagcdn.com/w20/br.png' }];
+  languages = [{ code: 'pt-BR', name: 'Português (Brasil)' }];
 
   selectedCurrency = this.currencies[0];
   selectedLanguage = this.languages[0];
