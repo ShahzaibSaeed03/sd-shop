@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -11,6 +11,7 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 export class Faq {
   faChevronDown = faChevronDown;
   faChevronUp = faChevronUp;
+  @Input() variant: 'default' | 'listing' = 'default';
 
  faqs = [
   {
@@ -20,7 +21,7 @@ export class Faq {
   },
   {
     question: 'Como funcionam as recargas de jogos?',
-    answer: 'O processo é simples: você informa sua UID/ID do jogador ou servidor, escolhe o produto desejado e realiza o pagamento. Após a confirmação, a recarga é processada automaticamente e os itens são enviados diretamente para sua conta no jogo.',
+    answer: 'O processo é simples: você informa sua UID/ID do jogador e servidor, escolhe o produto desejado e realiza o pagamento. Após a confirmação, a recarga é processada automaticamente e os itens são enviados diretamente para sua conta no jogo.',
     open: false
   },
   {

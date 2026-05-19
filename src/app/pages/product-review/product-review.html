@@ -1,9 +1,20 @@
-<div class="bg-[#ffffff] min-h-screen p-4">
+<div class="bg-[#F3F5F7] py-6">
   <div class="max-w-7xl mx-auto">
     <!-- ✅ BREADCRUMB -->
     <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-      <a routerLink="/" class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <a
+        routerLink="/"
+        class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer"
+      >
+        <svg
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
           <path d="M9 21V12h6v9" />
         </svg>
@@ -18,18 +29,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
       <!-- ========== LEFT SIDE ========== -->
       <div class="lg:col-span-8 space-y-4">
-
         <!-- ✅ GAME HEADER + AFFILIATE -->
         <div *ngIf="product" class="bg-white rounded-2xl p-5 shadow-sm">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
-
             <!-- LEFT: Game info -->
             <div class="flex gap-4 items-center">
               <img
                 [src]="product?.category?.image"
                 [alt]="product?.category?.name"
                 class="w-[110px] h-[120px] rounded-xl object-cover flex-shrink-0"
-                onerror="this.src='placeholder.jpg'"
+                onerror="this.src = 'placeholder.jpg'"
               />
               <div class="flex-1 min-w-0">
                 <h2 class="text-xl font-bold mb-1.5 text-gray-900">
@@ -38,27 +47,55 @@
 
                 <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-2">
                   <span class="flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg
+                      class="w-3.5 h-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     Rápido
                   </span>
                   <span class="flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg
+                      class="w-3.5 h-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                     Seguro
                   </span>
                   <span class="flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                    <svg
+                      class="w-3.5 h-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
+                      />
                     </svg>
                     24/7
                   </span>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
-                  <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium border border-purple-300">
+                  <span
+                    class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium border border-purple-300"
+                  >
                     Popular
                   </span>
                   <span class="text-gray-700">{{ formatSold(product.sold) }} Vendidos</span>
@@ -75,23 +112,31 @@
             </div>
 
             <!-- RIGHT: Affiliate OR Promo -->
-            <ng-container *ngIf="affiliate; else promoBlock">
-              <div class="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-xl p-4 flex items-center gap-4">
+<ng-container *ngIf="affiliate && cameViaAffiliateLink; else promoBlock">              <div
+                class="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-xl p-4 flex items-center gap-4"
+              >
                 <img
                   [src]="affiliate?.image || 'placeholder.jpg'"
                   alt="affiliate"
                   class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-gray-200"
-                  onerror="this.src='placeholder.jpg'"
+                  onerror="this.src = 'placeholder.jpg'"
                 />
                 <div class="flex-1 min-w-0">
                   <p class="text-sm text-gray-600 mb-1">
                     Indicação de
-                    <a [href]="affiliate?.slug" target="_blank" class="font-bold text-purple-700 hover:underline">
+                    <a
+                      [href]="affiliate?.slug"
+                      target="_blank"
+                      class="font-bold text-purple-700 hover:underline"
+                    >
                       {{ affiliate?.name }}
                     </a>
                   </p>
                   <p class="text-sm text-gray-700 mb-1">
-                    Código: <span class="font-extrabold text-purple-700 text-base">{{ affiliate?.couponCode }}</span>
+                    Código:
+                    <span class="font-extrabold text-purple-700 text-base">{{
+                      affiliate?.couponCode
+                    }}</span>
                   </p>
                   <p class="text-[11px] text-gray-500">Apoie criadores parceiros</p>
                 </div>
@@ -99,12 +144,14 @@
             </ng-container>
 
             <ng-template #promoBlock>
-              <div class="bg-[#F3EAFF] rounded-xl p-4 flex items-center gap-4 border border-purple-100">
+              <div
+                class="bg-[#F3EAFF] rounded-xl p-4 flex items-center gap-4 border border-purple-100"
+              >
                 <img
                   src="placeholder.jpg"
                   alt="promo"
                   class="w-16 h-16 rounded-full object-cover flex-shrink-0"
-                  onerror="this.src='placeholder.jpg'"
+                  onerror="this.src = 'placeholder.jpg'"
                 />
                 <div class="flex-1 min-w-0">
                   <h3 class="text-[16px] font-bold text-gray-800 leading-snug mb-0.5">
@@ -121,7 +168,6 @@
                 </div>
               </div>
             </ng-template>
-
           </div>
         </div>
 
@@ -133,7 +179,8 @@
             class="px-5 py-2.5 rounded-full text-sm whitespace-nowrap font-medium transition flex-shrink-0"
             [ngClass]="{
               'bg-purple-200 text-purple-900 border-purple-200': activeBundleBadge === badge,
-              'bg-gray-50 text-gray-600 border-gray-200 hover:border-purple-200 hover:bg-purple-50': activeBundleBadge !== badge
+              'bg-gray-50 text-gray-600 border-gray-200 hover:border-purple-200 hover:bg-purple-50':
+                activeBundleBadge !== badge,
             }"
           >
             {{ badge }}
@@ -141,14 +188,19 @@
         </div>
 
         <!-- ✅ PRODUCTS GRID -->
-        <div *ngIf="filteredBundles.length" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div
+          *ngIf="filteredBundles.length"
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
           <div
             *ngFor="let item of filteredBundles"
             (click)="item.isBundle || item.badge ? selectBundle(item) : selectProduct(item)"
-            class="group bg-[#F5F5F7] rounded-[18px] overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+            class="group bg-[#ffffff] rounded-[18px] overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
             [ngClass]="{
-              'border-[#A855F7] bg-white shadow-[0_10px_30px_rgba(168,85,247,0.25)]': selectedProductId === (item._id || item.id),
-              'border-[#E5E7EB] hover:border-[#C084FC] shadow-[0_4px_20px_rgba(0,0,0,0.08)]': selectedProductId !== (item._id || item.id)
+              'border-[#A855F7] bg-white shadow-[0_10px_30px_rgba(168,85,247,0.25)]':
+                selectedProductId === (item._id || item.id),
+              'border-[#E5E7EB] hover:border-[#C084FC] shadow-[0_4px_20px_rgba(0,0,0,0.08)]':
+                selectedProductId !== (item._id || item.id),
             }"
           >
             <!-- IMAGE -->
@@ -157,7 +209,7 @@
                 [src]="item.image || item.img"
                 [alt]="item.name"
                 class="w-full h-full object-contain transition duration-300 group-hover:scale-105"
-                onerror="this.src='placeholder.jpg'"
+                onerror="this.src = 'placeholder.jpg'"
               />
               <button
                 *ngIf="item.badge"
@@ -186,13 +238,13 @@
         <div *ngIf="!filteredBundles.length" class="text-center py-10 bg-white rounded-xl">
           <p class="text-gray-500">Nenhum produto encontrado.</p>
         </div>
-
       </div>
 
       <!-- ========== RIGHT PANEL ========== -->
       <div class="lg:col-span-4" *ngIf="product">
-        <div class="bg-white rounded-[18px] border border-[#ECECEC] p-4 sm:p-5 space-y-4 sticky top-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-
+        <div
+          class="bg-white rounded-[18px] border border-[#ECECEC] p-4 sm:p-5 space-y-4 sticky top-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+        >
           <!-- PAYMENT -->
           <div class="flex items-center flex-wrap">
             <img src="payments/mastercard-1.png" class="h-10" />
@@ -202,7 +254,9 @@
           </div>
 
           <!-- GUARANTEE -->
-          <div class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]">
+          <div
+            class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]"
+          >
             <div class="flex items-center gap-2">
               <i class="fa-solid fa-shield-halved text-[#8B5CF6] text-sm"></i>
               <span class="text-[13px] text-[#5B5B5B]">Garantia de Reembolso</span>
@@ -241,7 +295,9 @@
                 class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 text-[14px] outline-none focus:border-[#A855F7]"
               >
                 <option value="" disabled>Por favor, selecione o Servidor</option>
-                <option *ngFor="let opt of getServerOptions()" [value]="opt.value">{{ opt.name }}</option>
+                <option *ngFor="let opt of getServerOptions()" [value]="opt.value">
+                  {{ opt.name }}
+                </option>
               </select>
             </div>
 
@@ -258,11 +314,13 @@
                 [ngClass]="{
                   'border-red-500': userError,
                   'border-green-500': username && !userError,
-                  'border-transparent': !username && !userError
+                  'border-transparent': !username && !userError,
                 }"
               />
               <p *ngIf="checkingUser" class="text-[12px] text-[#8B8B8B] mt-1">Verificando UID...</p>
-              <p *ngIf="username && !userError" class="text-green-600 text-[12px] mt-1">✓ {{ username }}</p>
+              <p *ngIf="username && !userError" class="text-green-600 text-[12px] mt-1">
+                ✓ {{ username }}
+              </p>
               <p *ngIf="userError" class="text-red-500 text-[12px] mt-1">{{ userError }}</p>
             </div>
 
@@ -277,7 +335,9 @@
           <div class="border border-[#F0F0F0] rounded-2xl p-4 space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="text-[16px] font-[700] text-[#222]">Tem um Cupom?</h3>
-              <div class="h-[34px] px-5 rounded-full bg-[#EDC7FF] text-[#8A39B9] text-[12px] font-semibold flex items-center justify-center">
+              <div
+                class="h-[34px] px-5 rounded-full bg-[#EDC7FF] text-[#8A39B9] text-[12px] font-semibold flex items-center justify-center"
+              >
                 Resgatar
               </div>
             </div>
@@ -303,9 +363,23 @@
           <div class="flex items-center justify-between">
             <span class="text-[15px] font-medium text-[#2D2D2D]">Quantidade</span>
             <div class="flex items-center gap-2">
-              <button (click)="decrease()" class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center">−</button>
-              <div class="w-[50px] h-[36px] rounded-lg bg-[#F7F7F7] flex items-center justify-center text-[15px] font-semibold">{{ quantity }}</div>
-              <button (click)="increase()" class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center">+</button>
+              <button
+                (click)="decrease()"
+                class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center"
+              >
+                −
+              </button>
+              <div
+                class="w-[50px] h-[36px] rounded-lg bg-[#F7F7F7] flex items-center justify-center text-[15px] font-semibold"
+              >
+                {{ quantity }}
+              </div>
+              <button
+                (click)="increase()"
+                class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center"
+              >
+                +
+              </button>
             </div>
           </div>
 
@@ -318,7 +392,10 @@
           </div>
 
           <!-- COINS -->
-          <div *ngIf="userCoins > 0" class="bg-[#F7F7F7] rounded-xl px-4 py-3 flex items-center justify-between">
+          <div
+            *ngIf="userCoins > 0"
+            class="bg-[#F7F7F7] rounded-xl px-4 py-3 flex items-center justify-between"
+          >
             <div class="flex items-center gap-2">
               <span class="text-[14px] text-[#666]">Usar:</span>
               <img src="icons/coin.png" class="w-5 h-5" />
@@ -339,10 +416,11 @@
           <!-- BUTTON -->
           <button
             (click)="checkout()"
+            [disabled]="checkingUser || !!userError || !username"
             class="w-full h-[54px] rounded-xl text-white text-[16px] font-semibold transition"
             [ngClass]="
               checkingUser || !!userError || !username
-                ? 'bg-[#B8B8B8] cursor-not-allowed'
+                ? 'bg-[#B8B8B8] cursor-not-allowed opacity-70'
                 : 'bg-gradient-to-r from-[#9B5CF7] to-[#7A3EF2]'
             "
           >
@@ -356,7 +434,6 @@
             e
             <a class="text-[#8A39B9] hover:underline cursor-pointer">Política de Reembolso</a>.
           </p>
-
         </div>
       </div>
     </div>
@@ -377,7 +454,7 @@
         <img
           [src]="selectedBundle?.image"
           class="w-20 h-20 rounded-2xl object-cover border border-gray-100"
-          onerror="this.src='placeholder.jpg'"
+          onerror="this.src = 'placeholder.jpg'"
         />
         <div>
           <h2 class="text-2xl font-[800] text-[#111827]">

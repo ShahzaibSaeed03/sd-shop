@@ -1,71 +1,62 @@
-<div class="bg-[#f5f5f5] py-10 md:py-16">
-
+<div class="py-10 md:py-16" [ngClass]="variant === 'listing' ? 'bg-[#F3F5F7]' : 'bg-white'">
   <div class="max-w-7xl mx-auto px-4 md:px-6">
-
     <!-- HEADER -->
     <div class="mb-8 md:mb-10 text-center md:text-left">
-      <h2 class="text-[28px] md:text-[36px] font-bold text-gray-900">
-        VANTAGENS DA SD SHOP
-      </h2>
+      <h2 class="text-[28px] md:text-[36px] font-bold text-gray-900">VANTAGENS DA SD SHOP</h2>
 
       <p class="text-gray-500 mt-2 max-w-2xl text-xs md:text-sm mx-auto md:mx-0">
-        Tenha uma experiência rápida, segura e confiável ao realizar suas recargas, com benefícios pensados para oferecer o máximo de praticidade e tranquilidade.
+        Tenha uma experiência rápida, segura e confiável ao realizar suas recargas, com benefícios
+        pensados para oferecer o máximo de praticidade e tranquilidade.
       </p>
     </div>
 
     <!-- GRID -->
     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-
-      <div *ngFor="let item of items"
-        class="card group rounded-[10px] p-[20px] transition-all duration-300 
-        flex flex-col justify-between relative overflow-hidden
-        min-h-[217px] gap-[10px] bg-white hover:shadow-md cursor-pointer">
-
+      <div
+        *ngFor="let item of items"
+        class="card group rounded-[10px] p-[20px] transition-all duration-300 flex flex-col justify-between relative overflow-hidden min-h-[217px] gap-[10px] hover:shadow-md cursor-pointer"
+        [ngClass]="variant === 'listing' ? 'bg-white' : 'bg-[#F3F4F6]'"
+      >
+        
         <!-- BACKGROUND IMAGE (preloaded, hidden until hover) -->
-        <img [src]="item.bgImage"
-             alt=""
-             class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
-             loading="eager" />
+        <img
+          [src]="item.bgImage"
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+          loading="eager"
+        />
 
         <!-- DARK OVERLAY for text readability on hover -->
-        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
-
+        <!-- PURPLE OVERLAY -->
+        <div
+          class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0 bg-[linear-gradient(rgba(126,0,166,0.60),rgba(126,0,166,0.60))]"
+        ></div>
         <!-- CONTENT (above background) -->
         <div class="relative z-10 flex flex-col h-full">
-
           <!-- ICON -->
           <div
-            class="w-[40px] h-[40px] flex items-center justify-center rounded-lg mb-3
-            bg-gray-100 group-hover:bg-white/20 transition">
-            <img [src]="item.icon"
-              class="w-5 h-5 md:w-6 md:h-6 object-contain"
-              alt="icon" />
+            class="w-[40px] h-[40px] flex items-center justify-center rounded-lg mb-3 bg-gray-100 group-hover:bg-white/20 transition"
+          >
+            <img [src]="item.icon" class="w-5 h-5 md:w-6 md:h-6 object-contain" alt="icon" />
           </div>
 
           <div class="flex flex-col gap-[10px] mt-auto">
-
             <!-- TITLE -->
             <h3
-              class="font-semibold text-[14px] md:text-[18px] leading-[130%] 
-              text-gray-800 group-hover:text-white transition">
+              class="font-semibold text-[14px] md:text-[18px] leading-[130%] text-gray-800 group-hover:text-white transition"
+            >
               {{ item.title }}
             </h3>
 
             <!-- DESC -->
             <p
-              class="font-normal text-[12px] md:text-[13px] leading-[150%]
-              text-gray-500 group-hover:text-white/90 transition">
+              class="font-normal text-[12px] md:text-[13px] leading-[150%] text-gray-500 group-hover:text-white/90 transition"
+            >
               {{ item.desc }}
             </p>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

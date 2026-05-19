@@ -14,7 +14,7 @@
   </div>
 
   <!-- 🔥 DYNAMIC SECTIONS -->
-  <ng-container *ngFor="let section of sections">
+  <ng-container *ngFor="let section of sections" >
 
     <!-- SPECIAL DESIGN (ONLY TOP GAMES) -->
     <div
@@ -26,7 +26,7 @@
         [games]="section.items"
         [columns]="4"
         [variant]="'purple'"
-        [showButton]="section.items.length > 15"
+        [showButton]="section.items.length > 10"
         (productClick)="goToProduct($event)"
       >
       </app-section-block>
@@ -39,7 +39,7 @@
         [title]="section.name"
         [games]="section.items"
         [columns]="5"
-        [showButton]="section.items.length > 15"
+        [showButton]="section.items.length > 10"
         (productClick)="goToProduct($event)"
       >
       </app-section-block>
@@ -48,5 +48,7 @@
   </ng-container>
 </div>
 
-<app-faq></app-faq>
-<app-advantag-sd></app-advantag-sd>
+<div class="bg-[#F5F5F5]">
+  <app-faq></app-faq>
+  <app-advantag-sd></app-advantag-sd>
+</div>

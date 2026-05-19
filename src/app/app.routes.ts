@@ -7,7 +7,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/product-listing-page/product-listing-page').then((m) => m.ProductListingPage),
   },
-
+{
+    path: 'product/:slug/:couponCode',
+    loadComponent: () =>
+      import('./pages/product-review/product-review').then((m) => m.ProductReview),
+  },
   {
     path: 'product/:slug',
     loadComponent: () =>

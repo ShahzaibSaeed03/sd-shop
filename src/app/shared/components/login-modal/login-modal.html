@@ -1,122 +1,126 @@
 <!-- POINTS MODAL -->
 <div *ngIf="modalType === 'points'" class="fixed inset-0 z-50 flex items-start justify-end">
-
   <!-- Overlay -->
   <div class="absolute inset-0 bg-black/20" (click)="close()"></div>
 
   <!-- Modal -->
   <div class="relative mt-20 mr-4 md:mr-6 bg-[#f5f5f5] rounded-2xl p-6 w-[320px] shadow-xl">
-
     <!-- Close -->
     <button class="absolute top-3 right-3 text-gray-400 hover:text-black text-sm" (click)="close()">
       ✕
     </button>
 
     <!-- Desc -->
-    <p class="text-gray-500 text-sm mb-6">
-      Ganhe pontos ao recarregar: 100 pontos = R$1,00
-    </p>
+    <p class="text-gray-500 text-sm mb-6">Ganhe pontos ao recarregar: 100 pontos = R$1,00</p>
 
     <!-- Login Button -->
-    <button (click)="openLogin()"
-      class="w-full border border-purple-600 text-black rounded-xl py-3 text-lg hover:bg-purple-50 transition">
+    <button
+      (click)="openLogin()"
+      class="w-full border border-purple-600 text-black rounded-xl py-3 text-lg hover:bg-purple-50 transition"
+    >
       Entrar
     </button>
-
   </div>
 </div>
-
 
 <!-- ============================================================ -->
 <!-- LOGIN MODAL — Compact size + Brazilian Portuguese -->
 <!-- ============================================================ -->
-<div *ngIf="modalType === 'login'"
-  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3 md:p-4">
-
-  <div class="w-full max-w-[900px] max-h-[90vh] overflow-y-auto
-              bg-white rounded-[20px]
-              flex flex-col md:flex-row
-              shadow-2xl relative">
-
+<div
+  *ngIf="modalType === 'login'"
+  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3 md:p-4"
+>
+  <div
+    class="w-full max-w-[900px] max-h-[90vh] overflow-y-auto bg-white rounded-[20px] flex flex-col md:flex-row shadow-2xl relative"
+  >
     <!-- Close -->
     <button
       class="absolute top-3 right-3 text-gray-500 hover:text-black z-20 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-      (click)="close()">
+      (click)="close()"
+    >
       ✕
     </button>
 
     <!-- ================= LEFT (PURPLE PANEL) ================= -->
-    <div class="relative w-full md:w-[460px]
-                order-2 md:order-1
-                p-5 md:p-6
-                flex flex-col justify-center
-                bg-gradient-to-br from-[#7B2CBF] via-[#9D4EDD] to-[#C77DFF]
-                overflow-hidden
-                rounded-b-[20px] md:rounded-b-none md:rounded-l-[20px]">
-
-      <img src="login/login-bg.png"
-        class="absolute inset-0 w-full h-full object-cover opacity-30" />
+    <div
+      class="relative w-full md:w-[460px] order-2 md:order-1 p-5 md:p-6 flex flex-col justify-center bg-gradient-to-br from-[#7B2CBF] via-[#9D4EDD] to-[#C77DFF] overflow-hidden rounded-b-[20px] md:rounded-b-none md:rounded-l-[20px]"
+    >
+      <img
+        src="login/login-bg.png"
+        class="absolute inset-0 w-full h-full object-cover opacity-30"
+      />
 
       <div class="relative z-10 flex flex-col gap-3 md:gap-4 text-white">
-
         <div class="text-center">
-          <h2 class="text-lg md:text-2xl font-bold leading-tight">
-            Por que juntar-se a SD Shop?
-          </h2>
+          <h2 class="text-lg md:text-2xl font-bold leading-tight">Por que juntar-se a SD Shop?</h2>
           <p class="text-xs mt-1.5 md:mt-2 opacity-90">
             Cadastre-se agora e desbloqueie recompensas, ofertas exclusivas e vantagens contínuas.
           </p>
         </div>
 
         <div class="flex flex-col gap-2">
-
           <!-- Feature 1 -->
           <div class="bg-white text-black rounded-lg p-2.5 md:p-3 flex gap-3 items-center shadow">
-            <div class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
-             <img src="login/1st.png" alt="">
+            <div
+              class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center"
+            >
+              <img src="login/1st.png" alt="" />
             </div>
             <div>
-              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">Cadastro rápido, recompensas imediatas</h4>
-              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Crie sua conta em poucos passos e receba seu bônus de boas-vindas.</p>
+              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">
+                Cadastro rápido, recompensas imediatas
+              </h4>
+              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">
+                Crie sua conta em poucos passos e receba seu bônus de boas-vindas.
+              </p>
             </div>
           </div>
 
           <!-- Feature 2 -->
           <div class="bg-white text-black rounded-lg p-2.5 md:p-3 flex gap-3 items-center shadow">
-            <div class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
-                          <img src="login/2nd.png" alt="">
-
+            <div
+              class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center"
+            >
+              <img src="login/2nd.png" alt="" />
             </div>
             <div>
-              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">Ofertas e recompensas exclusivas</h4>
-              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Tenha acesso a promoções e benefícios pensados para jogadores.</p>
+              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">
+                Ofertas e recompensas exclusivas
+              </h4>
+              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">
+                Tenha acesso a promoções e benefícios pensados para jogadores.
+              </p>
             </div>
           </div>
 
           <!-- Feature 3 -->
           <div class="bg-white text-black rounded-lg p-2.5 md:p-3 flex gap-3 items-center shadow">
-            <div class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
-              <img src="login/3rd.png" alt="">
+            <div
+              class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 bg-purple-100 rounded-lg flex items-center justify-center"
+            >
+              <img src="login/3rd.png" alt="" />
             </div>
             <div>
-              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">Ganhe pontos e troque por recompensas</h4>
-              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">Recarregue, acumule pontos e utilize em benefícios dentro da plataforma.</p>
+              <h4 class="font-semibold text-[12px] md:text-[13px] leading-tight">
+                Ganhe pontos e troque por recompensas
+              </h4>
+              <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">
+                Recarregue, acumule pontos e utilize em benefícios dentro da plataforma.
+              </p>
             </div>
           </div>
-
         </div>
       </div>
     </div>
 
     <!-- ================= RIGHT (FORM) ================= -->
-    <div class="w-full md:flex-1 order-1 md:order-2 flex items-center justify-center p-5 md:p-6 bg-white
-                rounded-t-[20px] md:rounded-t-none md:rounded-r-[20px]">
-
+    <div
+      class="w-full md:flex-1 order-1 md:order-2 flex items-center justify-center p-5 md:p-6 bg-white rounded-t-[20px] md:rounded-t-none md:rounded-r-[20px]"
+    >
       <div class="w-full max-w-[360px] flex flex-col gap-4 md:gap-5">
-
         <!-- Logo -->
         <div class="flex justify-center pt-2 md:pt-0">
-          <img src="icons/Logo.png" class=" object-contain" />
+          <img src="icons/Logo.png" class="object-contain" />
         </div>
 
         <!-- Title -->
@@ -128,43 +132,64 @@
         </div>
 
         <!-- Info Box -->
-       <div class="relative w-full bg-[#FFF8E7] border border-[#FCD34D] rounded-md p-4 flex items-center justify-center overflow-hidden">
-  <!-- coins top-left -->
-  <img src="icons/coin.png" class="absolute top-[-8px] left-[-8px] w-[36px] opacity-70 rotate-[20deg]" />
-  <!-- coins top-right -->
-  <img src="icons/coin.png" class="absolute top-[-10px] right-[-10px] w-[40px] opacity-70 rotate-[-40deg]" />
-  <!-- coins bottom-left -->
-  <img src="icons/coin.png" class="absolute bottom-[-8px] left-[10px] w-[32px] opacity-60 rotate-[10deg]" />
-  <!-- coins bottom-right -->
-  <img src="icons/coin.png" class="absolute bottom-[-6px] right-[8px] w-[34px] opacity-70 rotate-[-20deg]" />
-  <!-- extra mid-right -->
-  <img src="icons/coin.png" class="absolute top-[50%] right-[-12px] w-[28px] opacity-50 -translate-y-1/2 rotate-[15deg]" />
+        <div
+          class="relative w-full bg-[#FFF8E7] border border-[#FCD34D] rounded-md p-4 flex items-center justify-center overflow-hidden"
+        >
+          <!-- coins top-left -->
+          <img
+            src="icons/coin.png"
+            class="absolute top-[-8px] left-[-8px] w-[36px] opacity-70 rotate-[20deg]"
+          />
+          <!-- coins top-right -->
+          <img
+            src="icons/coin.png"
+            class="absolute top-[-10px] right-[-10px] w-[40px] opacity-70 rotate-[-40deg]"
+          />
+          <!-- coins bottom-left -->
+          <img
+            src="icons/coin.png"
+            class="absolute bottom-[-8px] left-[10px] w-[32px] opacity-60 rotate-[10deg]"
+          />
+          <!-- coins bottom-right -->
+          <img
+            src="icons/coin.png"
+            class="absolute bottom-[-6px] right-[8px] w-[34px] opacity-70 rotate-[-20deg]"
+          />
+          <!-- extra mid-right -->
+          <img
+            src="icons/coin.png"
+            class="absolute top-[50%] right-[-12px] w-[28px] opacity-50 -translate-y-1/2 rotate-[15deg]"
+          />
 
-  <p class="text-[12px] text-center text-gray-700 relative z-10 px-6">
-    Faça login e ganhe <span class="font-semibold">100 pontos (R$1,00)</span>, além de salvar seus pedidos para acompanhamento.
-  </p>
-</div>
-
-        <!-- Google Sign-in -->
-        <div class="google-btn-wrapper w-full flex justify-center">
-          <asl-google-signin-button
-            type="standard"
-            size="large"
-            [width]="360">
-          </asl-google-signin-button>
+          <p class="text-[12px] text-center text-gray-700 relative z-10 px-6">
+            Faça login e ganhe <span class="font-semibold">100 pontos (R$1,00)</span>, além de
+            salvar seus pedidos para acompanhamento.
+          </p>
         </div>
 
+        <!-- Google Sign-in -->
+       <div class="google-btn-wrapper">
+  <asl-google-signin-button
+    type="standard"
+    size="large"
+    [width]="360"
+  >
+  </asl-google-signin-button>
+</div>
+
         <!-- Footer -->
-        <p class="text-[10px] md:text-[11px] text-gray-500 text-center leading-relaxed pb-2 md:pb-0">
-          Ao continuar, você concorda com nossa<br/>
-          <span class="underline text-black font-medium cursor-pointer">Política de Privacidade</span>
+        <p
+          class="text-[10px] md:text-[11px] text-gray-500 text-center leading-relaxed pb-2 md:pb-0"
+        >
+          Ao continuar, você concorda com nossa<br />
+          <span class="underline text-black font-medium cursor-pointer"
+            >Política de Privacidade</span
+          >
           e
           <span class="underline text-black font-medium cursor-pointer">Termos de Uso</span>.
         </p>
-
       </div>
     </div>
-
   </div>
 </div>
 
@@ -172,18 +197,14 @@
 <!-- PROFILE DROPDOWN — Brazilian Portuguese -->
 <!-- ============================================================ -->
 <div *ngIf="modalType === 'profile'" class="fixed inset-0 z-50">
-
   <!-- OVERLAY (click outside) -->
   <div class="absolute inset-0" (click)="close()"></div>
 
   <!-- DROPDOWN -->
   <div class="absolute top-[75px] right-6">
-
     <div class="bg-white w-[280px] rounded-2xl p-5 shadow-xl border">
-
       <!-- USER -->
       <div class="flex items-center gap-3 mb-5">
-
         <img
           [src]="user?.avatar || 'assets/user.jpg'"
           class="w-10 h-10 rounded-full object-cover"
@@ -198,12 +219,10 @@
             {{ user?.email || '' }}
           </p>
         </div>
-
       </div>
 
       <!-- MENU -->
       <div class="space-y-2 text-sm">
-
         <!-- PROFILE -->
         <div
           routerLink="/profile"
@@ -233,11 +252,7 @@
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
           <span>Sair</span>
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

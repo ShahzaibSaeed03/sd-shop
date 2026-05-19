@@ -61,6 +61,7 @@ export class ProductReview implements OnInit {
   discount = 0;
   finalAmount = 0;
   couponApplied = false;
+  cameViaAffiliateLink = false; 
 
   // ================= FORMS =================
   forms: any[] = [];
@@ -94,17 +95,22 @@ export class ProductReview implements OnInit {
       this.loadUserEmail();
     }
 
-    this.route.paramMap.subscribe((params) => {
-      const slug = params.get('slug');
+  this.route.paramMap.subscribe((params) => {
+  const slug = params.get('slug');
+  const couponCode = params.get('couponCode'); // ✅ ADD
 
-      if (!slug) {
-        return;
-      }
+  if (!slug) return;
 
-      this.slug = slug;
+  this.slug = slug;
 
-      this.loadByCategorySlug(slug);
-    });
+  if (couponCode) {
+    this.coupon = couponCode.toUpperCase(); // ✅ ADD
+        this.cameViaAffiliateLink = true; // ✅ ADD
+
+  }
+
+  this.loadByCategorySlug(slug);
+});
   }
 
   // ✅ Logged in user ka email auto-fill karo
@@ -220,8 +226,11 @@ export class ProductReview implements OnInit {
         this.selectedProduct = this.products[0];
 
         this.setMainProduct(this.selectedProduct.raw);
+if (this.coupon) {
+  setTimeout(() => this.applyCoupon(), 300);
+}
 
-        this.cdr.detectChanges();
+this.cdr.detectChanges();
       },
 
       error: (err) => {
@@ -255,7 +264,6 @@ export class ProductReview implements OnInit {
     this.forms = [{ name: 'email', type: 'text' }, ...(data.category?.forms || [])];
 
     this.quantity = 1;
-    this.coupon = '';
     this.discount = 0;
     this.couponApplied = false;
     this.finalAmount = 0;
@@ -374,7 +382,6 @@ export class ProductReview implements OnInit {
   }
 
   removeCoupon() {
-    this.coupon = '';
     this.couponResult = null;
     this.couponError = '';
     this.couponApplied = false;
@@ -650,33 +657,51 @@ selectProduct(p: any) {
     return Object.keys(this.errors).length === 0;
   }
 
-  checkout() {
-    this.router.navigate(['/checkout'], {
-      queryParams: {
-        id: this.selectedProduct?.raw?._id,
+ checkout() {
 
-        bundleId: this.selectedProduct?.raw?.bundleId || '',
-
-        isBundle: this.selectedProduct?.raw?.isBundle || false,
-        title: this.selectedProduct?.title,
-        subtitle: this.selectedProduct?.subtitle,
-        image: this.selectedProduct?.img,
-
-        price: this.selectedProduct?.price,
-        qty: this.quantity,
-
-        ...(this.isLoggedIn ? {} : { email: this.form.email }),
-
-        userId: this.form.userId,
-        server: this.form.server,
-        nickname: this.form.nickname,
-        zone: this.form.zone,
-
-        coupon: this.couponApplied ? this.coupon : '',
-
-        useCoins: this.useCoins,
-        coinsUsed: this.useCoins ? this.userCoins : 0,
-      },
-    });
+  // prevent while validating
+  if (this.checkingUser) {
+    return;
   }
+
+  // validate required fields
+  if (!this.validate()) {
+    return;
+  }
+
+  // block invalid UID
+  if (this.product?.requiresUserId && !this.isUserValid) {
+    this.userError = 'Valide o UID antes de continuar.';
+    return;
+  }
+
+  this.router.navigate(['/checkout'], {
+    queryParams: {
+      id: this.selectedProduct?.raw?._id,
+
+      bundleId: this.selectedProduct?.raw?.bundleId || '',
+
+      isBundle: this.selectedProduct?.raw?.isBundle || false,
+
+      title: this.selectedProduct?.title,
+      subtitle: this.selectedProduct?.subtitle,
+      image: this.selectedProduct?.img,
+
+      price: this.selectedProduct?.price,
+      qty: this.quantity,
+
+      ...(this.isLoggedIn ? {} : { email: this.form.email }),
+
+      userId: this.form.userId,
+      server: this.form.server,
+      nickname: this.form.nickname,
+      zone: this.form.zone,
+
+      coupon: this.couponApplied ? this.coupon : '',
+
+      useCoins: this.useCoins,
+      coinsUsed: this.useCoins ? this.userCoins : 0,
+    },
+  });
+}
 }

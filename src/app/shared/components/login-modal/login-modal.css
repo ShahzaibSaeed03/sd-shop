@@ -1,11 +1,18 @@
 .google-btn-wrapper {
-  width: 100%;
-}
-::ng-deep .google-btn-wrapper iframe {
-  width: 380px !important;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
 }
 
 ::ng-deep .google-btn-wrapper > div {
-  width: 100% !important;
-  margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
+::ng-deep .google-btn-wrapper iframe {
+    width: 360px !important;
+    max-width: 100% !important;
+    margin-left: -6px !important;
 }

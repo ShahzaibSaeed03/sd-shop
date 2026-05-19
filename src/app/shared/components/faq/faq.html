@@ -1,15 +1,20 @@
-<div class="bg-[#f5f5f5] py-16">
-
-  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-start">
+<div class="py-16">  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-start">
 
     <!-- LEFT -->
     <div>
-      <span class="text-purple-600 text-[16px] bg-white px-3 py-1 rounded-full">
-        Perguntas Frequentes
-      </span>
+<span
+  class="text-purple-600 text-[16px] px-3 py-1 rounded-full"
+  [ngClass]="
+    variant === 'default'
+      ? 'bg-white border border-[#ECECEC]'
+      : 'bg-[#F3F4F6]'
+  "
+>
+  Perguntas Frequentes
+</span>    
 
       <h2 class="font-bold text-[32px] uppercase text-gray-900 mt-4">
-        PERGUNTAS<br />FREQUENTES
+        PERGUNTAS FREQUENTES
       </h2>
 
       <p class="text-gray-500 mt-4 text-[16px] max-w-md">
@@ -22,8 +27,11 @@
 
       <div
         *ngFor="let faq of faqs"
-        class="bg-white rounded-xl p-5 shadow-sm"
-      >
+  [ngClass]="
+    variant === 'listing'
+      ? 'bg-[#F8F8F8] border-[#E5E5E5] rounded-xl p-5 shadow-sm'
+      : 'bg-white border-[#ECECEC] rounded-xl p-5 shadow-sm'
+  "     >
 
         <!-- HEADER -->
         <div
@@ -37,7 +45,7 @@
           <!-- ICON -->
           <div
             class="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0 ml-3"
-            [ngClass]="faq.open ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'"
+            [ngClass]="faq.open ? 'bg-[#7E00A6] text-white' : 'bg-gray-200 text-gray-600'"
           >
             <i
               class="fa-solid"

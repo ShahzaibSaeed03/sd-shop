@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-advantag-sd',
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './advantag-sd.css',
 })
 export class AdvantagSd {
+  @Input() variant: 'default' | 'listing' = 'default';
 
   items = [
     {
