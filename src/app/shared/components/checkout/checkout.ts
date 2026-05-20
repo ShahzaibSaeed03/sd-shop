@@ -79,31 +79,64 @@ successOrder: any = null;
   }
 handlePaymentSuccess(data: any) {
 
-  console.log('PAYMENT SUCCESS =>', data);
+  const orderId = data?.order?._id;
 
-  this.successOrder = {
-    orderNumber: data?.order?._id || '-',
+  if (!orderId) return;
 
-    orderDate: new Date().toLocaleDateString(),
+  // stay on payment page
+  this.step = 2;
 
-    gameName: data?.product?.categoryName || '',
+  const interval = setInterval(() => {
 
-    gameUID: data?.order?.userGameId || '',
+    fetch(`https://api.sdshop.gg/api/orders/${orderId}`)
+      .then(res => res.json())
+      .then(order => {
 
-    product: data?.product?.displayName || data?.product?.name || '',
+        console.log('ORDER STATUS:', order);
 
-    server: data?.order?.serverId || '',
+        // ✅ when delivery completed
+        if (order.supplierStatus === 'completed') {
 
-    total: `R$ ${Number(data?.order?.amount || 0).toFixed(2)}`,
+          clearInterval(interval);
 
-    transactionTime: new Date().toLocaleString(),
+          this.successOrder = {
+            orderNumber: order._id || '-',
 
-    image: data?.product?.image || '',
+            orderDate: new Date(order.createdAt).toLocaleDateString(),
 
-    qty: data?.order?.quantity || 1
-  };
+            gameName:
+              order.product?.name || '',
 
-  this.step = 3;
+            gameUID:
+              order.userGameId || '',
+
+            product:
+              order.product?.name || '',
+
+            server:
+              order.serverId || '',
+
+            total:
+              `R$ ${Number(order.totalAmount || 0).toFixed(2)}`,
+
+            transactionTime:
+              new Date().toLocaleString(),
+
+            image:
+              order.product?.image || '',
+
+            qty:
+              order.quantity || 1
+          };
+
+          // ✅ OPEN SUCCESS SCREEN
+          this.step = 3;
+        }
+
+      });
+
+  }, 5000);
+
 }
   goToStep(step: number) {
     this.step = step;

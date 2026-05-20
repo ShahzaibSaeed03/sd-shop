@@ -417,35 +417,35 @@ export class Payment implements OnInit, OnDestroy {
         cardToken = tokenRes.id;
       }
 
-    const payload = {
-  productId: this.data.id,
-  method: this.selectedMethod,
-  user_id: this.data.userId,
-  email: this.data.email || '',
-  server_id: this.data.server,
-  nickname: this.data.nickname,
-  buyerName: this.buyerName,
-  cpf: this.cpf,
-  installments: this.installments,
-  token: cardToken,
-  bin: this.card.number.replace(/\D/g, '').slice(0, 6),
-  
-  // ❌ PROBLEM: this.summary.total already discounted by review-order
-  // amount: this.summary.total,
-  
-  // ✅ FIX: Send ORIGINAL pre-coins amount; backend will deduct coins
-  amount: this.data.finalPrice,   // pre-coins price (coupon already applied)
-  
-  fullCardNumber,
-  cvv: cvvCode,
-  expiryMonth,
-  expiryYear,
-  cardBrand: this.cardBrand,
-  
-  // ✅ Coins data — backend will deduct from this base amount
-  useCoins: this.summary.useCoins,
-  coinsUsed: this.summary.coinsUsed
-};
+      const payload = {
+        productId: this.data.id,
+        method: this.selectedMethod,
+        user_id: this.data.userId,
+        email: this.data.email || '',
+        server_id: this.data.server,
+        nickname: this.data.nickname,
+        buyerName: this.buyerName,
+        cpf: this.cpf,
+        installments: this.installments,
+        token: cardToken,
+        bin: this.card.number.replace(/\D/g, '').slice(0, 6),
+
+        // ❌ PROBLEM: this.summary.total already discounted by review-order
+        // amount: this.summary.total,
+
+        // ✅ FIX: Send ORIGINAL pre-coins amount; backend will deduct coins
+        amount: this.data.finalPrice, // pre-coins price (coupon already applied)
+
+        fullCardNumber,
+        cvv: cvvCode,
+        expiryMonth,
+        expiryYear,
+        cardBrand: this.cardBrand,
+
+        // ✅ Coins data — backend will deduct from this base amount
+        useCoins: this.summary.useCoins,
+        coinsUsed: this.summary.coinsUsed,
+      };
 
       this.loading = true;
 

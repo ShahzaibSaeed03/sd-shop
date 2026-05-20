@@ -9,11 +9,12 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-     provideRouter(routes, 
+    provideRouter(
+      routes,
       withInMemoryScrolling({
         scrollPositionRestoration: 'top', // 🔥 main fix
-        anchorScrolling: 'enabled'
-      })
+        anchorScrolling: 'enabled',
+      }),
     ),
 
     {
@@ -23,13 +24,18 @@ export const appConfig: ApplicationConfig = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('383970014750-36q6ciepaic2umbsq1vjku6sdq2pkiv5.apps.googleusercontent.com')
-          }
+            provider: new GoogleLoginProvider(
+              '383970014750-36q6ciepaic2umbsq1vjku6sdq2pkiv5.apps.googleusercontent.com',
+              {
+                oneTapEnabled: false, // ← yeh add karo
+              },
+            ),
+          },
         ],
         onError: (err) => {
           console.error(err);
-        }
+        },
       } as SocialAuthServiceConfig,
-    }
-  ]
+    },
+  ],
 };

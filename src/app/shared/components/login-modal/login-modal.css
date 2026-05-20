@@ -1,18 +1,26 @@
+/* Google button wrapper */
 .google-btn-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
-::ng-deep .google-btn-wrapper > div {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-}
-
+/* Force iframe to match height/width */
 ::ng-deep .google-btn-wrapper iframe {
-    width: 360px !important;
-    max-width: 100% !important;
-    margin-left: -6px !important;
+  width: 360px !important;
+  height: 44px !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+}
+
+/* Remove extra div wrappers Google injects */
+::ng-deep .google-btn-wrapper > div,
+::ng-deep .google-btn-wrapper > div > div {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  height: 44px !important;
 }
