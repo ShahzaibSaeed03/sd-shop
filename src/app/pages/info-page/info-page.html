@@ -1,64 +1,55 @@
 <div class="w-full bg-[#f3f5f5] py-8">
-
-  <!-- FAQ SECTION -->
   <div class="max-w-[1400px] mx-auto flex flex-col gap-4">
 
-    <div
-      *ngFor="let item of faqs; let i = index"
-      class="bg-white rounded-[22px] border border-[#E2E8F0] overflow-hidden">
-
-      <!-- HEADER -->
-      <button
-        (click)="toggle(i)"
-        class="w-full min-h-[76px] px-6 flex items-center justify-between hover:bg-[#FAFBFC] transition-all duration-200">
-
-        <h2 class="text-left text-[15px] font-[700] text-[#141B2B] leading-[24px]">
-
-          {{
-            item.title && item.title.trim()
-              ? item.title
-              : 'Game Information'
-          }}
-
-        </h2>
-
-        <!-- ICON -->
-        <div
-          class="min-w-[40px] w-[40px] h-[40px] rounded-full bg-[#EEF2FF] flex items-center justify-center text-[#3525CD] transition-all duration-300"
-          [class.rotate-180]="activeIndex === i">
-
-          <i class="fa-solid fa-chevron-down text-[12px]"></i>
-
-        </div>
-
-      </button>
-
-      <!-- BODY -->
+    <!-- FAQ SECTIONS -->
+    <ng-container *ngFor="let item of faqs; let i = index">
       <div
-        *ngIf="activeIndex === i"
-        class="px-6 pb-7 border-t border-[#F1F5F9]">
+        *ngIf="item.title && item.title.trim()"
+        class="bg-white rounded-[22px] border border-[#E2E8F0] overflow-hidden">
 
-        <div
-          class="game-content pt-6"
-          [innerHTML]="item.content">
+        <button
+          (click)="toggle(i)"
+          class="w-full min-h-[76px] px-6 flex items-center justify-between hover:bg-[#FAFBFC] transition-all duration-200">
+
+          <h2 class="text-left text-[15px] font-[700] text-[#141B2B] leading-[24px]">
+            {{ item.title }}
+          </h2>
+
+       <div
+  class="min-w-[48px]
+         w-[48px]
+         h-[48px]
+         rounded-full
+         flex items-center justify-center
+         transition-all duration-300"
+
+  [ngClass]="
+    activeIndex === i
+      ? 'bg-[#8B1CF7] text-white rotate-180'
+      : 'bg-[#F4F4FF] text-[#4338CA]'
+  "
+>  <i class="fa-solid fa-chevron-down text-sm"></i>
+          </div>
+
+        </button>
+
+        <div *ngIf="activeIndex === i" class="px-6 pb-7 border-t border-[#F1F5F9]">
+          <!-- ✅ safeContent use karo -->
+          <div class="game-content pt-6" [innerHTML]="item.safeContent"></div>
         </div>
 
       </div>
+    </ng-container>
 
-    </div>
-
-  </div>
-
-  <!-- ABOUT SECTION -->
-  <div
-    *ngIf="faqs.length"
-    class="max-w-[1400px] mx-auto mt-6 bg-white rounded-[24px] border border-[#E2E8F0] p-8">
-
-    <div
-      class="game-content"
-      [innerHTML]="faqs[0]?.content">
-    </div>
+    <!-- ABOUT SECTIONS -->
+    <ng-container *ngFor="let item of faqs">
+      <div
+        *ngIf="item.isAbout || !item.title || !item.title.trim()"
+        class="bg-white rounded-[24px] border border-[#E2E8F0] p-8">
+        <!-- ✅ safeContent use karo -->
+        <div class="game-content" [innerHTML]="item.safeContent"></div>
+      </div>
+    </ng-container>
 
   </div>
-
 </div>

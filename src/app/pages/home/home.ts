@@ -17,7 +17,6 @@ import { ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './home.html',
 })
 export class Home implements OnInit {
-
   constructor(
     private router: Router,
     private sectionApi: SectionApi,
@@ -27,33 +26,33 @@ export class Home implements OnInit {
   // ==========================
   // ✅ STATIC TABS (WITH ICONS)
   // ==========================
- tabs = [
-  {
-    label: 'Top Up',
-    value: 'topup',
-    image: 'tabs/tab1.png'
-  },
-  {
-    label: 'Moedas',
-    value: 'coins',
-    image: 'tabs/tab2.png'
-  },
-  {
-    label: 'Gift Cards',
-    value: 'gift',
-    image: 'tabs/tab3.png'
-  },
-  {
-    label: 'Vouchers',
-    value: 'voucher',
-    image: 'tabs/tab4.png'
-  },
-  {
-    label: 'Itens',
-    value: 'items',
-    image: 'tabs/tab5.png'
-  }
-];
+  tabs = [
+    {
+      label: 'Top Up',
+      value: 'topup',
+      image: 'tabs/tab1.png',
+    },
+    {
+      label: 'Moedas',
+      value: 'coins',
+      image: 'tabs/tab2.png',
+    },
+    {
+      label: 'Gift Cards',
+      value: 'gift',
+      image: 'gift-box.png',
+    },
+    {
+      label: 'Vouchers',
+      value: 'voucher',
+      image: 'tabs/tab4.png',
+    },
+    {
+      label: 'Itens',
+      value: 'items',
+      image: 'tabs/tab5.png',
+    },
+  ];
 
   activeTab: string = 'topup';
 
@@ -80,8 +79,20 @@ export class Home implements OnInit {
 
         this.allSections = data.map((section: any) => ({
           name: section.name,
+
+          subtitle: section.subtitle,
+
+          tabKey: section.tabKey,
+
           apiSource: section.apiSource,
-          items: this.mapItems(section.items || [])
+
+          isSpecial: section.isSpecial,
+
+          specialTitle: section.specialTitle,
+
+          specialSubtitle: section.specialSubtitle,
+
+          items: this.mapItems(section.items || []),
         }));
 
         // default tab
@@ -99,38 +110,10 @@ export class Home implements OnInit {
   onTabChange(tab: string) {
     this.activeTab = tab;
 
-    switch (tab) {
-
-      case 'topup':
-        this.sections = this.allSections;
-        break;
-
-      case 'coins':
-        this.sections = this.allSections.filter(s =>
-          s.name?.toLowerCase().includes('coin')
-        );
-        break;
-
-      case 'gift':
-        this.sections = this.allSections.filter(s =>
-          s.name?.toLowerCase().includes('gift')
-        );
-        break;
-
-      case 'voucher':
-        this.sections = this.allSections.filter(s =>
-          s.name?.toLowerCase().includes('voucher')
-        );
-        break;
-
-      case 'items':
-        this.sections = this.allSections.filter(s =>
-          s.name?.toLowerCase().includes('item')
-        );
-        break;
-
-      default:
-        this.sections = this.allSections;
+    if (tab === 'topup') {
+      this.sections = this.allSections;
+    } else {
+      this.sections = this.allSections.filter((s) => s.tabKey === tab);
     }
 
     this.cdr.markForCheck();
@@ -140,19 +123,41 @@ export class Home implements OnInit {
   // ✅ MAP ITEMS
   // ==========================
   mapItems(items: any[]) {
-    return items.map(item => ({
+    return items.map((item) => ({
       title: item.name,
+
       image: item.image || 'cards/card-images.png',
+
       slug: item.slug,
-      raw: item
+
+      // ✅ NEW
+      rating: item.averageRating || 0,
+
+      totalReviews: item.totalReviews || 0,
+
+      soldCount: item.totalSold || 0,
+
+      sold: `${this.formatSold(item.totalSold || 0)} Vendidos`,
+
+      raw: item,
     }));
+  }
+  private formatSold(count: number): string {
+    if (count >= 1000000) {
+      return (count / 1000000).toFixed(1).replace('.0', '') + 'M+';
+    }
+
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1).replace('.0', '') + 'K+';
+    }
+
+    return count.toString();
   }
 
   // ==========================
   // ✅ NAVIGATION
   // ==========================
-goToProduct(item: any) {
-  this.router.navigate(['/product', item.slug]);
-}
-
+  goToProduct(item: any) {
+    this.router.navigate(['/product', item.slug]);
+  }
 }

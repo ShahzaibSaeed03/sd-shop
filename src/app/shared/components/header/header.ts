@@ -11,10 +11,12 @@ import {
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { SupportService } from '../../service/support.service';
+import { FormsModule } from '@angular/forms';
+import { CategoryApi } from '../../../core/services/category.api';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink,FormsModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
     host: { class: 'block w-full' } 
@@ -22,14 +24,56 @@ import { SupportService } from '../../service/support.service';
 export class Header implements OnInit {
   showCurrencyDropdown = false;
   showLanguageDropdown = false;
-  constructor(private authService: AuthService) {}
-
+  searchQuery = '';
+searchResults: any[] = [];
+@HostListener('window:open-login')
+handleOpenLogin() {
+  this.openLoginModal();
+}
+constructor(
+  private authService: AuthService,
+  private categoryApi: CategoryApi
+) {}
   ngOnInit(): void {
     this.loadUser(); // ✅ Always try loading user from localStorage
     if (this.isLoggedIn) {
       this.loadCashback();
     }
   }
+  onSearch() {
+
+  const q = this.searchQuery.trim();
+
+  if (!q) {
+    this.searchResults = [];
+    return;
+  }
+
+  this.categoryApi
+    .searchCategories(q)
+    .subscribe({
+
+      next: (res: any) => {
+        this.searchResults = res.data || [];
+      },
+
+      error: () => {
+        this.searchResults = [];
+      }
+    });
+}
+
+goToCategory(slug: string) {
+
+  this.searchResults = [];
+  this.searchQuery = '';
+
+  this.router.navigate([
+    '/product',
+    slug
+  ]);
+
+}
   private supportService = inject(SupportService);
   private router = inject(Router);
 

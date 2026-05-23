@@ -2,6 +2,7 @@ import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { OrderApi } from '../../core/services/order.api';
+import { SupportService } from '../../shared/service/support.service';
 
 @Component({
   selector: 'app-order-record',
@@ -10,17 +11,30 @@ import { OrderApi } from '../../core/services/order.api';
 })
 export class OrderRecord implements OnInit {
 
-  constructor(private orderApi: OrderApi,private cdr: ChangeDetectorRef) {}
+  constructor(private orderApi: OrderApi,private cdr: ChangeDetectorRef,  public supportService: SupportService
+) {}
 
   // ✅ DEFAULT TAB (IMPORTANT)
   activeTab: string = 'all';
 
-  tabs = [
-    { key: 'all', label: 'All' },
-    { key: 'pending_payment', label: 'To Pay' },
-    { key: 'paid', label: 'Completed' },
-    { key: 'cancelled', label: 'Cancelled' }
-  ];
+tabs = [
+  {
+    key: 'all',
+    label: 'Todos'
+  },
+  {
+    key: 'pending_payment',
+    label: 'A pagar'
+  },
+  {
+    key: 'paid',
+    label: 'Concluídos'
+  },
+  {
+    key: 'cancelled',
+    label: 'Cancelados'
+  }
+];
 
   orders: any[] = [];
 
@@ -39,14 +53,26 @@ loadOrders() {
   this.orderApi.getMyOrders().subscribe({
     next: (res: any) => {
 
-      this.orders = (res || []).map((o: any) => ({
-        title: o.product?.name || 'Unknown Product',
-        coins: this.extractCoins(o.product?.displayName),
-        price: o.totalAmount || o.price,
-        date: new Date(o.createdAt).toLocaleString(),
-        status: o.status,
-        image: o.product?.image || 'assets/no-image.png'
-      }));
+   this.orders = (res || []).map((o: any) => ({
+  title: o.product?.name || 'Produto desconhecido',
+
+  coins: this.extractCoins(o.product?.displayName),
+
+  price: o.totalAmount || o.price,
+
+  date: new Date(o.createdAt).toLocaleString('pt-BR'),
+
+  status: o.status,
+
+  image: o.product?.image || 'assets/no-image.png',
+
+  // ✅ NEW
+  cashbackEarned: o.cashbackEarned || 0,
+
+  cashbackCoins:
+    o.cashbackCoins ||
+    Math.floor((o.cashbackEarned || 0) * 100)
+}));
 
       this.activeTab = 'all';
       this.currentPage = 1;

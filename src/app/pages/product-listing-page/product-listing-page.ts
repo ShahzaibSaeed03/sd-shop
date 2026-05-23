@@ -6,6 +6,7 @@ import { Faq } from '../../shared/components/faq/faq';
 import { AdvantagSd } from '../../shared/components/advantag-sd/advantag-sd';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { CategoryApi } from '../../core/services/category.api';
+import { SectionApi } from '../../core/services/section.api';
 
 @Component({
   selector: 'app-product-listing-page',
@@ -15,18 +16,21 @@ import { CategoryApi } from '../../core/services/category.api';
 })
 export class ProductListingPage implements OnInit {
 
+  allSections: any[] = [];
+sectionsMap: any = {};
   constructor(
     private router: Router,
     private categoryApi: CategoryApi,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sectionApi: SectionApi,
   ) {}
 
   // ✅ Tabs — Portuguese
   tabs = [
     { label: 'Top Ups', value: 'topup', image: 'tabs/tab1.png' },
     { label: 'Moedas', value: 'moedas', image: 'tabs/tab2.png' },
-    { label: 'Vouchers', value: 'vouchers', image: 'tabs/tab3.png' },
+    { label: 'Vouchers', value: 'voucher', image: 'tabs/tab3.png' },
   ];
 
   activeTab: string = 'topup';
@@ -47,11 +51,57 @@ export class ProductListingPage implements OnInit {
   // Loading/Error states
   isLoading: boolean = false;
   errorMessage: string = '';
+ngOnInit(): void {
 
-  ngOnInit(): void {
-    this.loadCategories();
-  }
+  this.loadSections();
 
+  this.loadCategories();
+
+}
+loadSections(): void {
+
+  this.sectionApi
+    .getFrontendSections()
+    .subscribe({
+
+      next: (res: any) => {
+
+        const data =
+          res.data || res;
+
+        this.allSections = data;
+
+        // ✅ convert to map
+        this.sectionsMap = {};
+
+        data.forEach(
+          (section: any) => {
+
+            if (!section.tabKey) {
+              return;
+            }
+
+            this.sectionsMap[
+              section.tabKey
+            ] =
+              section.items.map(
+                (x: any) => x.slug
+              );
+
+          }
+        );
+
+        this.cdr.markForCheck();
+
+      },
+
+      error: (err) => {
+        console.error(err);
+      }
+
+    });
+
+}
   // ✅ Load all categories (games) from backend
   loadCategories(): void {
     this.isLoading = true;
@@ -61,7 +111,7 @@ export class ProductListingPage implements OnInit {
     this.categoryApi.getCategories().subscribe({
       next: (res: any) => {
         // Backend response handle karo — kabhi `res.data`, kabhi direct array
-        const data = Array.isArray(res) ? res : (res?.data || res?.categories || []);
+        const data = Array.isArray(res) ? res : res?.data || res?.categories || [];
         console.log('Categories loaded:', data); // debug ke liye
         this.setCategories(data);
         this.isLoading = false;
@@ -92,7 +142,7 @@ export class ProductListingPage implements OnInit {
         image: c.image || 'assets/cards/card-images.png',
         sold: `${this.formatSold(c.totalSold || c.sold || 0)} Vendidos`,
         soldCount: c.totalSold || c.sold || 0,
-        rating: c.rating || 0,
+        rating: c.averageRating || 0,
         totalReviews: c.totalReviews || 0,
         category: c.type || 'topup',
         raw: c,
@@ -111,52 +161,85 @@ export class ProductListingPage implements OnInit {
   }
 
   // 🔹 Filtered + Sorted categories
-  get filteredCategories(): any[] {
-    if (!this.allCategories.length) return [];
+ get filteredCategories(): any[] {
 
-    let items = [...this.allCategories];
-
-    // Tab filter
-    if (this.activeTab !== 'topup') {
-      items = items.filter((c) => c.category === this.activeTab);
-    }
-
-    // Sort
-    if (this.sortOption === 'rating') {
-      items.sort((a, b) => b.rating - a.rating);
-    } else if (this.sortOption === 'sold') {
-      items.sort((a, b) => b.soldCount - a.soldCount);
-    }
-
-    return items;
+  if (!this.allCategories.length) {
+    return [];
   }
+
+  let items = [
+    ...this.allCategories
+  ];
+
+  // ✅ tab filter from sections
+  if (
+    this.activeTab !== 'topup'
+  ) {
+
+    const allowedSlugs =
+      this.sectionsMap[
+        this.activeTab
+      ] || [];
+
+    items = items.filter(
+      x =>
+        allowedSlugs.includes(
+          x.raw.slug
+        )
+    );
+
+  }
+
+  // ✅ sorting
+  if (
+    this.sortOption === 'rating'
+  ) {
+
+    items.sort(
+      (a, b) =>
+        (b.rating || 0) -
+        (a.rating || 0)
+    );
+
+  }
+
+  else if (
+    this.sortOption === 'sold'
+  ) {
+
+    items.sort(
+      (a, b) =>
+        (b.soldCount || 0) -
+        (a.soldCount || 0)
+    );
+
+  }
+
+  return items;
+
+}
 
   // ✅ Breadcrumb label
   get currentTabLabel(): string {
-    return this.tabs.find(t => t.value === this.activeTab)?.label || 'Top Ups';
+    return this.tabs.find((t) => t.value === this.activeTab)?.label || 'Top Ups';
   }
 
   // ✅ Sort button label
   get currentSortLabel(): string {
-    return this.sortOptions.find(o => o.value === this.sortOption)?.label || 'Mais Populares';
+    return this.sortOptions.find((o) => o.value === this.sortOption)?.label || 'Mais Populares';
   }
 
   // ✅ Game pe click → product detail page khole
- goToDetails(category: any): void {
+  goToDetails(category: any): void {
+    const slug = category?.raw?.slug;
 
-  const slug = category?.raw?.slug;
+    if (!slug) {
+      console.warn('No category slug found', category);
+      return;
+    }
 
-  if (!slug) {
-    console.warn('No category slug found', category);
-    return;
+    this.router.navigate(['/product', slug]);
   }
-
-  this.router.navigate([
-    '/product',
-    slug
-  ]);
-
-}
 
   // 🔹 Tab change
   onTabChange(tab: string): void {

@@ -1,5 +1,5 @@
 <div
-  class="max-w-[1128px] min-h-[644px] mx-auto bg-[#F5F5F5] border border-[#F5F5F5] rounded-[30px] p-[50px] py-6 sm:py-10"
+  class="max-w-[1128px]  mx-auto bg-white border border-[#F5F5F5] rounded-[30px] p-[50px] py-6 sm:py-10"
 >
   <!-- MAIN -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -72,13 +72,17 @@
       </div>
 
       <!-- SUMMARY -->
-      <div class="bg-white rounded-xl p-4">
+      <div
+  class="bg-white rounded-[24px] border border-[#EEEEEE] p-6 shadow-sm"
+>
 
         <div
           class="flex justify-between items-center cursor-pointer"
           (click)="toggleSummary()"
         >
-          <h3 class="font-medium text-base sm:text-xl">
+        <h3
+  class="text-[22px] font-[700] text-[#1A1A1A]"
+>
             Resumo do pedido
           </h3>
 
@@ -102,44 +106,64 @@
           </div>
 
           <!-- COUPON (only shown when applied) -->
-          <div
-            *ngIf="summary.coupon && summary.coupon !== '-'"
-            class="flex justify-between"
-          >
-            <span>Cupom</span>
+  <!-- COUPON -->
+<div
+  *ngIf="summary.coupon && summary.coupon !== '-'"
+  class="flex items-center justify-between py-3"
+>
+  <span class="text-[#8B8B8B] text-[15px]">
+    Cupom
+  </span>
 
-            <span
-              class="text-purple-600 font-semibold text-[16px] leading-none tracking-normal"
-            >
-              {{ summary.coupon }}
-            </span>
-          </div>
+  <span
+    class="text-[#A020F0] font-[700] uppercase text-[14px]"
+  >
+    {{ summary.coupon }}
+  </span>
+</div>
+<!-- COUPON DISCOUNT -->
+<div
+  *ngIf="summary.couponDiscount > 0"
+  class="flex items-center justify-between py-2"
+>
+  <span class="text-[#8B8B8B] text-[15px]">
+    Desconto do cupom
+  </span>
 
-          <!-- SD COINS USED (only shown when user uses SD Coins) -->
+  <span class="text-[#00A86B] font-[600]">
+    -R${{ summary.couponDiscount | number:'1.2-2' }}
+  </span>
+</div>
+
+<!-- SD COINS -->
+<div
+  *ngIf="summary.useCoins && summary.coinsUsed > 0"
+  class="flex items-center justify-between py-2"
+>
+
+  <div class="flex items-center gap-2">
+
+    <img
+      src="icons/coin.png"
+      class="w-5 h-5"
+    />
+
+    <span class="text-[#8B8B8B] text-[15px]">
+      SD Coins utilizadas
+    </span>
+
+  </div>
+
+  <span class="text-[#00A86B] font-[600]">
+    -R${{ summary.coinsDiscount | number:'1.2-2' }}
+  </span>
+
+</div>         
+<!-- SD COINS USED (only shown when user uses SD Coins) -->
           <!-- NOTE: Standalone "Discount" line removed per platform rules. -->
           <!-- Discount is only shown here, alongside SD Coins usage. -->
-          <div
-            *ngIf="summary.useCoins && summary.coinsUsed > 0"
-            class="flex justify-between"
-          >
-            <span>SD Coins utilizadas</span>
-
-            <div class="flex items-center gap-1">
-
-              <!-- SD Coins amount (BLACK) -->
-              <span class="text-black">
-                -{{ summary.coinsUsed }}
-              </span>
-
-              <!-- Discount value (GREEN) -->
-              <span class="text-green-600">
-                (R${{ summary.coinsDiscount | number:'1.2-2' }})
-              </span>
-
-            </div>
-          </div>
-
-          <hr />
+       
+        <div class="h-[1px] bg-[#EFEFEF] my-4"></div>
 
           <!-- TOTAL -->
           <div class="flex justify-between text-lg sm:text-xl">

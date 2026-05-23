@@ -3,19 +3,11 @@
   display: block;
 }
 
-/* =========================
-   CONTENT
-========================= */
-
 .game-content {
-  color: #334155;
+  color: #475569;
   line-height: 1.8;
   font-size: 15px;
 }
-
-/* =========================
-   HEADINGS
-========================= */
 
 .game-content h1 {
   font-size: 34px;
@@ -44,18 +36,14 @@
   color: #141B2B;
 }
 
-/* =========================
-   PARAGRAPH
-========================= */
-
+/* ✅ color nahi — inline styles override na hon */
 .game-content p {
   margin-bottom: 14px;
-  color: #475569;
 }
 
-/* =========================
-   LISTS
-========================= */
+.game-content strong {
+  font-weight: 700;
+}
 
 .game-content ul {
   padding-left: 24px;
@@ -73,19 +61,6 @@
   margin-bottom: 8px;
 }
 
-/* =========================
-   STRONG
-========================= */
-
-.game-content strong {
-  font-weight: 700;
-  color: #141B2B;
-}
-
-/* =========================
-   IMAGE
-========================= */
-
 .game-content img {
   width: 100%;
   max-width: 100%;
@@ -93,18 +68,10 @@
   margin: 20px 0;
 }
 
-/* =========================
-   LINKS
-========================= */
-
 .game-content a {
   color: #3525CD;
   text-decoration: underline;
 }
-
-/* =========================
-   TABLE
-========================= */
 
 .game-content table {
   width: 100%;

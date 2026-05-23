@@ -13,7 +13,7 @@ import { SucessPayment } from '../../../pages/sucess-payment/sucess-payment';
 })
 export class Checkout implements OnInit {
   step = 1;
-successOrder: any = null;
+  successOrder: any = null;
   // 🔥 RECEIVED DATA
   orderData: any = {};
   paymentMethod: 'card' | 'pix' = 'card';
@@ -35,13 +35,12 @@ successOrder: any = null;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-
       const price = +params['price'] || 0;
       const qty = Number(params['qty']) || 1;
 
       // ✅ Coins flags — query params arrive as STRINGS
       const useCoins = params['useCoins'] === 'true' || params['useCoins'] === true;
-      const coinsUsed = useCoins ? (+params['coinsUsed'] || 0) : 0;
+      const coinsUsed = useCoins ? +params['coinsUsed'] || 0 : 0;
       const coinsDiscount = coinsUsed / 100; // 100 coins = R$1.00
 
       // ✅ Final price (parent already calculated payableAmount)
@@ -50,94 +49,85 @@ successOrder: any = null;
         ? +params['finalPrice']
         : Math.max(0, subtotal - coinsDiscount);
 
-      this.orderData = {
-        id: params['id'],
-        title: params['title'],
-        subtitle: params['subtitle'],
-        image: params['image'],
-        email: params['email'] || '',
+     this.orderData = {
+  id: params['id'],
+  title: params['title'],
+  subtitle: params['subtitle'],
+  image: params['image'],
+  email: params['email'] || '',
 
-        price,
-        finalPrice,
-        discount: params['discount'] ? +params['discount'] : 0,
-        qty,
+  price,
+  finalPrice,
 
-        userId: params['userId'],
-        server: params['server'],
-        nickname: params['nickname'],
-        zone: params['zone'],
+  discount: params['discount']
+    ? +params['discount']
+    : 0,
 
-        coupon: params['coupon'] || '',
+  couponDiscount:
+    +params['couponDiscount'] || 0,
 
-        // ✅ THESE WERE MISSING — pass coins data to review-order
-        useCoins,
-        coinsUsed,
-      };
+  qty,
+
+  userId: params['userId'],
+  server: params['server'],
+  nickname: params['nickname'],
+  zone: params['zone'],
+
+  coupon: params['coupon'] || '',
+
+  useCoins,
+  coinsUsed,
+};
 
       console.log('CHECKOUT DATA:', this.orderData);
     });
   }
-handlePaymentSuccess(data: any) {
+  handlePaymentSuccess(data: any) {
+    const orderId = data?.order?._id;
 
-  const orderId = data?.order?._id;
+    if (!orderId) return;
 
-  if (!orderId) return;
+    // stay on payment page
+    this.step = 2;
 
-  // stay on payment page
-  this.step = 2;
+    const interval = setInterval(() => {
+      fetch(`https://api.sdshop.gg/api/orders/${orderId}`)
+        .then((res) => res.json())
+        .then((order) => {
+          console.log('ORDER STATUS:', order);
 
-  const interval = setInterval(() => {
+          // ✅ when delivery completed
+          if (order.supplierStatus === 'completed') {
+            clearInterval(interval);
 
-    fetch(`https://api.sdshop.gg/api/orders/${orderId}`)
-      .then(res => res.json())
-      .then(order => {
+            this.successOrder = {
+              orderNumber: order._id || '-',
 
-        console.log('ORDER STATUS:', order);
+              orderDate: new Date(order.createdAt).toLocaleDateString(),
 
-        // ✅ when delivery completed
-        if (order.supplierStatus === 'completed') {
+              gameName: order.product?.name || '',
 
-          clearInterval(interval);
+              gameUID: order.userGameId || '',
 
-          this.successOrder = {
-            orderNumber: order._id || '-',
+              product: order.product?.name || '',
 
-            orderDate: new Date(order.createdAt).toLocaleDateString(),
+              server: order.serverId || '',
 
-            gameName:
-              order.product?.name || '',
+              total: `R$ ${Number(order.totalAmount || 0).toFixed(2)}`,
 
-            gameUID:
-              order.userGameId || '',
+              transactionTime: new Date().toLocaleString(),
 
-            product:
-              order.product?.name || '',
+              image: order.product?.image || '',
 
-            server:
-              order.serverId || '',
+              qty: order.quantity || 1,
+            };
 
-            total:
-              `R$ ${Number(order.totalAmount || 0).toFixed(2)}`,
-
-            transactionTime:
-              new Date().toLocaleString(),
-
-            image:
-              order.product?.image || '',
-
-            qty:
-              order.quantity || 1
-          };
-
-          // ✅ OPEN SUCCESS SCREEN
-          this.step = 3;
-        }
-
-      });
-
-  }, 5000);
-
-}
+            // ✅ OPEN SUCCESS SCREEN
+            this.step = 3;
+          }
+        });
+    }, 5000);
+  }
   goToStep(step: number) {
     this.step = step;
   }

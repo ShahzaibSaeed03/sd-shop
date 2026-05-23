@@ -1,13 +1,29 @@
 <div class="flex flex-col min-h-screen">
+
   <div
-    class="bg-[linear-gradient(to_bottom,rgba(126,0,166,0.22)_0%,rgba(126,0,166,0.12)_45%,rgba(245,245,245,0.92)_78%,#f5f5f5_100%)]"
+    [ngClass]="
+      isHomePage
+        ? 'bg-[linear-gradient(to_bottom,rgba(126,0,166,0.22)_0%,rgba(126,0,166,0.12)_45%,rgba(255,255,255,0.95)_78%,#ffffff_100%)]'
+        : 'bg-[linear-gradient(to_bottom,rgba(126,0,166,0.22)_0%,rgba(126,0,166,0.12)_45%,rgba(255,255,255,0.95)_78%,#f5f5f5_100%)]'
+    "
   >
-    <app-header (openLogin)="handleModal($event)" class="py-4 px-4"></app-header>
+    <app-header
+      (openLogin)="handleModal($event)"
+      class="py-4 px-4"
+    >
+    </app-header>
   </div>
+
   <main class="flex-1">
     <router-outlet></router-outlet>
   </main>
 
   <app-footer></app-footer>
-  <app-login-modal [modalType]="modalType" (onClose)="modalType = null"> </app-login-modal>
+
+  <app-login-modal
+    [modalType]="modalType"
+    (onClose)="modalType = null"
+  >
+  </app-login-modal>
+
 </div>

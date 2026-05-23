@@ -1,42 +1,52 @@
 <app-slider></app-slider>
 
-<div
-  class="max-w-7xl mx-auto  bg-white overflow-hidden sm:p-2 md:p-4 lg:p-6 xl:p-8" 
->
+<div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-5 sm:py-7">
   <!-- ONLY TOPUP TAB -->
   <div class="flex justify-center overflow-x-auto no-scrollbar">
-    <app-tab-menu
-      [tabs]="tabs"
-      [activeTab]="activeTab"
-      (tabChange)="onTabChange($event)"
-    >
+    <app-tab-menu [tabs]="tabs" [activeTab]="activeTab" (tabChange)="onTabChange($event)">
     </app-tab-menu>
   </div>
 
   <!-- 🔥 DYNAMIC SECTIONS -->
-  <ng-container *ngFor="let section of sections" >
-
+  <ng-container *ngFor="let section of sections">
     <!-- SPECIAL DESIGN (ONLY TOP GAMES) -->
+    <!-- SPECIAL SECTION -->
     <div
-      *ngIf="section.apiSource === 'top_games'"
-      class="bg-[#D9B4E4] rounded-2xl px-3 sm:px-5 lg:px-6 py-5 sm:py-8 overflow-hidden"
+      *ngIf="section.isSpecial"
+      class="relative overflow-hidden rounded-[28px] px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-10 bg-gradient-to-r from-[#5B11B7] via-[#8E3DDB] to-[#D695F6]"
     >
+      <!-- HEADER -->
+      <div class="mb-6 sm:mb-8">
+        <h2
+          class="text-white uppercase font-extrabold text-[28px] sm:text-[34px] lg:text-[42px] leading-none"
+        >
+          {{ section.specialTitle || section.name }}
+        </h2>
+
+        <p class="text-white/80 mt-2 text-sm sm:text-base">
+          {{ section.specialSubtitle || section.subtitle }}
+        </p>
+      </div>
+
+      <!-- GAMES -->
       <app-section-block
-        [title]="section.name"
+        [title]="''"
+        [subtitle]="''"
         [games]="section.items"
         [columns]="4"
+        [showButton]="false"
         [variant]="'purple'"
-        [showButton]="section.items.length > 10"
         (productClick)="goToProduct($event)"
       >
       </app-section-block>
     </div>
 
     <!-- DEFAULT SECTIONS -->
-    <div class="overflow-hidden">
+    <!-- DEFAULT SECTIONS -->
+    <div class="overflow-hidden" *ngIf="!section.isSpecial">
       <app-section-block
-        *ngIf="section.apiSource !== 'top_games' || section.mode === 'manual'"
         [title]="section.name"
+        [subtitle]="section.subtitle"
         [games]="section.items"
         [columns]="5"
         [showButton]="section.items.length > 10"
@@ -44,7 +54,6 @@
       >
       </app-section-block>
     </div>
-
   </ng-container>
 </div>
 

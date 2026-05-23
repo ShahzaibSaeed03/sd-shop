@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/api/auth.guard';
 
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/home/home').then((m) => m.Home) },
@@ -37,5 +38,7 @@ export const routes: Routes = [
   {
     path: 'orders',
     loadComponent: () => import('./pages/order-record/order-record').then((m) => m.OrderRecord),
+      canActivate: [authGuard]
+
   },
 ];

@@ -10,94 +10,57 @@
 
     <!-- LEFT SIDE -->
     <div>
-
-      <!-- Rating Summary -->
       <div class="text-center mb-6 md:mb-8">
-        <div class="text-4xl md:text-5xl font-semibold">
-          {{ rating }}
-        </div>
-
+        <div class="text-4xl md:text-5xl font-semibold">{{ rating }}</div>
         <div class="text-yellow-500 text-xl md:text-2xl mt-2">
           <i class="fas fa-star" *ngFor="let s of [1,2,3,4,5]"></i>
         </div>
-
-        <div class="text-gray-500 mt-2 text-sm md:text-base">
-          {{ totalReviews }} Avaliações
-        </div>
+        <div class="text-gray-500 mt-2 text-sm md:text-base">{{ totalReviews }} Avaliações</div>
       </div>
 
-      <!-- Breakdown -->
       <div class="space-y-3 md:space-y-4">
-
-        <div
-          *ngFor="let item of breakdown"
-          class="flex items-center gap-2 md:gap-4"
-        >
-
-          <!-- Stars -->
+        <div *ngFor="let item of breakdown" class="flex items-center gap-2 md:gap-4">
           <div class="text-yellow-500 w-20 md:w-32 text-xs md:text-base">
             <i class="fas fa-star" *ngFor="let s of [].constructor(item.stars)"></i>
           </div>
-
-          <!-- Bar -->
           <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-purple-600 rounded-full"
-              [style.width.%]="getPercentage(item.count)">
-            </div>
+            <div class="h-full bg-purple-600 rounded-full" [style.width.%]="getPercentage(item.count)"></div>
           </div>
-
-          <!-- Count -->
-          <div class="w-6 text-gray-600 text-xs md:text-sm">
-            {{ item.count }}
-          </div>
-
+          <div class="w-6 text-gray-600 text-xs md:text-sm">{{ item.count }}</div>
         </div>
-
       </div>
     </div>
 
-    <!-- RIGHT SIDE -->
-    <div>
-
-      <h3 class="font-medium mb-2 text-sm md:text-base">
-        Adicionar uma avaliação
-      </h3>
-
+    <!-- RIGHT SIDE — Add Review (sirf jab edit mode OFF ho) -->
+    <div *ngIf="!editingReviewId">
+      <h3 class="font-medium mb-2 text-sm md:text-base">Adicionar uma avaliação</h3>
       <p class="text-xs md:text-sm text-gray-500 mb-4">
         Seu endereço de e-mail não será publicado. Os campos obrigatórios estão marcados com *
       </p>
 
-      <!-- Rating -->
       <div class="mb-4">
         <span class="text-sm">Sua avaliação *</span>
-
         <div class="text-gray-400 text-lg md:text-xl mt-1">
           <i
             class="fas fa-star cursor-pointer"
             *ngFor="let s of [1,2,3,4,5]"
             (click)="setRating(s)"
-            [ngClass]="{
-              'text-yellow-500': s <= selectedRating
-            }"
-          ></i>
+            [ngClass]="{ 'text-yellow-500': s <= selectedRating }">
+          </i>
         </div>
       </div>
 
-      <!-- Review -->
       <textarea
         [(ngModel)]="reviewText"
         class="w-full h-32 md:h-40 bg-gray-100 rounded-lg p-3 mb-4 outline-none text-sm"
-        placeholder="Sua avaliação *"
-      ></textarea>
+        placeholder="Seu comentário *">
+      </textarea>
 
-  
-      <!-- Submit -->
-      <button (click)="submitReview()"
+      <button
+        (click)="submitReview()"
         class="mx-auto block bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-[5px] px-[20px] py-[10px] h-[51px] min-w-[223px] flex items-center justify-center gap-[10px] text-sm">
         Enviar
       </button>
-
     </div>
 
   </div>
@@ -106,121 +69,88 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8 md:mt-10">
 
     <div
-  *ngFor="let review of reviews"
-  class="bg-gray-100 p-4 md:p-5 rounded-xl"
->
+      *ngFor="let review of reviews"
+      class="bg-gray-100 p-4 md:p-5 rounded-xl">
 
-  <!-- TOP -->
-  <div class="flex justify-between items-start mb-2">
+      <!-- TOP -->
+      <div class="flex justify-between items-start mb-2">
+        <div>
+          <h4 class="font-medium text-sm md:text-base">{{ review.name }}</h4>
+          <span class="text-xs md:text-sm text-gray-500">{{ review.date }}</span>
+        </div>
 
-    <div>
+        <!-- OWNER ACTIONS — sirf jab edit mode OFF ho -->
+        <div *ngIf="review.isOwner && editingReviewId !== review._id" class="flex items-center gap-3">
+          <button (click)="editReview(review)" class="text-blue-500 hover:text-blue-700 transition">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </button>
+          <button (click)="deleteReview(review)" class="text-red-500 hover:text-red-700 transition">
+            <i class="fa-regular fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
 
-      <h4 class="font-medium text-sm md:text-base">
-        {{ review.name }}
-      </h4>
+      <!-- STARS — normal mode -->
+      <div *ngIf="editingReviewId !== review._id" class="text-yellow-500 mb-2 text-sm">
+        <i class="fas fa-star" *ngFor="let s of [].constructor(review.rating)"></i>
+      </div>
 
-      <span
-        class="text-xs md:text-sm text-gray-500"
-      >
-        {{ review.date }}
-      </span>
+      <!-- TEXT — normal mode -->
+      <p *ngIf="editingReviewId !== review._id" class="text-xs md:text-sm text-gray-600 mb-4">
+        {{ review.text }}
+      </p>
+
+      <!-- ✅ INLINE EDIT MODE -->
+      <div *ngIf="editingReviewId === review._id" class="mt-2 flex flex-col gap-3">
+
+        <!-- Star selector -->
+        <div>
+          <span class="text-xs text-gray-500 mb-1 block">Nota *</span>
+          <div class="text-gray-400 text-lg">
+            <i
+              class="fas fa-star cursor-pointer"
+              *ngFor="let s of [1,2,3,4,5]"
+              (click)="setRating(s)"
+              [ngClass]="{ 'text-yellow-500': s <= selectedRating }">
+            </i>
+          </div>
+        </div>
+
+        <!-- Textarea -->
+        <textarea
+          [(ngModel)]="reviewText"
+          class="w-full h-28 bg-white border border-gray-200 rounded-lg p-3 outline-none text-sm focus:border-purple-400 transition">
+        </textarea>
+
+        <!-- Buttons -->
+        <div class="flex gap-2">
+          <button
+            (click)="submitReview()"
+            class="flex-1 h-[40px] bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-lg text-sm font-semibold hover:opacity-90 transition">
+            Atualizar
+          </button>
+          <button
+            (click)="cancelEdit()"
+            class="flex-1 h-[40px] bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">
+            Cancelar
+          </button>
+        </div>
+
+      </div>
+
+      <!-- LIKE/DISLIKE — sirf jab edit mode OFF ho -->
+      <div *ngIf="editingReviewId !== review._id" class="flex items-center gap-5 text-gray-500 text-xs md:text-sm">
+        <button (click)="likeReview(review)" class="flex items-center gap-1 hover:text-green-600 transition">
+          <i class="fa-thumbs-up" [ngClass]="review.liked ? 'fas text-green-600' : 'far'"></i>
+          {{ review.likes }}
+        </button>
+        <button (click)="dislikeReview(review)" class="flex items-center gap-1 hover:text-red-600 transition">
+          <i class="fa-thumbs-down" [ngClass]="review.disliked ? 'fas text-red-600' : 'far'"></i>
+          {{ review.dislikes }}
+        </button>
+      </div>
 
     </div>
-
-    <!-- OWNER ACTIONS -->
-    <div
-      *ngIf="review.isOwner"
-      class="flex items-center gap-3"
-    >
-
-      <button
-        (click)="editReview(review)"
-        class="text-blue-500 hover:text-blue-700 transition"
-      >
-
-        <i class="fa-regular fa-pen-to-square"></i>
-
-      </button>
-
-      <button
-        (click)="deleteReview(review)"
-        class="text-red-500 hover:text-red-700 transition"
-      >
-
-        <i class="fa-regular fa-trash-can"></i>
-
-      </button>
-
-    </div>
-
-  </div>
-
-  <!-- STARS -->
-  <div class="text-yellow-500 mb-2 text-sm">
-
-    <i
-      class="fas fa-star"
-      *ngFor="
-        let s of
-        [].constructor(review.rating)
-      "
-    ></i>
-
-  </div>
-
-  <!-- TEXT -->
-  <p
-    class="text-xs md:text-sm text-gray-600 mb-4"
-  >
-    {{ review.text }}
-  </p>
-
-  <!-- ACTIONS -->
-  <div
-    class="flex items-center gap-5 text-gray-500 text-xs md:text-sm"
-  >
-
-    <!-- LIKE -->
-    <button
-      (click)="likeReview(review)"
-      class="flex items-center gap-1 hover:text-green-600 transition"
-    >
-
-      <i
-        class="fa-thumbs-up"
-        [ngClass]="
-          review.liked
-            ? 'fas text-green-600'
-            : 'far'
-        "
-      ></i>
-
-      {{ review.likes }}
-
-    </button>
-
-    <!-- DISLIKE -->
-    <button
-      (click)="dislikeReview(review)"
-      class="flex items-center gap-1 hover:text-red-600 transition"
-    >
-
-      <i
-        class="fa-thumbs-down"
-        [ngClass]="
-          review.disliked
-            ? 'fas text-red-600'
-            : 'far'
-        "
-      ></i>
-
-      {{ review.dislikes }}
-
-    </button>
-
-  </div>
-
-</div>
 
   </div>
 

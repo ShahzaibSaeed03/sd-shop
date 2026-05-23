@@ -1,84 +1,215 @@
-<div class="min-h-screen p-6 max-w-7xl mx-auto bg-gray-50">
+<div class="min-h-screen bg-[#F5F5F7]">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-10">
 
-  <!-- Title -->
-  <h2 class="text-center font-semibold text-lg mb-6">MY PROFILE</h2>
+    <!-- TITLE -->
+    <div class="text-center mb-10">
+      <h1
+        class="text-[40px] md:text-[42px]
+               font-[700] tracking-[-0.02em]
+               text-[#111827]"
+      >
+        MEU PERFIL
+      </h1>
+    </div>
 
-  <!-- Profile Card -->
-  <div *ngIf="user"
-    class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 max-w-xl mx-auto">
+    <!-- CONTENT -->
+    <div class="max-w-[760px] mx-auto space-y-5">
 
-    <div class="flex items-center gap-4">
+      <!-- PROFILE CARD -->
+      <div
+        *ngIf="user"
+        class="bg-white rounded-[24px]
+               border border-[#ECECEC]
+               px-6 py-6 md:px-8
+               flex items-center justify-between
+               shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+      >
 
-      <!-- Avatar -->
-      <img
-        [src]="user.avatar"
-        class="w-12 h-12 rounded-full object-cover"
-      />
+        <!-- LEFT -->
+        <div class="flex items-center gap-5">
 
-      <!-- Info -->
-      <div>
-        <h3 class="font-medium">{{ user.name }}</h3>
+          <!-- AVATAR -->
+          <div
+            class="w-[72px] h-[72px]
+                   rounded-full overflow-hidden
+                   shrink-0 border border-[#E5E7EB]"
+          >
+            <img
+              [src]="user.avatar"
+              class="w-full h-full object-cover"
+              alt="avatar"
+            />
+          </div>
 
-        <div class="flex items-center gap-1 text-xs text-gray-500">
-          <i
-            [ngClass]="{
-              'fab fa-google text-red-500': user.provider === 'google',
-              'fa-solid fa-user text-gray-500': user.provider !== 'google'
-            }">
-          </i>
+          <!-- INFO -->
+          <div>
 
-          Signed in with {{ user.provider }}
+            <!-- NAME -->
+            <h2
+              class="text-[30px] leading-[110%]
+                     font-[700] text-[#111827]
+                     mb-1"
+            >
+              {{ user.name }}
+            </h2>
+
+            <!-- PROVIDER -->
+            <div
+              class="flex items-center gap-2
+                     text-[15px] text-[#6B7280]
+                     mb-1"
+            >
+
+              <i
+                [ngClass]="{
+                  'fab fa-google text-[#EA4335]': user.provider === 'google',
+                  'fa-solid fa-user text-gray-500': user.provider !== 'google'
+                }"
+              ></i>
+
+              <span>
+                Entrou com Google
+              </span>
+
+            </div>
+
+            <!-- MEMBER -->
+            <p
+              class="text-[15px] text-[#9CA3AF]"
+            >
+              Membro desde: {{ user.memberSince }}
+            </p>
+
+          </div>
+
         </div>
 
-        <p class="text-xs text-gray-400">
-          Member Since: {{ user.memberSince }}
-        </p>
+        <!-- LOGOUT -->
+        <button
+          (click)="logout()"
+          class="h-[50px] px-5 rounded-[14px]
+                 bg-[#FFF1F2]
+                 hover:bg-[#FFE4E6]
+                 text-[#EF4444]
+                 font-[700] text-[15px]
+                 flex items-center gap-2
+                 transition-all duration-200"
+        >
+
+          LOG OUT
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+      </div>
+
+      <!-- MY ORDERS -->
+      <div
+        (click)="goToOrders()"
+        class="bg-white rounded-[24px]
+               border border-[#ECECEC]
+               px-6 py-7 md:px-8
+               flex items-center justify-between
+               cursor-pointer
+               hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]
+               hover:border-[#E9D5FF]
+               transition-all duration-200"
+      >
+
+        <!-- LEFT -->
+        <div>
+
+          <h3
+            class="text-[34px]
+                   font-[700]
+                   text-[#111827]
+                   mb-1"
+          >
+            Meus pedidos
+          </h3>
+
+          <p
+            class="text-[17px]
+                   text-[#6B7280]"
+          >
+            Acompanhe suas compras e o status de cada pedido
+          </p>
+
+        </div>
+
+        <!-- ICON -->
+        <div
+          class="w-[52px] h-[52px]
+                 rounded-full
+                 flex items-center justify-center
+                 hover:bg-[#FAF5FF]
+                 transition-all duration-200"
+        >
+          <i
+            class="fa-solid fa-chevron-right
+                   text-[24px] text-[#111827]"
+          ></i>
+        </div>
+
+      </div>
+
+      <!-- CASHBACK -->
+      <div
+        class="bg-white rounded-[24px]
+               border border-[#ECECEC]
+               px-6 py-7 md:px-8
+               flex items-center justify-between
+               shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+      >
+
+        <!-- LEFT -->
+        <div>
+
+          <h3
+            class="text-[34px]
+                   font-[700]
+                   text-[#111827]
+                   mb-1"
+          >
+            Cashback
+          </h3>
+
+          <p
+            class="text-[17px]
+                   text-[#6B7280]"
+          >
+            Quantidade de SD Coins disponíveis
+          </p>
+
+        </div>
+
+        <!-- COINS -->
+        <div
+          class="h-[58px]
+                 px-5 rounded-[14px]
+                 bg-[#FFF6D8]
+                 flex items-center gap-2"
+        >
+
+          <img
+            src="icons/coin.png"
+            class="w-[22px] h-[22px]"
+          />
+
+          <span
+            class="text-[28px]
+                   font-[700]
+                   text-[#6B4F00]"
+          >
+            {{ cashback }}
+          </span>
+
+        </div>
+
       </div>
 
     </div>
 
-    <!-- Logout -->
-    <button
-      (click)="logout()"
-      class="text-red-500 bg-red-100 px-3 py-1 rounded-md text-sm flex items-center gap-1 hover:bg-red-200 transition"
-    >
-      LOG OUT
-      <i class="fas fa-arrow-right"></i>
-    </button>
-
   </div>
-
-  <!-- My Orders -->
-  <div
-    (click)="goToOrders()"
-    class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm mb-4 cursor-pointer max-w-xl mx-auto hover:bg-gray-50 transition">
-
-    <div>
-      <h3 class="font-medium">My Orders</h3>
-      <p class="text-sm text-gray-500">
-        View your purchases and their status
-      </p>
-    </div>
-
-    <i class="fas fa-chevron-right text-gray-400"></i>
-  </div>
-
-  <!-- Cashback -->
-  <div
-    class="bg-white rounded-xl p-4 flex items-center justify-between shadow-sm max-w-xl mx-auto">
-
-    <div>
-      <h3 class="font-medium">Cashback</h3>
-      <p class="text-sm text-gray-500">
-        Amount of SD Coins available
-      </p>
-    </div>
-
-    <div
-      class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-md flex items-center gap-1 font-medium">
-      <i class="fas fa-coins"></i>
-       {{ cashback }} 
-    </div>
-  </div>
-
 </div>

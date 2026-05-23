@@ -253,22 +253,44 @@ export class Payment implements OnInit, OnDestroy {
     const s = this.expiresInSeconds % 60;
     this.countdownDisplay = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   }
+startCountdown() {
 
-  startCountdown() {
+  this.updateCountdownDisplay();
+
+  this.timerId = setInterval(() => {
+
+    if (this.expiresInSeconds <= 0) {
+
+      clearInterval(this.timerId);
+
+      this.countdownDisplay = '00:00';
+
+      this.cancelOrder();
+
+      this.cd.markForCheck();
+
+      return;
+    }
+
+    this.expiresInSeconds--;
+
     this.updateCountdownDisplay();
-    this.timerId = setInterval(() => {
-      if (this.expiresInSeconds <= 0) {
-        clearInterval(this.timerId);
-        this.countdownDisplay = '00:00';
-        this.cd.detectChanges();
-        return;
-      }
-      this.expiresInSeconds--;
-      this.updateCountdownDisplay();
-      this.cd.detectChanges();
-    }, 1000);
-  }
 
+    this.cd.markForCheck();
+
+  }, 1000);
+
+}
+cancelOrder() {
+
+  if (!this.data?.orderId) return;
+
+  this.orderApi.updateOrderStatus(
+    this.data.orderId,
+    'cancelled'
+  ).subscribe();
+
+}
   copyOrderId() {
     if (!this.data?.id) return;
     navigator.clipboard.writeText(this.data.id);

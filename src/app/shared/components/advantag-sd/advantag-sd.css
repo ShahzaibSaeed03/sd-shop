@@ -2,24 +2,3 @@
     transition: all 0.3s ease;
 }
 
-/* hover background */
-.card:hover {
-    background-image:
-        linear-gradient(rgba(126, 0, 166, 0.6), rgba(126, 0, 166, 0.6)),
-        url('/cards/card-bg.png');
-
-    background-size: cover;
-    background-position: center;
-    color: white;
-}
-
-/* optional highlighted card */
-.card.highlight {
-    background-image:
-        linear-gradient(rgba(126, 0, 166, 0.6), rgba(126, 0, 166, 0.6)),
-        url('/cards/card-bg.png');
-
-    background-size: cover;
-    background-position: center;
-    color: white;
-}

@@ -21,12 +21,19 @@ export const API_ENDPOINTS = {
     GET_ONE: (id: string) => `coupon/${id}`
   },
 
-  ORDERS: {
-    CREATE: 'orders',
-    CALCULATE: 'orders/calculate',
-    CHECK_USER: 'supplier/check-user',
-    MY: 'orders/my'
-  },
+ORDERS: {
+
+  CREATE: 'orders',
+
+  MY: 'orders/my',
+
+  CALCULATE: 'orders/calculate',
+
+  CHECK_USER: 'supplier/check-user',
+
+  PENDING: 'orders/pending',
+
+},
 
  PRODUCTS: {
 
@@ -83,6 +90,14 @@ BUNDLES: {
 
   BY_ID: (id: string) =>
     `bundles/${id}`
+
+},
+CATEGORIES: {
+
+  LIST: 'categories',
+
+  SEARCH: (q: string) =>
+    `categories/search?q=${q}`
 
 },
 };

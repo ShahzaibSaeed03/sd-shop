@@ -6,6 +6,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { BannerApi } from '../../../core/services/banner.api';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,11 +22,11 @@ export class Slider implements OnInit, OnDestroy {
   intervalId: any;
 
   // 🔥 dynamic slides
-  slides: string[] = [];
-
+slides: any[] = [];
   constructor(
     private cdr: ChangeDetectorRef,
-    private bannerApi: BannerApi
+    private bannerApi: BannerApi,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,10 +51,12 @@ getBanners(): void {
       this.slides = res
         .filter(b => b.isActive)
         .sort((a, b) => a.order - b.order)
-        .map(b => isMobile
-          ? (b.mobileImage || b.desktopImage)
-          : b.desktopImage
-        );
+        .map(b => ({
+          ...b,
+          image: isMobile
+            ? (b.mobileImage || b.desktopImage)
+            : b.desktopImage
+        }));
 
       this.preloadImages();
       this.startAutoSlide();
@@ -69,9 +72,9 @@ onImageLoad(index: number) {
   this.allImagesLoaded = this.loaded.filter(Boolean).length === this.slides.length;
 }
 preloadImages() {
-  this.slides.forEach((url, index) => {
+  this.slides.forEach((slide, index) => {
     const img = new Image();
-    img.src = url;
+    img.src = slide.image;
   });
 }
   startAutoSlide(): void {
@@ -92,4 +95,8 @@ preloadImages() {
     this.currentIndex =
       (this.currentIndex - 1 + this.slides.length) % this.slides.length;
   }
+
+goToProduct(link: string) {
+  this.router.navigate(['/product', link]);
+}
 }

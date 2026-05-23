@@ -1,7 +1,6 @@
 <div class="max-w-7xl mx-auto px-0 sm:px-0 py-6">
   <div *ngIf="!showPix">
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
-      <!-- LEFT SIDE -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 items-start">      <!-- LEFT SIDE -->
       <div class="lg:col-span-3 space-y-4">
         <!-- ORDER STATUS -->
         <div class="bg-white rounded-xl p-4 shadow-sm">
@@ -67,8 +66,10 @@
           <h3 class="font-medium text-base sm:text-lg mb-3">Resumo do pedido</h3>
 
           <!-- COUPON -->
-          <div class="flex justify-between items-center text-sm sm:text-base">
-            <span>Cupom</span>
+<div
+  *ngIf="summary?.coupon"
+  class="flex justify-between items-center text-sm sm:text-base"
+>            <span>Cupom</span>
             <span *ngIf="summary?.coupon; else noCoupon" class="text-purple-600 font-semibold">
               {{ summary?.coupon }}
             </span>
@@ -96,7 +97,31 @@
               {{ summary?.subtotal | currency: 'BRL' }}
             </span>
           </div>
+<div
+  *ngIf="summary?.useCoins"
+  class="flex justify-between items-center"
+>
 
+  <span class="flex items-center gap-2">
+
+    <img
+      src="icons/coin.png"
+      class="w-5 h-5"
+    />
+
+    SD Coins utilizadas
+
+  </span>
+
+  <span class="text-[#00A86B] font-medium">
+
+    -{{ summary?.coinsUsed }}
+
+    ({{ summary?.coinsDiscount | currency:'BRL' }})
+
+  </span>
+
+</div>
           <!-- SD COINS DISCOUNT (only when applicable) -->
           <!-- Standalone "Discount" line removed per platform rules -->
           <div
@@ -109,8 +134,13 @@
             </span>
           </div>
 
-          <hr class="my-3" />
-
+<div
+  class="my-4 h-[1px] w-full
+         bg-gradient-to-r
+         from-transparent
+         via-[#E5E7EB]
+         to-transparent">
+</div>
           <!-- TOTAL -->
           <div class="flex justify-between items-center font-bold">
             <span class="text-[18px]">Total</span>
@@ -148,8 +178,7 @@
       </div>
 
       <!-- RIGHT SIDE -->
-      <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm space-y-5">
-        <!-- TITLE -->
+<div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm space-y-5 h-fit self-start">        <!-- TITLE -->
         <h2 class="text-[20px] font-semibold text-gray-900">Selecionar método de pagamento</h2>
 
         <!-- CREDIT CARD OPTION -->
@@ -335,7 +364,7 @@
           <span
             class="flex-shrink-0 w-[18px] h-[18px] rounded-full border border-gray-300 flex items-center justify-center text-[11px] text-gray-400 mt-[2px]"
           >
-            ⓘ
+            <i class="fa-solid fa-shield-check text-[#A855F7]"></i>
           </span>
           <span>
             Após o pagamento, permaneça nessa página por alguns segundos — a confirmação será feita

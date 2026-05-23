@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col items-center py-2">
+<div class="w-full flex flex-col items-center py-2  " >
 
   <!-- Slider -->
   <div class="relative w-full max-w-[1280px] 
@@ -12,15 +12,18 @@
     </div>
 
     <!-- Images -->
-    <img
-      *ngFor="let slide of slides; let i = index"
-      [src]="slide"
-      (load)="onImageLoad(i)"
-      [attr.loading]="i === 0 ? 'eager' : 'lazy'"
-      class="absolute w-full h-full object-cover transition-opacity duration-700"
-      [class.opacity-100]="i === currentIndex"
-      [class.opacity-0]="i !== currentIndex"
-    />
+ <img
+  *ngFor="let slide of slides; let i = index"
+  [src]="slide.image"
+  (click)="goToProduct(slide.link)"
+  (load)="onImageLoad(i)"
+  [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+  class="absolute w-full h-full object-cover transition-opacity duration-700 cursor-pointer"
+  [class.opacity-100]="i === currentIndex"
+  [class.opacity-0]="i !== currentIndex"
+  [class.pointer-events-auto]="i === currentIndex"
+  [class.pointer-events-none]="i !== currentIndex"
+/>
 
     <!-- Arrows (same as before) -->
     <button (click)="prev()" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 

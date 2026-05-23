@@ -1,4 +1,4 @@
-<div class="bg-[#F3F5F7] py-6">
+<div class="bg-[#F5F5F5] py-6">
   <div class="max-w-7xl mx-auto px-4 py-6 space-y-5">
     <!-- BREADCRUMB -->
     <nav class="flex items-center gap-2 text-sm text-gray-500">
@@ -6,8 +6,14 @@
         routerLink="/"
         class="flex items-center gap-1 hover:text-purple-600 transition cursor-pointer"
       >
-        <i class="fa-solid fa-house text-xs"></i>
-        <span>Home</span>
+      <a
+    routerLink="/"
+    class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer"
+  >
+<img src="home.svg" alt="Home" class="h-5 w-4">
+    <span>Home</span>
+  </a>
+
       </a>
       <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
       <span class="text-gray-700 font-medium">{{ currentTabLabel }}</span>

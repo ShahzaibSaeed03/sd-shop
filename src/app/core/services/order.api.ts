@@ -45,9 +45,9 @@ export class OrderApi {
   createOrder(data: any): Observable<CreateOrderResponse> {
     return this.api.post<CreateOrderResponse>(API_ENDPOINTS.ORDERS.CREATE, data);
   }
-getOrder(id: string) {
-  return this.http.get(`/api/orders/${id}`);
-}
+  getOrder(id: string) {
+    return this.http.get(`/api/orders/${id}`);
+  }
   getInstallments(amount: number, bin: string) {
     return this.api.get<any>(`payments/installments?amount=${amount}&bin=${bin}`);
   }
@@ -56,5 +56,12 @@ getOrder(id: string) {
   }
   getMyOrders() {
     return this.api.get<any>(API_ENDPOINTS.ORDERS.MY);
+  }
+  createPendingOrder(data: any) {
+    return this.api.post<any>(API_ENDPOINTS.ORDERS.PENDING, data);
+  }
+
+  updateOrderStatus(orderId: string, status: string) {
+    return this.api.patch<any>(`orders/${orderId}/status`, { status });
   }
 }
