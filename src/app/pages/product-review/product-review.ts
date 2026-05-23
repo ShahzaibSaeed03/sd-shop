@@ -662,20 +662,20 @@ const coinsDiscount = usableCoins / 100;
 
   checkout() {
     // prevent while validating
-    // if (this.checkingUser) {
-    //   return;
-    // }
+    if (this.checkingUser) {
+      return;
+    }
 
     // validate required fields
-    // if (!this.validate()) {
-    //   return;
-    // }
+    if (!this.validate()) {
+      return;
+    }
 
     // block invalid UID
-    // if (this.product?.requiresUserId && !this.isUserValid) {
-    //   this.userError = 'Valide o UID antes de continuar.';
-    //   return;
-    // }
+    if (this.product?.requiresUserId && !this.isUserValid) {
+      this.userError = 'Valide o UID antes de continuar.';
+      return;
+    }
 
     this.router.navigate(['/checkout'], {
       queryParams: {

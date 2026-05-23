@@ -401,6 +401,7 @@
           <!-- BUTTON -->
      <button
   (click)="checkout()"
+            [disabled]="checkingUser || !!userError || !username"
   class="group relative
          w-full h-[54px]
          rounded-xl
