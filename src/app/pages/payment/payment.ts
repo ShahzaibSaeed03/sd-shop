@@ -86,7 +86,7 @@ export class Payment implements OnInit, OnDestroy {
 
     const subtotal = this.order.price * this.order.qty;
 
-    const cashbackRate = 0.03;
+    const cashbackRate = 0.01;
     const cashbackEarned = Math.floor(this.order.finalPrice * cashbackRate * 100);
 
     this.summary = {

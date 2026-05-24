@@ -1,22 +1,42 @@
-import { Component, signal } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import {
+  Component,
+  HostListener,
+  signal
+} from '@angular/core';
+
+import {
+  Router,
+  NavigationEnd,
+  RouterOutlet
+} from '@angular/router';
+
 import { filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 import { Header } from "./shared/components/header/header";
 import { Footer } from "./shared/components/footer/footer";
 import { LoginModal } from "./shared/components/login-modal/login-modal";
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Footer, LoginModal, CommonModule],
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    Header,
+    Footer,
+    LoginModal,
+    CommonModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
 
   isHomePage = false;
+
+  showScrollTop = false;
 
   constructor(
     private auth: AuthService,
@@ -30,6 +50,20 @@ export class App {
       .subscribe(() => {
         this.isHomePage = this.router.url === '/';
       });
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+
+    this.showScrollTop = window.scrollY > 300;
+  }
+
+  scrollToTop() {
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
   modalType: 'login' | 'points' | 'profile' | null = null;

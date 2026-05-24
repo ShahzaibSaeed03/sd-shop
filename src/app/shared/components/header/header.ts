@@ -40,6 +40,8 @@ constructor(
       this.loadCashback();
     }
   }
+
+
   onSearch() {
 
   const q = this.searchQuery.trim();
@@ -93,31 +95,95 @@ goToCategory(slug: string) {
     this.router.navigate(['/']);
   }
   // ✅ User type — localStorage ke fields ke mutabiq
-  user: {
-    name?: string;
-    email?: string;
-    cashbackPoints?: number;
-    googleId?: string;
-    _id?: string;
-  } | null = null;
+user: {
+  name?: string;
+  email?: string;
+
+  // ✅ GOOGLE IMAGE
+  picture?: string;
+
+  cashbackPoints?: number;
+  googleId?: string;
+  _id?: string;
+} | null = null;
 
   // ✅ localStorage se user load karo
-  loadUser() {
-    try {
-      const stored = localStorage.getItem('user');
-      if (stored) {
-        this.user = JSON.parse(stored);
-        // Cashback points bhi yahin se le lo
-        if (this.user?.cashbackPoints !== undefined) {
-          this.coins = this.user.cashbackPoints;
-        }
+loadUser() {
+
+  try {
+
+    const stored =
+      localStorage.getItem('user');
+
+    if (stored) {
+
+      const parsed =
+        JSON.parse(stored);
+
+      this.user = {
+
+        name:
+          parsed.name,
+
+        email:
+          parsed.email,
+
+        // ✅ GOOGLE IMAGE
+        picture:
+          parsed.picture,
+
+        cashbackPoints:
+          parsed.cashbackPoints,
+
+        googleId:
+          parsed.googleId,
+
+        _id:
+          parsed._id
+
+      };
+
+      if (
+        this.user?.cashbackPoints !== undefined
+      ) {
+
+        this.coins =
+          this.user.cashbackPoints;
+
       }
-    } catch (e) {
-      console.error('Failed to parse user from localStorage', e);
-      this.user = null;
+
     }
+
+  } catch (e) {
+
+    console.error(
+      'Failed to parse user',
+      e
+    );
+
+    this.user = null;
+
   }
 
+}
+get userAvatar(): string {
+
+  try {
+
+    const user =
+      JSON.parse(
+        localStorage.getItem('user') || '{}'
+      );
+
+    return user.picture;
+
+  } catch {
+
+    return 'login/user.png';
+
+  }
+
+}
   loadCashback() {
     this.authService.getCashback().subscribe({
       next: (res: any) => {
@@ -142,9 +208,7 @@ goToCategory(slug: string) {
   // Note: Google profile picture sirf googleId se directly nahi milti.
   // Backend se ya login response se picture URL save karna chahiye.
   // Filhal initials-based avatar use karte hain fallback ke liye.
-  get userAvatar(): string {
-    return 'login/user.png'; // default fallback
-  }
+
 
   // ✅ User initials (agar picture na ho)
   get userInitials(): string {
@@ -155,7 +219,12 @@ goToCategory(slug: string) {
     }
     return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
   }
+fallbackAvatar(event: any) {
 
+  event.target.src =
+    'login/user.png';
+
+}
   // ✅ NAME TRUNCATE LOGIC (client requirement)
   // 1. Full name <= 9 chars → full name dikhao
   // 2. Long hai → first name try karo

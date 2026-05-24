@@ -1,33 +1,38 @@
+<!-- game-cards.component.html -->
+
 <div
-  class="bg-white rounded-[22px] shadow-sm border border-gray-100
-         overflow-hidden flex flex-col h-full cursor-pointer
+  class="bg-white rounded-2xl shadow-sm border border-gray-100
+         w-full h-full flex flex-col cursor-pointer
+         overflow-hidden
          hover:shadow-md transition-all duration-200"
   (click)="onClick()"
 >
 
   <!-- IMAGE -->
-  <div class="w-full aspect-[0.9] overflow-hidden">
+  <div class="w-full h-[180px] sm:h-[180px] lg:h-[220px]">
     <img
       [src]="data.image"
-      class="w-full h-full object-cover"
+      class="w-full h-full object-cover rounded-[12px]"
     />
   </div>
 
   <!-- CONTENT -->
-  <div class="px-3 pt-3 pb-1.5 flex flex-col flex-1">
+  <div class="px-3 pt-1 pb-2 flex flex-col flex-1">
 
     <!-- TITLE -->
     <h3
       class="text-[18px] font-semibold text-[#111827]
-             "
+             leading-tight font-['Fustat'] mt-2"
     >
       {{ data.title }}
     </h3>
 
     <!-- SOLD + RATING -->
-    <div class="flex items-center justify-between mt-2">
+    <div class="flex items-center justify-between mt-1">
 
-      <p class="text-[14px] text-gray-500">
+      <p
+        class="text-[16px] text-gray-500 font-['Inter']"
+      >
         {{ data.sold || '0 Vendidos' }}
       </p>
 
@@ -35,11 +40,13 @@
         class="bg-[#F5EAD7] px-3 py-1 rounded-full
                flex items-center gap-1"
       >
-        <span class="text-[14px] font-medium">
+        <span
+          class="text-[14px] font-medium text-gray-900 font-['Inter']"
+        >
           {{ data.rating || 0 }}
         </span>
 
-        <span class="text-yellow-500 text-sm">
+        <span class="text-yellow-500 text-[16px]">
           ★
         </span>
       </div>
@@ -49,14 +56,16 @@
   </div>
 
   <!-- BUTTON -->
-  <div class="p-3 pt-0">
+  <div class="px-3 pb-3">
     <button
       class="w-full border-2 border-[#7B2CBF]
-             rounded-[14px] py-2.5
-             text-[16px] font-semibold
+             rounded-xl py-2
+             text-[16px] font-medium text-gray-900
+             font-['Inter']
              hover:bg-[#7B2CBF]
              hover:text-white
              transition-all duration-200"
+      (click)="$event.stopPropagation(); onClick()"
     >
       Top Up
     </button>

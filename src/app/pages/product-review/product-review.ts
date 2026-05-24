@@ -207,6 +207,7 @@ export class ProductReview implements OnInit {
         }));
 
         this.selectedProduct = this.products[0];
+        this.selectedProductId = this.products[0]?.id;
         this.setMainProduct(this.selectedProduct.raw);
 
         // ✅ setMainProduct ke baad stats aur category DONO set karo
@@ -579,30 +580,30 @@ export class ProductReview implements OnInit {
     this.bundlePopup = false;
   }
 
-  selectProduct(p: any) {
-    if (!p?.raw) return;
+selectProduct(p: any) {
 
-    const prevSold = this.product?.sold;
-    const prevRating = this.product?.rating;
-    const prevReviews = this.product?.totalReviews;
+  if (!p?.raw) return;
 
-    this.setMainProduct(p.raw);
+  // ✅ IMPORTANT
+  this.selectedProduct = p;
 
-    this.product = {
-      ...this.product,
-      sold: prevSold,
-      rating: prevRating,
-      totalReviews: prevReviews,
-    };
+  this.selectedProductId = p._id || p.id;
 
-    this.setMainProduct(p.raw);
+  const prevSold = this.product?.sold;
+  const prevRating = this.product?.rating;
+  const prevReviews = this.product?.totalReviews;
 
-    this.product.sold = prevSold;
-    this.product.rating = prevRating;
-    this.product.totalReviews = prevReviews;
+  this.setMainProduct(p.raw);
 
-    this.cdr.detectChanges();
-  }
+  this.product = {
+    ...this.product,
+    sold: prevSold,
+    rating: prevRating,
+    totalReviews: prevReviews,
+  };
+
+  this.cdr.detectChanges();
+}
   increase() {
     if (this.quantity < 10) this.quantity++;
   }
@@ -626,12 +627,9 @@ export class ProductReview implements OnInit {
     if (this.useCoins && this.userCoins > 0) {
       const maxUsableCoins = Math.floor(amount * 100);
 
-const usableCoins = Math.min(
-  this.userCoins,
-  maxUsableCoins
-);
+      const usableCoins = Math.min(this.userCoins, maxUsableCoins);
 
-const coinsDiscount = usableCoins / 100;
+      const coinsDiscount = usableCoins / 100;
       amount = Math.max(0, amount - coinsDiscount);
     }
 
@@ -661,21 +659,7 @@ const coinsDiscount = usableCoins / 100;
   }
 
   checkout() {
-    // prevent while validating
-    if (this.checkingUser) {
-      return;
-    }
-
-    // validate required fields
-    if (!this.validate()) {
-      return;
-    }
-
-    // block invalid UID
-    if (this.product?.requiresUserId && !this.isUserValid) {
-      this.userError = 'Valide o UID antes de continuar.';
-      return;
-    }
+  
 
     this.router.navigate(['/checkout'], {
       queryParams: {
@@ -700,15 +684,10 @@ const coinsDiscount = usableCoins / 100;
         zone: this.form.zone,
 
         coupon: this.coupon?.trim() || '',
-couponDiscount: this.discount || 0,
+        couponDiscount: this.discount || 0,
 
         useCoins: this.useCoins,
-        coinsUsed: this.useCoins
-  ? Math.min(
-      this.userCoins,
-      Math.floor(this.totalPrice * 100)
-    )
-  : 0,
+        coinsUsed: this.useCoins ? Math.min(this.userCoins, Math.floor(this.totalPrice * 100)) : 0,
       },
     });
   }

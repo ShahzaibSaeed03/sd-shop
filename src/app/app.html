@@ -1,17 +1,12 @@
 <div class="flex flex-col min-h-screen">
-
   <div
     [ngClass]="
       isHomePage
         ? 'bg-[linear-gradient(to_bottom,rgba(126,0,166,0.22)_0%,rgba(126,0,166,0.12)_45%,rgba(255,255,255,0.95)_78%,#ffffff_100%)]'
-        : 'bg-[linear-gradient(to_bottom,rgba(126,0,166,0.22)_0%,rgba(126,0,166,0.12)_45%,rgba(255,255,255,0.95)_78%,#f5f5f5_100%)]'
+        : 'bg-[linear-gradient(to_bottom,rgba(126,0,166,0.22)_0%,rgba(126,0,166,0.10)_40%,#F5F5F5_100%)]'
     "
   >
-    <app-header
-      (openLogin)="handleModal($event)"
-      class="py-4 px-4"
-    >
-    </app-header>
+    <app-header (openLogin)="handleModal($event)" class="py-4 px-4"> </app-header>
   </div>
 
   <main class="flex-1">
@@ -20,10 +15,14 @@
 
   <app-footer></app-footer>
 
-  <app-login-modal
-    [modalType]="modalType"
-    (onClose)="modalType = null"
-  >
-  </app-login-modal>
+  <app-login-modal [modalType]="modalType" (onClose)="modalType = null"> </app-login-modal>
 
+  <!-- SCROLL TOP BUTTON -->
+  <button
+    *ngIf="showScrollTop"
+    (click)="scrollToTop()"
+    class="fixed bottom-[90px] right-4 sm:right-6 z-50 w-[52px] h-[52px] rounded-full bg-[#7B2CBF] hover:bg-[#5A189A] text-white shadow-xl flex items-center justify-center transition-all duration-300 animate-bounce"
+  >
+    <i class="fa-solid fa-arrow-up text-[18px]"></i>
+  </button>
 </div>

@@ -1,44 +1,51 @@
-<div class="min-h-screen bg-[#F5F5F7]">
-  <div class="max-w-7xl mx-auto px-4 md:px-6 py-10">
+<div class="bg-[#F5F5F7]">
+
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-7">
 
     <!-- TITLE -->
-    <div class="text-center mb-10">
+    <div class="text-center mb-7">
+
       <h1
-        class="text-[40px] md:text-[42px]
-               font-[700] tracking-[-0.02em]
+        class="text-[30px] md:text-[34px]
+               font-[700]
+               tracking-[-0.02em]
                text-[#111827]"
       >
         MEU PERFIL
       </h1>
+
     </div>
 
     <!-- CONTENT -->
-    <div class="max-w-[760px] mx-auto space-y-5">
+    <div class="max-w-[620px] mx-auto space-y-3">
 
       <!-- PROFILE CARD -->
       <div
         *ngIf="user"
-        class="bg-white rounded-[24px]
+        class="bg-white
+               rounded-[18px]
                border border-[#ECECEC]
-               px-6 py-6 md:px-8
+               px-4 py-4 md:px-5
                flex items-center justify-between
                shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
       >
 
         <!-- LEFT -->
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-3">
 
           <!-- AVATAR -->
           <div
-            class="w-[72px] h-[72px]
+            class="w-[52px] h-[52px]
                    rounded-full overflow-hidden
                    shrink-0 border border-[#E5E7EB]"
           >
+
             <img
               [src]="user.avatar"
               class="w-full h-full object-cover"
               alt="avatar"
             />
+
           </div>
 
           <!-- INFO -->
@@ -46,8 +53,10 @@
 
             <!-- NAME -->
             <h2
-              class="text-[30px] leading-[110%]
-                     font-[700] text-[#111827]
+              class="text-[20px]
+                     leading-[110%]
+                     font-[700]
+                     text-[#111827]
                      mb-1"
             >
               {{ user.name }}
@@ -56,14 +65,18 @@
             <!-- PROVIDER -->
             <div
               class="flex items-center gap-2
-                     text-[15px] text-[#6B7280]
+                     text-[13px]
+                     text-[#6B7280]
                      mb-1"
             >
 
               <i
                 [ngClass]="{
-                  'fab fa-google text-[#EA4335]': user.provider === 'google',
-                  'fa-solid fa-user text-gray-500': user.provider !== 'google'
+                  'fab fa-google text-[#EA4335]':
+                    user.provider === 'google',
+
+                  'fa-solid fa-user text-gray-500':
+                    user.provider !== 'google'
                 }"
               ></i>
 
@@ -75,9 +88,11 @@
 
             <!-- MEMBER -->
             <p
-              class="text-[15px] text-[#9CA3AF]"
+              class="text-[13px]
+                     text-[#9CA3AF]"
             >
-              Membro desde: {{ user.memberSince }}
+              Membro desde:
+              {{ user.memberSince }}
             </p>
 
           </div>
@@ -87,11 +102,14 @@
         <!-- LOGOUT -->
         <button
           (click)="logout()"
-          class="h-[50px] px-5 rounded-[14px]
+          class="h-[40px]
+                 px-4
+                 rounded-[12px]
                  bg-[#FFF1F2]
                  hover:bg-[#FFE4E6]
                  text-[#EF4444]
-                 font-[700] text-[15px]
+                 font-[700]
+                 text-[13px]
                  flex items-center gap-2
                  transition-all duration-200"
         >
@@ -107,9 +125,10 @@
       <!-- MY ORDERS -->
       <div
         (click)="goToOrders()"
-        class="bg-white rounded-[24px]
+        class="bg-white
+               rounded-[18px]
                border border-[#ECECEC]
-               px-6 py-7 md:px-8
+               px-4 py-4 md:px-5
                flex items-center justify-between
                cursor-pointer
                hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]
@@ -121,7 +140,7 @@
         <div>
 
           <h3
-            class="text-[34px]
+            class="text-[21px]
                    font-[700]
                    text-[#111827]
                    mb-1"
@@ -130,35 +149,39 @@
           </h3>
 
           <p
-            class="text-[17px]
+            class="text-[14px]
                    text-[#6B7280]"
           >
-            Acompanhe suas compras e o status de cada pedido
+            Acompanhe suas compras e pedidos
           </p>
 
         </div>
 
         <!-- ICON -->
         <div
-          class="w-[52px] h-[52px]
+          class="w-[40px] h-[40px]
                  rounded-full
                  flex items-center justify-center
                  hover:bg-[#FAF5FF]
                  transition-all duration-200"
         >
+
           <i
             class="fa-solid fa-chevron-right
-                   text-[24px] text-[#111827]"
+                   text-[16px]
+                   text-[#111827]"
           ></i>
+
         </div>
 
       </div>
 
       <!-- CASHBACK -->
       <div
-        class="bg-white rounded-[24px]
+        class="bg-white
+               rounded-[18px]
                border border-[#ECECEC]
-               px-6 py-7 md:px-8
+               px-4 py-4 md:px-5
                flex items-center justify-between
                shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
       >
@@ -167,7 +190,7 @@
         <div>
 
           <h3
-            class="text-[34px]
+            class="text-[21px]
                    font-[700]
                    text-[#111827]
                    mb-1"
@@ -176,33 +199,34 @@
           </h3>
 
           <p
-            class="text-[17px]
+            class="text-[14px]
                    text-[#6B7280]"
           >
-            Quantidade de SD Coins disponíveis
+            SD Coins disponíveis
           </p>
 
         </div>
 
         <!-- COINS -->
         <div
-          class="h-[58px]
-                 px-5 rounded-[14px]
+          class="h-[42px]
+                 px-4
+                 rounded-[12px]
                  bg-[#FFF6D8]
                  flex items-center gap-2"
         >
 
           <img
             src="icons/coin.png"
-            class="w-[22px] h-[22px]"
+            class="w-[18px] h-[18px]"
           />
 
           <span
-            class="text-[28px]
+            class="text-[18px]
                    font-[700]
                    text-[#6B4F00]"
           >
-            {{ cashback }}
+            {{ isCashbackLoading ? '...' : cashback }}
           </span>
 
         </div>
@@ -212,4 +236,5 @@
     </div>
 
   </div>
+
 </div>

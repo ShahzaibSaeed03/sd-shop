@@ -30,7 +30,7 @@ sectionsMap: any = {};
   tabs = [
     { label: 'Top Ups', value: 'topup', image: 'tabs/tab1.png' },
     { label: 'Moedas', value: 'moedas', image: 'tabs/tab2.png' },
-    { label: 'Vouchers', value: 'voucher', image: 'tabs/tab3.png' },
+    { label: 'Vouchers', value: 'voucher', image: 'vouchers.png' },
   ];
 
   activeTab: string = 'topup';

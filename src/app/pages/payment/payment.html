@@ -61,120 +61,245 @@
           </div>
         </div>
 
-        <!-- SUMMARY -->
-        <div class="bg-white rounded-xl p-4 shadow-sm space-y-2">
-          <h3 class="font-medium text-base sm:text-lg mb-3">Resumo do pedido</h3>
-
-          <!-- COUPON -->
+       <!-- SUMMARY -->
 <div
-  *ngIf="summary?.coupon"
-  class="flex justify-between items-center text-sm sm:text-base"
->            <span>Cupom</span>
-            <span *ngIf="summary?.coupon; else noCoupon" class="text-purple-600 font-semibold">
-              {{ summary?.coupon }}
-            </span>
-            <ng-template #noCoupon>
-              <span class="text-gray-500 flex items-center gap-1 cursor-pointer">
-                Selecionar cupom
-                <i class="fa-solid fa-chevron-right text-xs"></i>
-              </span>
-            </ng-template>
-          </div>
-
-          <!-- GAME UID -->
-          <div class="flex justify-between text-sm sm:text-base">
-            <span>ID do jogador</span>
-            <span>
-              {{ summary?.userId || '-' }}
-              <span *ngIf="summary?.server">({{ summary?.server }})</span>
-            </span>
-          </div>
-
-          <!-- SUBTOTAL -->
-          <div class="flex justify-between text-sm sm:text-base">
-            <span>Subtotal</span>
-            <span>
-              {{ summary?.subtotal | currency: 'BRL' }}
-            </span>
-          </div>
-<div
-  *ngIf="summary?.useCoins"
-  class="flex justify-between items-center"
+  class="bg-white
+         rounded-[20px]
+         border border-[#F1F1F1]
+         p-5 sm:p-6
+         shadow-sm"
 >
 
-  <span class="flex items-center gap-2">
+  <!-- TITLE -->
+  <h3
+    class="text-[20px]
+           leading-none
+           font-[700]
+           text-[#1A1A1A]
+           mb-6"
+  >
+    Resumo do pedido
+  </h3>
 
-    <img
-      src="icons/coin.png"
-      class="w-5 h-5"
-    />
+  <!-- COUPON -->
+  <div
+    *ngIf="summary?.coupon"
+    class="flex items-center justify-between py-2"
+  >
 
-    SD Coins utilizadas
+    <span
+      class="text-[15px]
+             text-[#6F6F6F]"
+    >
+      Cupom
+    </span>
 
-  </span>
+    <span
+      *ngIf="summary?.coupon; else noCoupon"
+      class="flex items-center gap-2
+             text-[#8E00D9]
+             font-[600]
+             text-[15px]"
+    >
+      {{ summary?.coupon }}
 
-  <span class="text-[#00A86B] font-medium">
+    </span>
 
-    -{{ summary?.coinsUsed }}
+    <ng-template #noCoupon>
 
-    ({{ summary?.coinsDiscount | currency:'BRL' }})
+      <span
+        class="flex items-center gap-2
+               text-[#8B8B8B]
+               text-[15px]
+               cursor-pointer"
+      >
+        Selecionar cupom
 
-  </span>
+        <i class="fa-solid fa-chevron-right text-[11px]"></i>
+      </span>
+
+    </ng-template>
+
+  </div>
+
+  <!-- PLAYER ID -->
+  <div
+    class="flex items-center justify-between py-2"
+  >
+
+    <span
+      class="text-[15px]
+             text-[#6F6F6F]"
+    >
+      ID do jogador
+    </span>
+
+    <span
+      class="text-[15px]
+             text-[#1F1F1F]
+             font-[500]"
+    >
+      {{ summary?.userId || '-' }}
+
+      <span *ngIf="summary?.server">
+        ({{ summary?.server }})
+      </span>
+
+    </span>
+
+  </div>
+
+  <!-- DIVIDER -->
+  <div
+    class="h-[1px]
+           bg-[#EEEEEE]
+           my-4"
+  ></div>
+
+  <!-- SUBTOTAL -->
+  <div
+    class="flex items-center justify-between py-2"
+  >
+
+    <span
+      class="text-[15px]
+             text-[#6F6F6F]"
+    >
+      Subtotal
+    </span>
+
+    <span
+      class="text-[15px]
+             text-[#3A3A3A]"
+    >
+      {{ summary?.subtotal | currency:'BRL' }}
+    </span>
+
+  </div>
+
+  <!-- SD COINS -->
+  <div
+    *ngIf="summary?.useCoins"
+    class="flex items-center justify-between py-2"
+  >
+
+    <span
+      class="text-[15px]
+             text-[#6F6F6F]"
+    >
+      Desconto das SD Coins
+    </span>
+
+    <span
+      class="text-[15px]
+             font-[600]
+             text-[#00A86B]"
+    >
+      {{ summary?.coinsDiscount | currency:'BRL' }}
+    </span>
+
+  </div>
+
+  <!-- DIVIDER -->
+  <div
+    class="h-[1px]
+           bg-[#EEEEEE]
+           my-5"
+  ></div>
+
+  <!-- TOTAL -->
+  <div
+    class="flex items-start justify-between"
+  >
+
+    <span
+      class="text-[18px]
+             font-[700]
+             text-[#1A1A1A]"
+    >
+      Total
+    </span>
+
+    <span
+      class="text-[28px]
+             leading-none
+             font-[700]
+             text-[#111111]"
+    >
+      {{ summary?.total | currency:'BRL' }}
+    </span>
+
+  </div>
+
+  <!-- CASHBACK -->
+  <div
+    *ngIf="summary?.cashbackEarned > 0"
+    class="flex items-center justify-between gap-2 mt-3"
+  >
+
+    <span
+      class="text-[15px]
+             text-[#6F6F6F]"
+    >
+      SD Coins a receber
+    </span>
+
+    <div class="flex items-center gap-1">
+
+      <img
+        src="icons/coin.png"
+        class="w-[18px] h-[18px]"
+      />
+
+      <span
+        class="text-[#D89B00]
+               font-[600]
+               text-[15px]"
+      >
+        {{ summary?.cashbackEarned }}
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- NOTE -->
+  <div
+    class="mt-5
+           bg-[#FAFAFA]
+           border border-[#F1F1F1]
+           rounded-[10px]
+           px-4 py-3
+           flex items-center gap-3"
+  >
+
+    <!-- ICON -->
+    <div
+      class="min-w-[22px]
+           
+             
+             flex items-center justify-center"
+    >
+
+     <img src="icons/Vector.png" class="w-[20px] h-[20px]" />
+
+    </div>
+
+    <!-- TEXT -->
+    <p
+      class="text-[14px]
+             leading-5
+             text-[#6F6F6F]"
+    >
+      Pagamento seguro com
+      <span class="font-[600] text-[#2B2B2B]">
+        nossos parceiros confiáveis
+      </span>
+    </p>
+
+  </div>
 
 </div>
-          <!-- SD COINS DISCOUNT (only when applicable) -->
-          <!-- Standalone "Discount" line removed per platform rules -->
-          <div
-            *ngIf="summary?.useCoins && summary?.coinsDiscount > 0"
-            class="flex justify-between text-sm sm:text-base"
-          >
-            <span>Desconto das SD Coins</span>
-            <span class="text-green-600">
-              {{ summary?.coinsDiscount | currency: 'BRL' }}
-            </span>
-          </div>
-
-<div
-  class="my-4 h-[1px] w-full
-         bg-gradient-to-r
-         from-transparent
-         via-[#E5E7EB]
-         to-transparent">
-</div>
-          <!-- TOTAL -->
-          <div class="flex justify-between items-center font-bold">
-            <span class="text-[18px]">Total</span>
-            <span class="text-[24px]">
-              {{ summary?.total | currency: 'BRL' }}
-            </span>
-          </div>
-
-          <!-- SD COINS A RECEBER (cashback to be earned) -->
-          <div
-            *ngIf="summary?.cashbackEarned > 0"
-            class="flex justify-between items-center text-sm sm:text-base pt-1"
-          >
-            <span class="text-gray-600">SD Coins a receber</span>
-            <span class="flex items-center gap-1 text-yellow-600 font-medium">
-              <img
-                src="icons/sd-coin.png"
-                class="w-[18px] h-[18px]"
-                alt="SD Coin"
-                onerror="this.style.display = 'none'"
-              />
-              {{ summary?.cashbackEarned }}
-            </span>
-          </div>
-
-          <!-- NOTE -->
-          <div class="w-full bg-[#FAFAFA] rounded-[6px] flex items-center gap-3 px-3 py-2 mt-3">
-            <img src="icons/Vector.png" class="w-[25px] h-[25px]" />
-            <p class="text-gray-500 text-sm">
-              Pagamento seguro com
-              <span class="text-gray-900 font-medium">nossos parceiros confiáveis</span>
-            </p>
-          </div>
-        </div>
       </div>
 
       <!-- RIGHT SIDE -->
@@ -360,17 +485,42 @@
         </button>
 
         <!-- INFO NOTE -->
-        <div class="flex items-start gap-2 text-[13px] text-gray-500">
-          <span
-            class="flex-shrink-0 w-[18px] h-[18px] rounded-full border border-gray-300 flex items-center justify-center text-[11px] text-gray-400 mt-[2px]"
-          >
-            <i class="fa-solid fa-shield-check text-[#A855F7]"></i>
-          </span>
-          <span>
-            Após o pagamento, permaneça nessa página por alguns segundos — a confirmação será feita
-            automaticamente.
-          </span>
-        </div>
+      <!-- INFO NOTE -->
+<div
+  class="bg-[#FAFAFA]
+         rounded-[10px]
+         px-4 py-3
+         flex items-center gap-3
+         border border-[#F1F1F1]"
+>
+
+  <!-- ICON -->
+  <div
+    class="min-w-[20px]
+           w-[20px]
+           h-[20px]
+           rounded-full
+           border border-[#A855F7]
+           flex items-center justify-center"
+  >
+    <i
+      class="fa-solid fa-info
+             text-[10px]
+             text-[#A855F7]"
+    ></i>
+  </div>
+
+  <!-- TEXT -->
+  <p
+    class="text-[13px]
+           leading-5
+           text-[#7A7A7A]"
+  >
+    Após o pagamento, permaneça nessa página por alguns segundos —
+    a confirmação será feita automaticamente.
+  </p>
+
+</div>
       </div>
     </div>
   </div>

@@ -1,161 +1,146 @@
-<div class="bg-[#F5F5F5] py-6">
-  <div class="max-w-7xl mx-auto">
-    <!-- ✅ BREADCRUMB -->
-  <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-  <a
-    routerLink="/"
-    class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer"
-  >
-<img src="home.svg" alt="Home" class="h-5 w-4">
-    <span>Home</span>
-  </a>
-  <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
-  <a routerLink="/products" class="hover:text-purple-600 transition cursor-pointer">Top Up</a>
-  <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
-  <!-- ✅ "Game Name Top Up" format -->
-  <span class="text-gray-700 font-medium">
-    {{ (product?.category?.name || 'Game') + ' Top Up' }}
-  </span>
-</nav>
+<div class="bg-[#F5F5F5] py-4 sm:py-6">
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+
+    <!-- BREADCRUMB -->
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4 overflow-x-auto no-scrollbar">
+      <a routerLink="/" class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer flex-shrink-0">
+        <img src="home.svg" alt="Home" class="h-5 w-4">
+        <span>Home</span>
+      </a>
+      <i class="fa-solid fa-chevron-right text-[10px] text-gray-400 flex-shrink-0"></i>
+      <a routerLink="/products" class="hover:text-purple-600 transition cursor-pointer flex-shrink-0">Top Up</a>
+      <i class="fa-solid fa-chevron-right text-[10px] text-gray-400 flex-shrink-0"></i>
+      <span class="text-gray-700 font-medium truncate">
+        {{ (product?.category?.name || 'Game') + ' Top Up' }}
+      </span>
+    </nav>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
       <!-- ========== LEFT SIDE ========== -->
       <div class="lg:col-span-8 space-y-4">
-        <!-- ✅ GAME HEADER + AFFILIATE -->
-<!-- ✅ GAME HEADER + AFFILIATE -->
-<div *ngIf="product" class="bg-white rounded-2xl p-6 shadow-sm">
-  <div class="flex items-center justify-between gap-4 min-h-[130px]">
 
-    <!-- LEFT: Game info -->
-    <div class="flex gap-4 items-center">
-      <img
-        [src]="product?.category?.image"
-        [alt]="product?.category?.name"
-        class="w-[130px] h-[130px] rounded-xl object-cover flex-shrink-0"
-        onerror="this.src = 'placeholder.jpg'"
-      />
-      <div class="flex-1 min-w-0">
-        <h2 class="text-xl font-bold mb-1.5 text-gray-900">
-          {{ product?.category?.name }}
-        </h2>
+        <!-- GAME HEADER -->
+        <div *ngIf="product" class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
 
-        <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-2">
-          <span class="flex items-center gap-1">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-            </svg>
-            Rápido
-          </span>
-          <span class="flex items-center gap-1">
-            <img src="secure.png" alt="Secure" class="w-3 h-3.5">
-            Seguro
-          </span>
-          <span class="flex items-center gap-1">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 4.18 2 2 0 015.07 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-            </svg>
-            24/7
-          </span>
-        </div>
+          <!-- MOBILE: stacked, DESKTOP: side by side -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
-          <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium border border-purple-300">
-            Popular
-          </span>
-          <span class="text-gray-700">{{ formatSold(product.sold) }} Vendidos</span>
-        </div>
+            <!-- LEFT: Game info -->
+            <div class="flex gap-3 sm:gap-4 items-center">
+              <img
+                [src]="product?.category?.image"
+                [alt]="product?.category?.name"
+                class="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px] lg:w-[130px] lg:h-[130px] rounded-xl object-cover flex-shrink-0"
+                onerror="this.src = 'placeholder.jpg'"
+              />
+              <div class="flex-1 min-w-0">
+                <h2 class="text-base sm:text-lg lg:text-xl font-bold mb-1 text-gray-900 truncate">
+                  {{ product?.category?.name }}
+                </h2>
 
-        <div class="flex items-center gap-3 text-xs mt-1.5">
-          <span class="text-purple-600 flex items-center gap-1 font-semibold">
-            <i class="fas fa-star"></i>
-            {{ product.rating || 0 }}
-          </span>
-          <span class="text-gray-600">{{ product.totalReviews || 0 }} Avaliações</span>
-        </div>
-      </div>
-    </div>
+                <div class="flex flex-wrap gap-2 text-xs text-gray-500 mb-2">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg>
+                    Rápido
+                  </span>
+                  <span class="flex items-center  gap-1">
+                    <img src="secure.png" alt="Secure" class="w-3 h-3.5">
+                    Seguro
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <img src="headphone.png" alt="24/7" class="w-3 h-3.5">
+                    24/7
+                  </span>
+                </div>
 
-    <!-- RIGHT: Affiliate OR Promo -->
-    <ng-container *ngIf="affiliate && cameViaAffiliateLink; else promoBlock">
-      <div class="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 rounded-xl px-5 py-5 flex items-center gap-4 min-w-[280px] min-h-[120px]">
+                <div class="flex flex-wrap items-center sm:justify-between gap-x-3 gap-y-1 text-xs mb-2">
+                  <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium border border-purple-300">
+                    Popular
+                  </span>
+                  <span class="text-gray-700">{{ formatSold(product.sold) }} Vendidos</span>
+                </div>
 
-        <img
-          [src]="affiliate?.image || 'placeholder.jpg'"
-          alt="affiliate"
-          class="w-[65px] h-[65px] rounded-full object-cover flex-shrink-0 ring-2 ring-purple-400 ring-offset-2"
-          onerror="this.src = 'placeholder.jpg'"
-        />
+                <div class="flex items-center sm:justify-between gap-3 text-xs mt-1">
+                  <span class="text-purple-600 flex items-center gap-1 font-semibold">
+                    <i class="fas fa-star"></i>
+                    {{ product.rating || 0 }}
+                  </span>
+                  <span class="text-gray-600">{{ product.totalReviews || 0 }} Avaliações</span>
+                </div>
+              </div>
+            </div>
 
-        <div class="flex flex-col gap-1.5 min-w-0">
+            <!-- RIGHT: Affiliate OR Promo -->
+            <ng-container *ngIf="affiliate && cameViaAffiliateLink; else promoBlock">
+              <div class="bg-[#f9f2fd] border border-purple-100 rounded-xl px-4 py-4 flex items-center gap-3 w-full sm:w-auto sm:min-w-[240px] lg:min-w-[280px] shadow-sm">
+                <img
+                  [src]="affiliate?.image || 'placeholder.jpg'"
+                  alt="affiliate"
+                  class="w-[50px] h-[50px] sm:w-[65px] sm:h-[65px] rounded-full object-cover flex-shrink-0 ring-2 ring-purple-400 ring-offset-2"
+                  onerror="this.src = 'placeholder.jpg'"
+                />
+                <div class="flex flex-col gap-1 min-w-0">
+                  <p class="text-[12px] sm:text-[13px] text-gray-500">
+                    Indicação de
+                    <a [href]="affiliate?.slug" target="_blank" class="font-bold text-blue-500 hover:underline">
+                      &#64;{{ affiliate?.name }}
+                    </a>
+                  </p>
+                  <p class="text-[14px] sm:text-[15px] font-bold text-gray-800">
+                    Código:
+                    <span class="text-purple-700 font-extrabold">{{ affiliate?.couponCode }}</span>
+                  </p>
+                  <div class="border-t border-gray-200 pt-1">
+                    <p class="text-[10px] sm:text-[11px] text-gray-400">Apoie criadores parceiros</p>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
 
-          <p class="text-[13px] text-gray-500">
-            Indicação de
-            <a
-              [href]="affiliate?.slug"
-              target="_blank"
-              class="font-bold text-purple-600 hover:underline"
-            >&#64;{{ affiliate?.name }}</a>
-          </p>
+            <ng-template #promoBlock>
+              <div class="w-full sm:w-[280px] lg:w-[400px] h-[80px] sm:h-[100px] lg:h-[120px] overflow-hidden rounded-xl">
+                <img
+                  src="Frame 2147227682.svg"
+                  alt="promo"
+                  class="w-full h-full object-cover"
+                  onerror="this.src = 'placeholder.jpg'"
+                />
+              </div>
+            </ng-template>
 
-          <p class="text-[15px] font-bold text-gray-800">
-            Código:
-            <span class="text-purple-700 font-extrabold text-[16px]">
-              {{ affiliate?.couponCode }}
-            </span>
-          </p>
-
-          <div class="border-t border-gray-200 pt-1.5">
-            <p class="text-[11px] text-gray-400">Apoie criadores parceiros</p>
           </div>
-
         </div>
-      </div>
-    </ng-container>
 
-    <ng-template #promoBlock>
-    <div class="rounded-xl overflow-hidden border border-purple-100 w-[400px] min-h-[120px]">
-  <img
-    src="Frame 2147227682.svg"
-    alt="promo"
-    class="w-full h-full object-cover"
-    onerror="this.src = 'placeholder.jpg'"
-  />
-</div>
-    </ng-template>
-
-  </div>
-</div>
-
-        <!-- ✅ TABS -->
-        <div class="flex gap-3 overflow-x-auto pb-1 mb-4 no-scrollbar">
+        <!-- TABS -->
+        <div class="flex gap-2 sm:gap-3 overflow-x-auto pb-1 mb-2 no-scrollbar">
           <button
             *ngFor="let badge of getBundleBadges()"
             (click)="activeBundleBadge = badge"
-            class="px-5 py-2.5 rounded-full text-sm whitespace-nowrap font-medium transition flex-shrink-0"
+            class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm whitespace-nowrap font-medium transition flex-shrink-0"
             [ngClass]="{
               'bg-purple-200 text-purple-900 border-purple-200': activeBundleBadge === badge,
-              'bg-gray-50 text-gray-600 border-gray-200 hover:border-purple-200 hover:bg-purple-50':
-                activeBundleBadge !== badge,
+              'bg-gray-50 text-gray-600 border-gray-200 hover:border-purple-200 hover:bg-purple-50': activeBundleBadge !== badge
             }"
           >
             {{ badge }}
           </button>
         </div>
 
-        <!-- ✅ PRODUCTS GRID -->
+        <!-- PRODUCTS GRID -->
         <div
           *ngIf="filteredBundles.length"
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
         >
           <div
             *ngFor="let item of filteredBundles"
             (click)="item.isBundle || item.badge ? selectBundle(item) : selectProduct(item)"
-            class="group bg-[#ffffff] rounded-[18px] overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+            class="group bg-white rounded-[16px] sm:rounded-[18px] overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
             [ngClass]="{
-              'border-[#A855F7] bg-white shadow-[0_10px_30px_rgba(168,85,247,0.25)]':
-                selectedProductId === (item._id || item.id),
-              'border-[#E5E7EB] hover:border-[#C084FC] shadow-[0_4px_20px_rgba(0,0,0,0.08)]':
-                selectedProductId !== (item._id || item.id),
+              'border-[#A855F7] shadow-[0_10px_30px_rgba(168,85,247,0.25)]': selectedProductId === (item._id || item.id),
+              'border-[#E5E7EB] hover:border-[#C084FC] shadow-[0_4px_20px_rgba(0,0,0,0.08)]': selectedProductId !== (item._id || item.id)
             }"
           >
             <!-- IMAGE -->
@@ -169,19 +154,19 @@
               <button
                 *ngIf="item.badge"
                 (click)="openBundle(item); $event.stopPropagation()"
-                class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-[#141B2B] hover:bg-purple-600 hover:text-white transition"
+                class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-[#141B2B] hover:bg-purple-600 hover:text-white transition"
               >
-                <i class="fa-solid fa-circle-info text-[12px]"></i>
+                <i class="fa-solid fa-circle-info text-[11px] sm:text-[12px]"></i>
               </button>
             </div>
 
             <!-- CONTENT -->
-            <div class="p-4 text-center">
-              <h3 class="text-[14px] font-[500] text-[#111827] line-clamp-2">
+            <div class="p-3 sm:p-4 text-center">
+              <h3 class="text-[12px] sm:text-[14px] font-[500] text-[#111827] line-clamp-2">
                 {{ item.name || item.title }}
               </h3>
               <div class="mt-1">
-                <h3 class="text-[16px] font-[700] text-[#111827]">
+                <h3 class="text-[14px] sm:text-[16px] font-[700] text-[#111827]">
                   R$ {{ item.customPrice || item.finalPrice || item.price | number: '1.2-2' }}
                 </h3>
               </div>
@@ -197,47 +182,24 @@
 
       <!-- ========== RIGHT PANEL ========== -->
       <div class="lg:col-span-4" *ngIf="product">
-        <div
-          class="bg-white rounded-[18px] border border-[#ECECEC] p-4 sm:p-5 space-y-4 sticky top-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
-        >
+        <div class="bg-white rounded-[18px] border border-[#ECECEC] p-4 sm:p-5 space-y-4 lg:sticky lg:top-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+
           <!-- PAYMENT -->
-          <div class="flex items-center flex-wrap">
-            <img src="payments/mastercard-1.png" class="h-10" />
-            <img src="payments/pix.png" class="h-10" />
-            <img src="payments/visa.png" class="h-10" />
-            <img src="payments/mastercard.png" class="h-10" />
+          <div class="flex items-center flex-wrap gap-1">
+            <img src="payments/mastercard-1.png" class="h-8 sm:h-10" />
+            <img src="payments/pix.png" class="h-8 sm:h-10" />
+            <img src="payments/visa.png" class="h-8 sm:h-10" />
+            <img src="payments/mastercard.png" class="h-8 sm:h-10" />
           </div>
 
           <!-- GUARANTEE -->
-          <div
-            class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]"
-          >
+          <div class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]">
             <div class="flex items-center gap-2">
-                          <svg
-  width="34"
-  height="24"
-  viewBox="0 0 34 24"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M12 3L18.5 5.5V10.8C18.5 15.2 15.7 19.2 12 21C8.3 19.2 5.5 15.2 5.5 10.8V5.5L12 3Z"
-    stroke="#A855F7"
-    stroke-width="1.7"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-
-  <path
-    d="M9.5 12L11.2 13.7L14.8 10.1"
-    stroke="#A855F7"
-    stroke-width="1.7"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-</svg>
-
-              <span class="text-[13px] text-[#5B5B5B]">Garantia de Reembolso</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L18.5 5.5V10.8C18.5 15.2 15.7 19.2 12 21C8.3 19.2 5.5 15.2 5.5 10.8V5.5L12 3Z" stroke="#A855F7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.5 12L11.2 13.7L14.8 10.1" stroke="#A855F7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="text-[12px] sm:text-[13px] text-[#5B5B5B]">Garantia de Reembolso</span>
             </div>
             <i class="fa-solid fa-chevron-right text-[11px] text-[#999]"></i>
           </div>
@@ -245,84 +207,76 @@
           <!-- FORM -->
           <div class="border border-[#F0F0F0] rounded-2xl p-4 space-y-4">
             <div>
-              <h3 class="text-[22px] leading-none font-[700] text-[#222]">Recarregar Conta</h3>
-              <p class="text-[13px] text-[#8C8C8C] mt-2">Dados do Usuário</p>
+              <h3 class="text-[20px] sm:text-[22px] leading-none font-[700] text-[#222]">Recarregar Conta</h3>
+              <p class="text-[12px] sm:text-[13px] text-[#8C8C8C] mt-2">Dados do Usuário</p>
             </div>
 
             <!-- EMAIL -->
             <div *ngIf="!isLoggedIn">
-              <label class="text-[14px] text-[#5A5A5A] mb-1.5 block">
+              <label class="text-[13px] sm:text-[14px] text-[#5A5A5A] mb-1.5 block">
                 <span class="text-red-500">*</span> Digite seu e-mail
               </label>
               <input
                 type="email"
                 [(ngModel)]="form.email"
                 placeholder="Por favor, digite seu e-mail"
-                class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 text-[14px] outline-none focus:border-[#A855F7]"
+                class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 text-[13px] sm:text-[14px] outline-none focus:border-[#A855F7]"
               />
             </div>
 
             <!-- SERVER -->
-        <div>
-  <label class="text-[14px] text-[#5A5A5A] mb-1.5 block">
-    <span class="text-red-500">*</span> Servidor
-  </label>
-  <div class="relative">
-    <select
-      [(ngModel)]="form.server"
-      (change)="checkUserId()"
-      class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 pr-10 text-[14px] outline-none focus:border-[#A855F7] appearance-none cursor-pointer"
-    >
-      <option value="" disabled>Por favor, selecione o Servidor</option>
-      <option *ngFor="let opt of getServerOptions()" [value]="opt.value">
-        {{ opt.name }}
-      </option>
-    </select>
-
-    <!-- ✅ Custom arrow — thoda left -->
-    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-      <i class="fa-solid fa-chevron-down text-[11px]"></i>
-    </div>
-  </div>
-</div>
+            <div>
+              <label class="text-[13px] sm:text-[14px] text-[#5A5A5A] mb-1.5 block">
+                <span class="text-red-500">*</span> Servidor
+              </label>
+              <div class="relative">
+                <select
+                  [(ngModel)]="form.server"
+                  (change)="checkUserId()"
+                  class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 pr-10 text-[13px] sm:text-[14px] outline-none focus:border-[#A855F7] appearance-none cursor-pointer"
+                >
+                  <option value="" disabled>Por favor, selecione o Servidor</option>
+                  <option *ngFor="let opt of getServerOptions()" [value]="opt.value">{{ opt.name }}</option>
+                </select>
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <i class="fa-solid fa-chevron-down text-[11px]"></i>
+                </div>
+              </div>
+            </div>
 
             <!-- UID -->
             <div>
-              <label class="text-[14px] text-[#5A5A5A] mb-1.5 block">
+              <label class="text-[13px] sm:text-[14px] text-[#5A5A5A] mb-1.5 block">
                 <span class="text-red-500">*</span> UID do Jogo
               </label>
               <input
                 [(ngModel)]="form.userId"
                 (input)="checkUserId()"
                 placeholder="Por favor, digite seu UID"
-                class="w-full h-[48px] bg-[#F7F7F7] border rounded-xl px-4 text-[14px] outline-none"
+                class="w-full h-[48px] bg-[#F7F7F7] border rounded-xl px-4 text-[13px] sm:text-[14px] outline-none"
                 [ngClass]="{
                   'border-red-500': userError,
                   'border-green-500': username && !userError,
-                  'border-transparent': !username && !userError,
+                  'border-transparent': !username && !userError
                 }"
               />
               <p *ngIf="checkingUser" class="text-[12px] text-[#8B8B8B] mt-1">Verificando UID...</p>
-              <p *ngIf="username && !userError" class="text-green-600 text-[12px] mt-1">
-                ✓ {{ username }}
-              </p>
+              <p *ngIf="username && !userError" class="text-green-600 text-[12px] mt-1">✓ {{ username }}</p>
               <p *ngIf="userError" class="text-red-500 text-[12px] mt-1">{{ userError }}</p>
             </div>
 
             <!-- SAVE UID -->
-            <label class="flex items-center gap-2 text-[13px] text-[#666] cursor-pointer">
+            <label class="flex items-center gap-2 text-[12px] sm:text-[13px] text-[#666] cursor-pointer">
               <input type="checkbox" class="w-4 h-4 accent-[#A855F7]" />
               Salvar UID para a próxima compra
             </label>
           </div>
 
           <!-- COUPON -->
-          <div class="border border-[#F0F0F0] rounded-2xl p-4 space-y-4">
+          <div class="border border-[#F0F0F0] rounded-2xl p-4 space-y-3">
             <div class="flex items-center justify-between">
-              <h3 class="text-[16px] font-[700] text-[#222]">Tem um Cupom?</h3>
-              <div
-                class="h-[34px] px-5 rounded-full bg-[#EDC7FF] text-[#8A39B9] text-[12px] font-semibold flex items-center justify-center"
-              >
+              <h3 class="text-[15px] sm:text-[16px] font-[700] text-[#222]">Tem um Cupom?</h3>
+              <div class="h-[32px] sm:h-[34px] px-4 sm:px-5 rounded-full bg-[#EDC7FF] text-[#8A39B9] text-[11px] sm:text-[12px] font-semibold flex items-center justify-center">
                 Resgatar
               </div>
             </div>
@@ -330,11 +284,11 @@
               <input
                 [(ngModel)]="coupon"
                 placeholder="Inserir cupom"
-                class="flex-1 h-[48px] bg-[#F7F7F7] rounded-xl px-4 text-[14px] outline-none"
+                class="flex-1 h-[44px] sm:h-[48px] bg-[#F7F7F7] rounded-xl px-4 text-[13px] sm:text-[14px] outline-none"
               />
               <button
                 (click)="applyCoupon()"
-                class="min-w-[92px] h-[48px] rounded-xl bg-[#9B5CF7] text-white text-[14px] font-medium hover:opacity-90 transition"
+                class="min-w-[80px] sm:min-w-[92px] h-[44px] sm:h-[48px] rounded-xl bg-[#9B5CF7] text-white text-[13px] sm:text-[14px] font-medium hover:opacity-90 transition"
               >
                 Aplicar
               </button>
@@ -346,45 +300,28 @@
 
           <!-- QUANTITY -->
           <div class="flex items-center justify-between">
-            <span class="text-[15px] font-medium text-[#2D2D2D]">Quantidade</span>
+            <span class="text-[14px] sm:text-[15px] font-medium text-[#2D2D2D]">Quantidade</span>
             <div class="flex items-center gap-2">
-              <button
-                (click)="decrease()"
-                class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center"
-              >
-                −
-              </button>
-              <div
-                class="w-[50px] h-[36px] rounded-lg bg-[#F7F7F7] flex items-center justify-center text-[15px] font-semibold"
-              >
-                {{ quantity }}
-              </div>
-              <button
-                (click)="increase()"
-                class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center"
-              >
-                +
-              </button>
+              <button (click)="decrease()" class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center">−</button>
+              <div class="w-[48px] sm:w-[50px] h-[36px] rounded-lg bg-[#F7F7F7] flex items-center justify-center text-[14px] sm:text-[15px] font-semibold">{{ quantity }}</div>
+              <button (click)="increase()" class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center">+</button>
             </div>
           </div>
 
           <!-- PRICE -->
           <div class="flex justify-between items-center">
-            <p class="text-[15px] text-[#777]">Preço</p>
-            <div class="text-[32px] leading-none font-[800] text-[#393939]">
+            <p class="text-[14px] sm:text-[15px] text-[#777]">Preço</p>
+            <div class="text-[28px] sm:text-[32px] leading-none font-[800] text-[#393939]">
               R$ {{ payableAmount | number: '1.2-2' }}
             </div>
           </div>
 
           <!-- COINS -->
-          <div
-            *ngIf="userCoins > 0"
-            class="bg-[#F7F7F7] rounded-xl px-4 py-3 flex items-center justify-between"
-          >
+          <div *ngIf="userCoins > 0" class="bg-[#F7F7F7] rounded-xl px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-[14px] text-[#666]">Usar:</span>
+              <span class="text-[13px] sm:text-[14px] text-[#666]">Usar:</span>
               <img src="icons/coin.png" class="w-5 h-5" />
-              <span class="text-[15px] font-semibold text-[#333]">{{ userCoins }}</span>
+              <span class="text-[14px] sm:text-[15px] font-semibold text-[#333]">{{ userCoins }}</span>
             </div>
             <button
               (click)="toggleUseCoins()"
@@ -398,137 +335,82 @@
             </button>
           </div>
 
-          <!-- BUTTON -->
-     <button
-  (click)="checkout()"
-            [disabled]="checkingUser || !!userError || !username"
-  class="group relative
-         w-full h-[54px]
-         rounded-xl
-         text-white
-         text-[16px]
-         font-semibold
-         transition-all duration-300
-         overflow-hidden"
+          <!-- CHECKOUT BUTTON -->
+          <button
+            (click)="checkout()"
+            class="group relative w-full h-[52px] sm:h-[54px] rounded-xl text-white text-[15px] sm:text-[16px] font-semibold transition-all duration-300 overflow-hidden"
+            [ngClass]="checkingUser || !!userError || !username
+              ? 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF]'
+              : 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF] hover:opacity-95'"
+          >
+            <div
+              *ngIf="!!userError || !username"
+              class="absolute inset-0 bg-[#BDBDBD] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2 z-20 cursor-not-allowed"
+            >
+              <i class="fa-solid fa-lock text-[13px] text-white"></i>
+              <span class="text-white font-semibold">Top Up</span>
+            </div>
+            <div *ngIf="checkingUser" class="absolute inset-0 flex items-center justify-center z-20">
+              Validando...
+            </div>
+            <span class="relative z-10" [class.group-hover:opacity-0]="!!userError || !username">
+              Top Up
+            </span>
+          </button>
 
-  [ngClass]="
-    checkingUser || !!userError || !username
-      ? 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF]'
-      : 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF] hover:opacity-95'
-  "
->
-  <!-- DISABLED OVERLAY -->
-  <div
-    *ngIf="checkingUser || !!userError || !username"
-    class="absolute inset-0
-           bg-[#CFCFCF]
-           opacity-0
-           group-hover:opacity-100
-           transition-all duration-300
-           flex items-center justify-center gap-2"
-  >
-    <i class="fa-solid fa-lock text-[13px] text-white"></i>
-
-    <span class="text-white font-semibold">
-      Top Up
-    </span>
-  </div>
-
-  <!-- NORMAL TEXT -->
-  <span
-    class="relative z-10"
-    [class.group-hover:opacity-0]="checkingUser || !!userError || !username"
-  >
-    {{ checkingUser ? 'Validando...' : 'Top Up' }}
-  </span>
-</button>
-
-          <!-- FOOTER -->
           <!-- INFO BOX -->
-<div
-  class="flex items-start gap-3
-         bg-[#F7F7F7]
-         border border-[#ECECEC]
-         rounded-xl
-         px-4 py-3"
->
-  <div
-    class="min-w-[22px] w-[22px] h-[22px]
-           rounded-full
-           border border-[#A855F7]
-           flex items-center justify-center
-           mt-[1px]"
-  >
-    <i class="fa-solid fa-info text-[11px] text-[#A855F7]"></i>
-  </div>
+          <div class="flex items-center gap-3 bg-[#F7F7F7] border border-[#ECECEC] rounded-xl px-4 py-3">
+            <div class="min-w-[22px] w-[22px] h-[22px] rounded-full border border-[#A855F7] flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-info text-[11px] text-[#A855F7]"></i>
+            </div>
+            <p class="text-[11px] leading-5 text-[#8A8A8A]">
+              Ao finalizar a compra você concorda com nossos
+              <a class="text-[#8A39B9] hover:underline cursor-pointer">Termos de Serviço</a>
+              e
+              <a class="text-[#8A39B9] hover:underline cursor-pointer">Política de Reembolso</a>.
+            </p>
+          </div>
 
-  <p class="text-[11px] leading-5 text-[#8A8A8A]">
-    Ao finalizar a compra você concorda com nossos
-    <a class="text-[#8A39B9] hover:underline cursor-pointer">
-      Termos de Serviço
-    </a>
-    e
-    <a class="text-[#8A39B9] hover:underline cursor-pointer">
-      Política de Reembolso
-    </a>.
-  </p>
-</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ✅ BUNDLE INFO POPUP — sirf EK baar -->
+<!-- BUNDLE POPUP -->
 <div
   *ngIf="bundlePopup && selectedBundle"
   class="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
 >
-  <div
-    class="bg-white w-full max-w-2xl rounded-[28px] overflow-hidden shadow-2xl animate-[fadeIn_.25s_ease]"
-  >
-    <!-- HEADER -->
-    <div class="flex items-start justify-between p-6 pb-3">
-      <div class="flex items-center gap-4">
+  <div class="bg-white w-full max-w-2xl rounded-[28px] overflow-hidden shadow-2xl animate-[fadeIn_.25s_ease]">
+    <div class="flex items-start justify-between p-5 sm:p-6 pb-3">
+      <div class="flex items-center gap-3 sm:gap-4">
         <img
           [src]="selectedBundle?.image"
-          class="w-20 h-20 rounded-2xl object-cover border border-gray-100"
+          class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-gray-100 flex-shrink-0"
           onerror="this.src = 'placeholder.jpg'"
         />
         <div>
-          <h2 class="text-2xl font-[800] text-[#111827]">
-            {{ selectedBundle?.name }}
-          </h2>
-          <p
-            class="inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700"
-          >
+          <h2 class="text-xl sm:text-2xl font-[800] text-[#111827]">{{ selectedBundle?.name }}</h2>
+          <p class="inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
             {{ selectedBundle?.badge }}
           </p>
         </div>
       </div>
-
-      <button
-        (click)="closeBundlePopup()"
-        class="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition"
-      >
+      <button (click)="closeBundlePopup()" class="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition flex-shrink-0">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
     </div>
-
-    <!-- BODY -->
-    <div class="px-6 pb-6 space-y-5">
-      <!-- DESCRIPTION -->
-      <div class="bg-[#F8F8FA] rounded-2xl p-5">
-        <h3 class="text-lg font-bold text-[#111827] mb-3">Descrição do produto</h3>
-        <p class="text-[15px] leading-7 text-gray-700 whitespace-pre-line">
+    <div class="px-5 sm:px-6 pb-5 sm:pb-6 space-y-4 sm:space-y-5">
+      <div class="bg-[#F8F8FA] rounded-2xl p-4 sm:p-5">
+        <h3 class="text-base sm:text-lg font-bold text-[#111827] mb-3">Descrição do produto</h3>
+        <p class="text-[14px] sm:text-[15px] leading-7 text-gray-700 whitespace-pre-line">
           {{ selectedBundle?.description || 'Sem descrição disponível.' }}
         </p>
       </div>
-
-      <!-- FOOTER -->
       <button
         (click)="closeBundlePopup()"
-        class="w-full h-14 rounded-2xl bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold text-lg hover:opacity-90 transition"
+        class="w-full h-12 sm:h-14 rounded-2xl bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold text-base sm:text-lg hover:opacity-90 transition"
       >
         OK
       </button>
@@ -536,6 +418,5 @@
   </div>
 </div>
 
-<!-- BAAD (fix) -->
 <app-review *ngIf="product?.category?._id" [categoryId]="product!.category!._id"></app-review>
 <app-info-page [categoryId]="product?.category?._id || ''"></app-info-page>

@@ -1,8 +1,15 @@
 <div
-  class="max-w-[1128px]  mx-auto bg-white border border-[#F5F5F5] rounded-[30px] p-[50px] py-6 sm:py-10"
+  class="max-w-[1128px]
+         mx-auto
+         bg-[#f5f5f5]
+         border border-[#EEEEEE]
+         rounded-[30px]
+         px-4 sm:px-8 lg:px-[36px]
+         py-5 sm:py-8"
 >
+
   <!-- MAIN -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
     <!-- LEFT -->
     <div class="lg:col-span-2 space-y-4">
@@ -10,195 +17,333 @@
       <!-- PRODUCT -->
       <div
         *ngIf="order"
-        class="flex items-center justify-between bg-white p-4 rounded-xl"
+        class="bg-white
+               rounded-[20px]
+               border border-[#F1F1F1]
+               px-4 sm:px-5
+               py-4
+               flex items-center justify-between"
       >
 
         <!-- LEFT -->
-        <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-3 sm:gap-4 min-w-0">
 
-          <div class="relative w-[70px] h-[70px]">
+          <!-- IMAGE -->
+          <div class="relative w-[64px] h-[64px] flex-shrink-0">
 
-            <!-- IMAGE -->
             <img
               [src]="order?.image || 'assets/cards/card-images.png'"
-              class="w-full h-full rounded-[8px] border border-[#7E00A6] p-[6px] object-cover"
+              class="w-full h-full
+                     rounded-[12px]
+                     border border-[#7E00A6]
+                     p-[4px]
+                     object-cover"
             />
 
             <!-- QTY -->
             <div
-              class="absolute top-[4px] right-[4px]
-              w-[16px] h-[16px]
-              bg-[#E5E5E5]
-              rounded-full
-              flex items-center justify-center
-              text-[10px] font-medium"
+              class="absolute
+                     top-[-4px]
+                     right-[-4px]
+                     w-[18px]
+                     h-[18px]
+                     rounded-full
+                     bg-[#E7E7E7]
+                     text-[10px]
+                     font-medium
+                     flex items-center justify-center"
             >
               {{ order?.qty || 1 }}
             </div>
+
           </div>
 
           <!-- TEXT -->
-          <div class="flex flex-col gap-[4px]">
+          <div class="min-w-0">
 
-            <!-- GAME NAME (BOLD, TOP) -->
-            <h3 class="font-semibold text-[16px] sm:text-[18px] text-[#262626]">
+            <h3
+              class="text-[16px] sm:text-[18px]
+                     font-[600]
+                     text-[#262626]
+                     truncate"
+            >
               {{ order?.title || '-' }}
             </h3>
 
-            <!-- PRODUCT NAME (BELOW) -->
-            <p class="text-[#737373] text-[13px] sm:text-[14px]">
+            <p
+              class="text-[#8A8A8A]
+                     text-[13px] sm:text-[14px]
+                     mt-[2px]"
+            >
               {{ order?.subtitle || 'Product' }}
             </p>
 
           </div>
+
         </div>
 
         <!-- RIGHT -->
-        <div class="flex items-center gap-[20px]">
+        <div class="flex items-center gap-4 sm:gap-5 ml-3">
 
-          <!-- FINAL PRICE (R$ for Brazilian Real) -->
-          <span class="font-normal text-[18px] text-[#525252]">
+          <span
+            class="text-[18px]
+                   font-[400]
+                   text-[#525252]"
+          >
             R${{ total | number:'1.2-2' }}
           </span>
 
-          <!-- REMOVE -->
           <img
             src="icons/trash.png"
-            class="w-[20px] h-[20px] cursor-pointer hover:opacity-70 transition object-contain"
+            class="w-[18px] h-[18px]
+                   cursor-pointer
+                   hover:opacity-70
+                   transition"
             (click)="removeItem()"
           />
 
         </div>
+
       </div>
 
       <!-- SUMMARY -->
       <div
-  class="bg-white rounded-[24px] border border-[#EEEEEE] p-6 shadow-sm"
->
+        class="bg-white
+               rounded-[20px]
+               border border-[#F1F1F1]
+               px-5 sm:px-6
+               py-5"
+      >
 
+        <!-- HEADER -->
         <div
-          class="flex justify-between items-center cursor-pointer"
+          class="flex items-center justify-between
+                 cursor-pointer"
           (click)="toggleSummary()"
         >
-        <h3
-  class="text-[22px] font-[700] text-[#1A1A1A]"
->
+
+          <h3
+            class="text-[20px] sm:text-[22px]
+                   font-[700]
+                   text-[#1A1A1A]"
+          >
             Resumo do pedido
           </h3>
 
           <i
-            class="fa-solid fa-chevron-down transition-transform duration-300"
+            class="fa-solid fa-chevron-down
+                   text-[14px]
+                   transition-transform duration-300"
             [class.rotate-180]="summaryOpen"
           ></i>
+
         </div>
 
+        <!-- BODY -->
         <div
           *ngIf="summaryOpen"
-          class="mt-4 space-y-2 text-sm sm:text-base"
+          class="mt-6 space-y-4"
         >
 
           <!-- SUBTOTAL -->
-          <div class="flex justify-between">
-            <span>Subtotal</span>
-            <span>
+          <div class="flex items-center justify-between">
+
+            <span class="text-[#8B8B8B] text-[15px]">
+              Subtotal
+            </span>
+
+            <span class="text-[#2B2B2B] text-[15px]">
               R${{ summary.subtotal | number:'1.2-2' }}
             </span>
+
           </div>
 
-          <!-- COUPON (only shown when applied) -->
-  <!-- COUPON -->
-<div
-  *ngIf="summary.coupon && summary.coupon !== '-'"
-  class="flex items-center justify-between py-3"
->
-  <span class="text-[#8B8B8B] text-[15px]">
-    Cupom
-  </span>
+          <!-- COUPON -->
+          <div
+            *ngIf="summary.coupon && summary.coupon !== '-'"
+            class="flex items-center justify-between"
+          >
 
-  <span
-    class="text-[#A020F0] font-[700] uppercase text-[14px]"
-  >
-    {{ summary.coupon }}
-  </span>
-</div>
-<!-- COUPON DISCOUNT -->
-<div
-  *ngIf="summary.couponDiscount > 0"
-  class="flex items-center justify-between py-2"
->
-  <span class="text-[#8B8B8B] text-[15px]">
-    Desconto do cupom
-  </span>
+            <span class="text-[#8B8B8B] text-[15px]">
+              Cupom
+            </span>
 
-  <span class="text-[#00A86B] font-[600]">
-    -R${{ summary.couponDiscount | number:'1.2-2' }}
-  </span>
-</div>
+            <span
+              class="text-[#8E00D9]
+                     font-[700]
+                     uppercase
+                     text-[14px]"
+            >
+              {{ summary.coupon }}
+            </span>
 
-<!-- SD COINS -->
+          </div>
+
+          <!-- COUPON DISCOUNT -->
+          <div
+            *ngIf="summary.couponDiscount > 0"
+            class="flex items-center justify-between"
+          >
+
+            <span class="text-[#8B8B8B] text-[15px]">
+              Desconto do cupom
+            </span>
+
+            <span
+              class="text-[#00A86B]
+                     font-[600]
+                     text-[15px]"
+            >
+              -R${{ summary.couponDiscount | number:'1.2-2' }}
+            </span>
+
+          </div>
+
+          <!-- SD COINS -->
+         <!-- SD COINS -->
 <div
   *ngIf="summary.useCoins && summary.coinsUsed > 0"
   class="flex items-center justify-between py-2"
 >
 
-  <div class="flex items-center gap-2">
+  <!-- LEFT -->
+  <span class="text-[#8B8B8B] text-[15px]">
+    SD Coins utilizadas
+  </span>
+
+  <!-- RIGHT -->
+  <div class="flex items-center gap-1">
 
     <img
       src="icons/coin.png"
       class="w-5 h-5"
     />
 
-    <span class="text-[#8B8B8B] text-[15px]">
-      SD Coins utilizadas
+    <!-- COINS -->
+    <span class="text-[#1F1F1F] text-[15px]">
+      -{{ summary.coinsUsed }}
+    </span>
+
+    <!-- BRL -->
+    <span
+      class="text-[#00A86B]
+             text-[15px]
+             font-[600]"
+    >
+      (R${{ summary.coinsDiscount | number:'1.2-2' }})
     </span>
 
   </div>
 
-  <span class="text-[#00A86B] font-[600]">
-    -R${{ summary.coinsDiscount | number:'1.2-2' }}
-  </span>
+</div>
 
-</div>         
-<!-- SD COINS USED (only shown when user uses SD Coins) -->
-          <!-- NOTE: Standalone "Discount" line removed per platform rules. -->
-          <!-- Discount is only shown here, alongside SD Coins usage. -->
-       
-        <div class="h-[1px] bg-[#EFEFEF] my-4"></div>
+          <!-- CASHBACK -->
+         <!-- CASHBACK -->
+<!-- <div
+  class="flex items-center justify-between py-2"
+> -->
+
+  <!-- LEFT -->
+  <!-- <span class="text-[#8B8B8B] text-[15px]">
+    Cashback Recebido
+  </span> -->
+
+  <!-- RIGHT -->
+  <!-- <div class="flex items-center gap-1"> -->
+
+    <!-- <img
+      src="icons/coin.png"
+      class="w-5 h-5"
+    /> -->
+
+    <!-- COINS -->
+    <!-- <span class="text-[#1F1F1F] text-[15px]">
+      +{{ cashbackCoins }}
+    </span> -->
+
+    <!-- BRL -->
+    <!-- <span
+      class="text-[#00A86B]
+             text-[15px]
+             font-[600]"
+    >
+      (R${{ cashbackAmount | number:'1.2-2' }})
+    </span> -->
+
+  <!-- </div> -->
+
+<!-- </div> -->
+
+          <!-- DIVIDER -->
+          <div class="h-[1px] bg-[#EAEAEA]"></div>
 
           <!-- TOTAL -->
-          <div class="flex justify-between text-lg sm:text-xl">
+          <div
+            class="flex items-center justify-between"
+          >
 
-            <span class="font-medium">
+            <span
+              class="text-[24px]
+                     font-[600]
+                     text-[#222]"
+            >
               Total
             </span>
 
-            <span class="font-normal">
+            <span
+              class="text-[24px]
+                     font-[500]
+                     text-[#222]"
+            >
               R${{ total | number:'1.2-2' }}
             </span>
 
           </div>
 
         </div>
+
       </div>
 
       <!-- BUTTONS -->
       <div
-        class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 sm:mt-6 sm:justify-end"
+        class="flex flex-col sm:flex-row
+               justify-end
+               gap-3 sm:gap-4
+               mt-2"
       >
 
-        <!-- CONTINUE TO PAYMENT -->
+        <!-- CONTINUE -->
         <button
-          class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg transition"
+          class="h-[52px]
+                 px-7
+                 rounded-[10px]
+                 text-white
+                 text-[15px]
+                 font-medium
+                 bg-gradient-to-r
+                 from-[#9F5BFF]
+                 to-[#7E3AF2]
+                 hover:opacity-90
+                 transition"
           (click)="proceed()"
         >
           Continuar para o pagamento
         </button>
 
-        <!-- BACK TO HOMEPAGE (fixed — now uses Router) -->
+        <!-- BACK -->
         <button
           type="button"
           (click)="goHome()"
-          class="bg-white border border-[#7E00A6] w-full sm:w-auto px-6 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+          class="h-[52px]
+                 px-7
+                 rounded-[10px]
+                 border border-[#7E00A6]
+                 bg-white
+                 text-[#2B2B2B]
+                 text-[15px]
+                 font-medium
+                 hover:bg-white
+                 transition"
         >
           Voltar para a página inicial
         </button>
@@ -207,40 +352,55 @@
 
     </div>
 
-    <!-- RIGHT - ACCOUNT INFO -->
-    <div class="bg-white rounded-xl p-4 h-fit">
+    <!-- RIGHT -->
+    <div
+      class="bg-white
+             border border-[#F1F1F1]
+             rounded-[20px]
+             p-5
+             h-fit"
+    >
 
       <div
-        class="flex justify-between items-center cursor-pointer"
+        class="flex items-center justify-between
+               cursor-pointer"
         (click)="toggleAccount()"
       >
-        <h3 class="font-medium text-base sm:text-lg">
+
+        <h3
+          class="text-[20px]
+                 font-[600]
+                 text-[#1F1F1F]"
+        >
           Dados da Conta
         </h3>
 
         <i
-          class="fa-solid fa-chevron-down transition-transform duration-300"
+          class="fa-solid fa-chevron-down
+                 text-[13px]
+                 transition-transform duration-300"
           [class.rotate-180]="accountOpen"
         ></i>
+
       </div>
 
       <div
         *ngIf="accountOpen"
-        class="mt-4 space-y-2 text-[14px] font-normal leading-none tracking-normal text-[#737373]"
+        class="mt-5 space-y-3"
       >
 
-        <p>
-          <span>Servidor:</span>
+        <p class="text-[14px] text-[#737373]">
+          Servidor:
           {{ account.server }}
         </p>
 
-        <p>
-          <span>UID:</span>
+        <p class="text-[14px] text-[#737373]">
+          UID:
           {{ account.userId }}
         </p>
 
-        <p>
-          <span>Apelido:</span>
+        <p class="text-[14px] text-[#737373]">
+          Apelido:
           {{ account.nickname }}
         </p>
 
@@ -249,4 +409,5 @@
     </div>
 
   </div>
+
 </div>

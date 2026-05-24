@@ -1,100 +1,219 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { OrderApi } from '../../core/services/order.api';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges
+} from '@angular/core';
+
+import {
+  Router,
+  RouterModule
+} from '@angular/router';
+
+import {
+  OrderApi
+} from '../../core/services/order.api';
 
 @Component({
   selector: 'app-review-order',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './review-order.html',
 })
 export class ReviewOrder implements OnChanges {
-  @Input() data: any;
-  @Output() next = new EventEmitter<void>();
 
-  // 🔥 DYNAMIC DATA
+  @Input() data: any;
+
+  @Output()
+  next = new EventEmitter<void>();
+
+  // DATA
   order: any = {};
+
   account: any = {};
+
   summary: any = {};
 
   summaryOpen = true;
+
   accountOpen = true;
 
-constructor(
-  private router: Router,
-  private orderApi: OrderApi
-) {}
+  constructor(
+    private router: Router,
+    private orderApi: OrderApi
+  ) {}
+
   ngOnChanges() {
-    if (!this.data) return;
 
-    const toNum = (v: any, fallback = 0): number => {
+    if (!this.data) {
+      return;
+    }
+
+    const toNum = (
+      v: any,
+      fallback = 0
+    ): number => {
+
       const n = Number(v);
-      return isNaN(n) ? fallback : n;
+
+      return isNaN(n)
+        ? fallback
+        : n;
     };
 
-    const toBool = (v: any): boolean => {
-      return v === true || v === 'true' || v === 1 || v === '1';
+    const toBool = (
+      v: any
+    ): boolean => {
+
+      return (
+        v === true ||
+        v === 'true' ||
+        v === 1 ||
+        v === '1'
+      );
+
     };
 
-    const price = toNum(this.data?.price);
-    const qty = toNum(this.data?.qty, 1);
-    const subtotal = price * qty;
+    // PRICE
+    const price =
+      toNum(this.data?.price);
 
-    // ✅ Coupon (display only — backend will calculate at order)
-    const couponCode = this.data?.coupon || '';
+    const qty =
+      toNum(
+        this.data?.qty,
+        1
+      );
 
-    // ✅ Coins
-    const useCoins = toBool(this.data?.useCoins);
-    const maxUsableCoins = Math.floor(subtotal * 100);
+    // SUBTOTAL
+    const subtotal =
+      price * qty;
 
-const coinsUsed = useCoins
-  ? Math.min(
-      toNum(this.data?.coinsUsed),
-      maxUsableCoins
-    )
-  : 0;
-    const coinsDiscount = coinsUsed / 100;
-const couponDiscount = toNum(this.data?.couponDiscount);
-    // ✅ For display: subtract coins from subtotal (coupon discount unknown yet, just show code)
-    // Note: actual final price will be calculated by backend during payment
-    const afterCoupon = subtotal - couponDiscount;
+    // COUPON
+    const couponCode =
+      this.data?.coupon || '';
 
-const displayTotal = Math.max(
-  0,
-  afterCoupon - coinsDiscount
-);
+    const couponDiscount =
+      toNum(
+        this.data?.couponDiscount
+      );
 
+    // AFTER COUPON
+    const afterCoupon =
+      Math.max(
+        0,
+        subtotal - couponDiscount
+      );
+
+    // COINS
+    const useCoins =
+      toBool(
+        this.data?.useCoins
+      );
+
+    const maxUsableCoins =
+      Math.floor(
+        afterCoupon * 100
+      );
+
+    const coinsUsed =
+      useCoins
+        ? Math.min(
+            toNum(
+              this.data?.coinsUsed
+            ),
+            maxUsableCoins
+          )
+        : 0;
+
+    const coinsDiscount =
+      coinsUsed / 100;
+
+    // FINAL TOTAL
+    const displayTotal =
+      Math.max(
+        0,
+        afterCoupon - coinsDiscount
+      );
+
+    // ✅ CASHBACK 1%
+    const cashback =
+      Number(
+        (displayTotal * 0.01)
+          .toFixed(2)
+      );
+
+    // ORDER
     this.order = {
-      title: this.data?.subtitle || 'Game',
-      subtitle: this.data?.title || 'Product',
+
+      title:
+        this.data?.subtitle ||
+        'Game',
+
+      subtitle:
+        this.data?.title ||
+        'Product',
+
       price,
-      finalPrice: displayTotal,
-      image: this.data?.image || 'assets/cards/card-images.png',
+
+      finalPrice:
+        displayTotal,
+
+      image:
+        this.data?.image ||
+        'assets/cards/card-images.png',
+
       qty,
+
     };
 
+    // ACCOUNT
     this.account = {
-      server: this.data?.server || '-',
-      userId: this.data?.userId || '-',
-      nickname: this.data?.nickname || '-',
+
+      server:
+        this.data?.server ||
+        '-',
+
+      userId:
+        this.data?.userId ||
+        '-',
+
+      nickname:
+        this.data?.nickname ||
+        '-',
+
     };
 
-   this.summary = {
-  subtotal,
+    // SUMMARY
+    this.summary = {
 
-  coupon: couponCode || '-',
+      subtotal,
 
-  couponDiscount,
+      coupon:
+        couponCode || '-',
 
-  coinsUsed,
+      couponDiscount,
 
-  coinsDiscount,
+      coinsUsed,
 
-  useCoins,
+      coinsDiscount,
 
-  final: displayTotal,
-};
+      useCoins,
+
+      cashback,
+
+      final:
+        displayTotal,
+
+    };
+
   }
 
   removeItem() {
@@ -105,9 +224,13 @@ const displayTotal = Math.max(
     this.router.navigate(['/']);
   }
 
+  // TOTAL
   get total() {
     return this.summary?.final || 0;
   }
+
+  // CASHBACK
+
 
   toggleSummary() {
     this.summaryOpen = !this.summaryOpen;
@@ -117,48 +240,66 @@ const displayTotal = Math.max(
     this.accountOpen = !this.accountOpen;
   }
 
-proceed() {
+  proceed() {
 
-  const payload = {
+    const payload = {
 
-    productId: this.data?.id,
+      productId:
+        this.data?.id,
 
-    qty: this.data?.qty || 1,
+      qty:
+        this.data?.qty || 1,
 
-    user_id: this.data?.userId,
+      user_id:
+        this.data?.userId,
 
-    server_id: this.data?.server,
+      server_id:
+        this.data?.server,
 
-    nickname: this.data?.nickname,
+      nickname:
+        this.data?.nickname,
 
-    zone_id: this.data?.zone,
+      zone_id:
+        this.data?.zone,
 
-    method: 'pix'
+      method: 'pix'
 
-  };
+    };
 
-  // ✅ CREATE PENDING ORDER
-  this.orderApi
-    .createPendingOrder(payload)
-    .subscribe({
+    // CREATE ORDER
+    this.orderApi
+      .createPendingOrder(payload)
+      .subscribe({
 
-      next: (res: any) => {
+        next: (res: any) => {
 
-        // save order id
-        this.data.orderId = res._id;
+          // SAVE ORDER ID
+          this.data.orderId =
+            res._id;
 
-        // next step
-        this.next.emit();
+          // NEXT STEP
+          this.next.emit();
 
-      },
+        },
 
-      error: (err) => {
+        error: (err) => {
 
-        console.log(err);
+          console.log(err);
 
-      }
+        }
 
-    });
+      });
 
+  }
+get cashbackAmount(): number {
+
+  return Number(
+    (this.total * 0.01).toFixed(2)
+  );
+}
+get cashbackCoins(): number {
+
+  // 100 coins = R$1
+  return Math.floor(this.cashbackAmount * 100);
 }
 }
