@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -20,18 +15,10 @@ import { SectionApi } from '../../core/services/section.api';
   selector: 'app-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    Slider,
-    TabMenu,
-    SectionBlock,
-    CommonModule,
-    Faq,
-    AdvantagSd,
-  ],
+  imports: [Slider, TabMenu, SectionBlock, CommonModule, Faq, AdvantagSd],
   templateUrl: './home.html',
 })
 export class Home implements OnInit {
-
   constructor(
     private router: Router,
     private sectionApi: SectionApi,
@@ -39,11 +26,11 @@ export class Home implements OnInit {
   ) {}
 
   tabs = [
-    { label: 'Top Up',     value: 'topup',   image: 'tabs/tab1.png' },
-    { label: 'Moedas',     value: 'coins',   image: 'tabs/tab2.png' },
-    { label: 'Gift Cards', value: 'gift',    image: 'gift-box.png'  },
-    { label: 'Vouchers',   value: 'voucher', image: 'tabs/tab4.png' },
-    { label: 'Itens',      value: 'items',   image: 'tabs/tab5.png' },
+    { label: 'Top Up', value: 'topup', image: 'tabs/tab1.png' },
+    { label: 'Moedas', value: 'coins', image: 'tabs/tab2.png' },
+    { label: 'Gift Cards', value: 'gift', image: 'gift-box.png' },
+    { label: 'Vouchers', value: 'voucher', image: 'tabs/tab4.png' },
+    { label: 'Itens', value: 'items', image: 'tabs/tab5.png' },
   ];
 
   activeTab: string = 'topup';
@@ -58,7 +45,7 @@ export class Home implements OnInit {
   getSections() {
     this.sectionApi.getFrontendSections().subscribe({
       next: (res: any) => {
-
+        console.log(res);
         const data = res.data || res;
 
         this.allSections = data.map((section: any) => ({
@@ -74,7 +61,11 @@ export class Home implements OnInit {
           specialTitle: section.specialTitle,
           specialSubtitle: section.specialSubtitle,
 
-          items: this.mapItems(section.items || []),
+          items: this.mapItems(
+            section._id === 'recent-purchases'
+              ? this.removeDuplicateRecentOrders(section.items || [])
+              : section.items || [],
+          ),
         }));
 
         this.sections = this.allSections;
@@ -86,13 +77,34 @@ export class Home implements OnInit {
     });
   }
 
-  onTabChange(tab: string) {
+  removeDuplicateRecentOrders(items: any[]) {
+    const uniqueMap = new Map();
 
+    items.forEach((item: any) => {
+      // keep only latest item by _id
+      if (!uniqueMap.has(item._id)) {
+        uniqueMap.set(item._id, item);
+      } else {
+        const existing = uniqueMap.get(item._id);
+
+        const existingDate = new Date(existing.createdAt).getTime();
+        const newDate = new Date(item.createdAt).getTime();
+
+        // keep latest recent order
+        if (newDate > existingDate) {
+          uniqueMap.set(item._id, item);
+        }
+      }
+    });
+
+    return Array.from(uniqueMap.values());
+  }
+
+  onTabChange(tab: string) {
     this.activeTab = tab;
 
     // topup → first section
     if (tab === 'topup') {
-
       const firstSection = this.allSections[0];
 
       if (firstSection) {
@@ -103,9 +115,7 @@ export class Home implements OnInit {
     }
 
     // find matching section
-    const matchedSection = this.allSections.find((section) =>
-      section.tabKeys?.includes(tab)
-    );
+    const matchedSection = this.allSections.find((section) => section.tabKeys?.includes(tab));
 
     if (matchedSection) {
       this.scrollToSection(matchedSection.id);
@@ -113,9 +123,7 @@ export class Home implements OnInit {
   }
 
   scrollToSection(id: string) {
-
     setTimeout(() => {
-
       const element = document.getElementById(id);
 
       if (element) {
@@ -124,7 +132,6 @@ export class Home implements OnInit {
           block: 'start',
         });
       }
-
     }, 100);
   }
 
@@ -149,21 +156,12 @@ export class Home implements OnInit {
   }
 
   private formatSold(count: number): string {
-
     if (count >= 1_000_000) {
-      return (
-        (count / 1_000_000)
-          .toFixed(1)
-          .replace('.0', '') + 'M+'
-      );
+      return (count / 1_000_000).toFixed(1).replace('.0', '') + 'M+';
     }
 
     if (count >= 1_000) {
-      return (
-        (count / 1_000)
-          .toFixed(1)
-          .replace('.0', '') + 'K+'
-      );
+      return (count / 1_000).toFixed(1).replace('.0', '') + 'K+';
     }
 
     return count.toString();

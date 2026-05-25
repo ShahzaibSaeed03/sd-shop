@@ -1,14 +1,20 @@
 <div class="bg-[#F5F5F5] py-4 sm:py-6">
   <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-
     <!-- BREADCRUMB -->
     <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4 overflow-x-auto no-scrollbar">
-      <a routerLink="/" class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer flex-shrink-0">
-        <img src="home.svg" alt="Home" class="h-5 w-4">
+      <a
+        routerLink="/"
+        class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer flex-shrink-0"
+      >
+        <img src="home.svg" alt="Home" class="h-5 w-4" />
         <span>Home</span>
       </a>
       <i class="fa-solid fa-chevron-right text-[10px] text-gray-400 flex-shrink-0"></i>
-      <a routerLink="/products" class="hover:text-purple-600 transition cursor-pointer flex-shrink-0">Top Up</a>
+      <a
+        routerLink="/products"
+        class="hover:text-purple-600 transition cursor-pointer flex-shrink-0"
+        >Top Up</a
+      >
       <i class="fa-solid fa-chevron-right text-[10px] text-gray-400 flex-shrink-0"></i>
       <span class="text-gray-700 font-medium truncate">
         {{ (product?.category?.name || 'Game') + ' Top Up' }}
@@ -16,16 +22,12 @@
     </nav>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-
       <!-- ========== LEFT SIDE ========== -->
       <div class="lg:col-span-8 space-y-4">
-
         <!-- GAME HEADER -->
         <div *ngIf="product" class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm">
-
           <!-- MOBILE: stacked, DESKTOP: side by side -->
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-10">
             <!-- LEFT: Game info -->
             <div class="flex gap-3 sm:gap-4 items-center">
               <img
@@ -41,23 +43,35 @@
 
                 <div class="flex flex-wrap gap-2 text-xs text-gray-500 mb-2">
                   <span class="flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg
+                      class="w-3.5 h-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     Rápido
                   </span>
-                  <span class="flex items-center  gap-1">
-                    <img src="secure.png" alt="Secure" class="w-3 h-3.5">
+                  <span class="flex items-center gap-1">
+                    <img src="secure.png" alt="Secure" class="w-3 h-3.5" />
                     Seguro
                   </span>
                   <span class="flex items-center gap-1">
-                    <img src="headphone.png" alt="24/7" class="w-3 h-3.5">
+                    <img src="headphone.png" alt="24/7" class="w-3 h-3.5" />
                     24/7
                   </span>
                 </div>
 
-                <div class="flex flex-wrap items-center sm:justify-between gap-x-3 gap-y-1 text-xs mb-2">
-                  <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium border border-purple-300">
+                <div
+                  class="flex flex-wrap items-center sm:justify-between gap-x-3 gap-y-1 text-xs mb-2"
+                >
+                  <span
+                    class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-[11px] font-medium border border-purple-300"
+                  >
                     Popular
                   </span>
                   <span class="text-gray-700">{{ formatSold(product.sold) }} Vendidos</span>
@@ -75,7 +89,9 @@
 
             <!-- RIGHT: Affiliate OR Promo -->
             <ng-container *ngIf="affiliate && cameViaAffiliateLink; else promoBlock">
-              <div class="bg-[#f9f2fd] border border-purple-100 rounded-xl px-4 py-4 flex items-center gap-3 w-full sm:w-auto sm:min-w-[240px] lg:min-w-[280px] shadow-sm">
+              <div
+                class="bg-[#f9f2fd] border border-purple-100 rounded-xl px-4 py-4 flex items-center gap-3 w-full sm:w-auto sm:min-w-[240px] lg:min-w-[280px] shadow-sm"
+              >
                 <img
                   [src]="affiliate?.image || 'placeholder.jpg'"
                   alt="affiliate"
@@ -85,7 +101,11 @@
                 <div class="flex flex-col gap-1 min-w-0">
                   <p class="text-[12px] sm:text-[13px] text-gray-500">
                     Indicação de
-                    <a [href]="affiliate?.slug" target="_blank" class="font-bold text-blue-500 hover:underline">
+                    <a
+                      [href]="affiliate?.slug"
+                      target="_blank"
+                      class="font-bold text-blue-500 hover:underline"
+                    >
                       &#64;{{ affiliate?.name }}
                     </a>
                   </p>
@@ -94,23 +114,74 @@
                     <span class="text-purple-700 font-extrabold">{{ affiliate?.couponCode }}</span>
                   </p>
                   <div class="border-t border-gray-200 pt-1">
-                    <p class="text-[10px] sm:text-[11px] text-gray-400">Apoie criadores parceiros</p>
+                    <p class="text-[10px] sm:text-[11px] text-gray-400">
+                      Apoie criadores parceiros
+                    </p>
                   </div>
                 </div>
               </div>
             </ng-container>
 
             <ng-template #promoBlock>
-              <div class="w-full sm:w-[280px] lg:w-[400px] h-[80px] sm:h-[100px] lg:h-[120px] overflow-hidden rounded-xl">
-                <img
-                  src="Frame 2147227682.svg"
-                  alt="promo"
-                  class="w-full h-full object-cover"
-                  onerror="this.src = 'placeholder.jpg'"
-                />
+              <div
+                class="w-full sm:max-w-[360px] lg:max-w-[470px] rounded-[12px] border border-[#E9D5FF] bg-[#f9f2fd] px-4 py-4 lg:px-5 lg:py-4 overflow-hidden"
+              >
+                <div class="flex items-center gap-4">
+                  <!-- Avatar -->
+                  <div
+                    class="w-[65px] h-[65px] rounded-full overflow-hidden flex-shrink-0 ring-2 ring-purple-400 ring-offset-2 ring-offset-[#f9f2fd]"
+                  >
+                    <img src="afliate.png" alt="avatar" class="w-full h-full object-cover" />
+                  </div>
+
+                  <!-- Content -->
+                  <div class="flex-1 min-w-0">
+                    <!-- Heading -->
+                    <h1 class="text-[18px] font-bold leading-tight text-[#5C6270]">
+                      Recompensas
+                      <span class="text-[#A000E8]">exclusivas</span>
+                      te esperam
+                    </h1>
+
+                    <!-- Sub Heading -->
+                    <h2 class="mt-2 text-[14px] font-semibold leading-snug text-[#5C6270]">
+                      Cadastre-se e ganhe
+                      <span class="text-[#A000E8]">benefícios</span>
+                      na
+                      <span class="text-[#A000E8]">SD Shop</span>
+                    </h2>
+
+                    <!-- Feature -->
+                    <div class="mt-3 flex items-center gap-2">
+                      <!-- Icon -->
+                      <div
+                        class="w-[22px] h-[22px] rounded-full bg-[#E7C8EF] flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="2"
+                          stroke="currentColor"
+                          class="w-3 h-3 text-[#A000E8]"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.98 20.56a.562.562 0 01-.84-.61l1.285-5.385a.563.563 0 00-.182-.557L3.04 10.407a.562.562 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                          />
+                        </svg>
+                      </div>
+
+                      <!-- Text -->
+                      <p class="text-[11px] text-[#8B8F9A] leading-relaxed truncate">
+                        Ofertas especiais, pontos e vantagens para membros
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </ng-template>
-
           </div>
         </div>
 
@@ -122,7 +193,8 @@
             class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm whitespace-nowrap font-medium transition flex-shrink-0"
             [ngClass]="{
               'bg-purple-200 text-purple-900 border-purple-200': activeBundleBadge === badge,
-              'bg-gray-50 text-gray-600 border-gray-200 hover:border-purple-200 hover:bg-purple-50': activeBundleBadge !== badge
+              'bg-white text-gray-600 border-gray-200 hover:border-purple-200 hover:bg-purple-50':
+                activeBundleBadge !== badge,
             }"
           >
             {{ badge }}
@@ -139,8 +211,10 @@
             (click)="item.isBundle || item.badge ? selectBundle(item) : selectProduct(item)"
             class="group bg-white rounded-[16px] sm:rounded-[18px] overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
             [ngClass]="{
-              'border-[#A855F7] shadow-[0_10px_30px_rgba(168,85,247,0.25)]': selectedProductId === (item._id || item.id),
-              'border-[#E5E7EB] hover:border-[#C084FC] shadow-[0_4px_20px_rgba(0,0,0,0.08)]': selectedProductId !== (item._id || item.id)
+              'border-[#A855F7] shadow-[0_10px_30px_rgba(168,85,247,0.25)]':
+                selectedProductId === (item._id || item.id),
+              'border-[#E5E7EB] hover:border-[#C084FC] shadow-[0_4px_20px_rgba(0,0,0,0.08)]':
+                selectedProductId !== (item._id || item.id),
             }"
           >
             <!-- IMAGE -->
@@ -182,8 +256,9 @@
 
       <!-- ========== RIGHT PANEL ========== -->
       <div class="lg:col-span-4" *ngIf="product">
-        <div class="bg-white rounded-[18px] border border-[#ECECEC] p-4 sm:p-5 space-y-4 lg:sticky lg:top-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-
+        <div
+          class="bg-white rounded-[18px] border border-[#ECECEC] p-4 sm:p-5 space-y-4 lg:sticky lg:top-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+        >
           <!-- PAYMENT -->
           <div class="flex items-center flex-wrap gap-1">
             <img src="payments/mastercard-1.png" class="h-8 sm:h-10" />
@@ -193,11 +268,31 @@
           </div>
 
           <!-- GUARANTEE -->
-          <div class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]">
+          <div
+            class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]"
+          >
             <div class="flex items-center gap-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 3L18.5 5.5V10.8C18.5 15.2 15.7 19.2 12 21C8.3 19.2 5.5 15.2 5.5 10.8V5.5L12 3Z" stroke="#A855F7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9.5 12L11.2 13.7L14.8 10.1" stroke="#A855F7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 3L18.5 5.5V10.8C18.5 15.2 15.7 19.2 12 21C8.3 19.2 5.5 15.2 5.5 10.8V5.5L12 3Z"
+                  stroke="#A855F7"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.5 12L11.2 13.7L14.8 10.1"
+                  stroke="#A855F7"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
               <span class="text-[12px] sm:text-[13px] text-[#5B5B5B]">Garantia de Reembolso</span>
             </div>
@@ -207,7 +302,9 @@
           <!-- FORM -->
           <div class="border border-[#F0F0F0] rounded-2xl p-4 space-y-4">
             <div>
-              <h3 class="text-[20px] sm:text-[22px] leading-none font-[700] text-[#222]">Recarregar Conta</h3>
+              <h3 class="text-[20px] sm:text-[22px] leading-none font-[700] text-[#222]">
+                Recarregar Conta
+              </h3>
               <p class="text-[12px] sm:text-[13px] text-[#8C8C8C] mt-2">Dados do Usuário</p>
             </div>
 
@@ -236,9 +333,13 @@
                   class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 pr-10 text-[13px] sm:text-[14px] outline-none focus:border-[#A855F7] appearance-none cursor-pointer"
                 >
                   <option value="" disabled>Por favor, selecione o Servidor</option>
-                  <option *ngFor="let opt of getServerOptions()" [value]="opt.value">{{ opt.name }}</option>
+                  <option *ngFor="let opt of getServerOptions()" [value]="opt.value">
+                    {{ opt.name }}
+                  </option>
                 </select>
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                <div
+                  class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+                >
                   <i class="fa-solid fa-chevron-down text-[11px]"></i>
                 </div>
               </div>
@@ -257,16 +358,20 @@
                 [ngClass]="{
                   'border-red-500': userError,
                   'border-green-500': username && !userError,
-                  'border-transparent': !username && !userError
+                  'border-transparent': !username && !userError,
                 }"
               />
               <p *ngIf="checkingUser" class="text-[12px] text-[#8B8B8B] mt-1">Verificando UID...</p>
-              <p *ngIf="username && !userError" class="text-green-600 text-[12px] mt-1">✓ {{ username }}</p>
+              <p *ngIf="username && !userError" class="text-green-600 text-[12px] mt-1">
+                ✓ {{ username }}
+              </p>
               <p *ngIf="userError" class="text-red-500 text-[12px] mt-1">{{ userError }}</p>
             </div>
 
             <!-- SAVE UID -->
-            <label class="flex items-center gap-2 text-[12px] sm:text-[13px] text-[#666] cursor-pointer">
+            <label
+              class="flex items-center gap-2 text-[12px] sm:text-[13px] text-[#666] cursor-pointer"
+            >
               <input type="checkbox" class="w-4 h-4 accent-[#A855F7]" />
               Salvar UID para a próxima compra
             </label>
@@ -276,7 +381,9 @@
           <div class="border border-[#F0F0F0] rounded-2xl p-4 space-y-3">
             <div class="flex items-center justify-between">
               <h3 class="text-[15px] sm:text-[16px] font-[700] text-[#222]">Tem um Cupom?</h3>
-              <div class="h-[32px] sm:h-[34px] px-4 sm:px-5 rounded-full bg-[#EDC7FF] text-[#8A39B9] text-[11px] sm:text-[12px] font-semibold flex items-center justify-center">
+              <div
+                class="h-[32px] sm:h-[34px] px-4 sm:px-5 rounded-full bg-[#EDC7FF] text-[#8A39B9] text-[11px] sm:text-[12px] font-semibold flex items-center justify-center"
+              >
                 Resgatar
               </div>
             </div>
@@ -302,9 +409,23 @@
           <div class="flex items-center justify-between">
             <span class="text-[14px] sm:text-[15px] font-medium text-[#2D2D2D]">Quantidade</span>
             <div class="flex items-center gap-2">
-              <button (click)="decrease()" class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center">−</button>
-              <div class="w-[48px] sm:w-[50px] h-[36px] rounded-lg bg-[#F7F7F7] flex items-center justify-center text-[14px] sm:text-[15px] font-semibold">{{ quantity }}</div>
-              <button (click)="increase()" class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center">+</button>
+              <button
+                (click)="decrease()"
+                class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center"
+              >
+                −
+              </button>
+              <div
+                class="w-[48px] sm:w-[50px] h-[36px] rounded-lg bg-[#F7F7F7] flex items-center justify-center text-[14px] sm:text-[15px] font-semibold"
+              >
+                {{ quantity }}
+              </div>
+              <button
+                (click)="increase()"
+                class="w-[36px] h-[36px] rounded-lg bg-[#F3F3F3] text-[22px] flex items-center justify-center"
+              >
+                +
+              </button>
             </div>
           </div>
 
@@ -317,11 +438,16 @@
           </div>
 
           <!-- COINS -->
-          <div *ngIf="userCoins > 0" class="bg-[#F7F7F7] rounded-xl px-4 py-3 flex items-center justify-between">
+          <div
+            *ngIf="userCoins > 0"
+            class="bg-[#F7F7F7] rounded-xl px-4 py-3 flex items-center justify-between"
+          >
             <div class="flex items-center gap-2">
               <span class="text-[13px] sm:text-[14px] text-[#666]">Usar:</span>
               <img src="icons/coin.png" class="w-5 h-5" />
-              <span class="text-[14px] sm:text-[15px] font-semibold text-[#333]">{{ userCoins }}</span>
+              <span class="text-[14px] sm:text-[15px] font-semibold text-[#333]">{{
+                userCoins
+              }}</span>
             </div>
             <button
               (click)="toggleUseCoins()"
@@ -339,9 +465,11 @@
           <button
             (click)="checkout()"
             class="group relative w-full h-[52px] sm:h-[54px] rounded-xl text-white text-[15px] sm:text-[16px] font-semibold transition-all duration-300 overflow-hidden"
-            [ngClass]="checkingUser || !!userError || !username
-              ? 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF]'
-              : 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF] hover:opacity-95'"
+            [ngClass]="
+              checkingUser || !!userError || !username
+                ? 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF]'
+                : 'bg-gradient-to-r from-[#C86BFF] to-[#8E3DFF] hover:opacity-95'
+            "
           >
             <div
               *ngIf="!!userError || !username"
@@ -350,7 +478,10 @@
               <i class="fa-solid fa-lock text-[13px] text-white"></i>
               <span class="text-white font-semibold">Top Up</span>
             </div>
-            <div *ngIf="checkingUser" class="absolute inset-0 flex items-center justify-center z-20">
+            <div
+              *ngIf="checkingUser"
+              class="absolute inset-0 flex items-center justify-center z-20"
+            >
               Validando...
             </div>
             <span class="relative z-10" [class.group-hover:opacity-0]="!!userError || !username">
@@ -359,8 +490,12 @@
           </button>
 
           <!-- INFO BOX -->
-          <div class="flex items-center gap-3 bg-[#F7F7F7] border border-[#ECECEC] rounded-xl px-4 py-3">
-            <div class="min-w-[22px] w-[22px] h-[22px] rounded-full border border-[#A855F7] flex items-center justify-center flex-shrink-0">
+          <div
+            class="flex items-center gap-3 bg-[#F7F7F7] border border-[#ECECEC] rounded-xl px-4 py-3"
+          >
+            <div
+              class="min-w-[22px] w-[22px] h-[22px] rounded-full border border-[#A855F7] flex items-center justify-center flex-shrink-0"
+            >
               <i class="fa-solid fa-info text-[11px] text-[#A855F7]"></i>
             </div>
             <p class="text-[11px] leading-5 text-[#8A8A8A]">
@@ -370,7 +505,6 @@
               <a class="text-[#8A39B9] hover:underline cursor-pointer">Política de Reembolso</a>.
             </p>
           </div>
-
         </div>
       </div>
     </div>
@@ -382,7 +516,9 @@
   *ngIf="bundlePopup && selectedBundle"
   class="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4"
 >
-  <div class="bg-white w-full max-w-2xl rounded-[28px] overflow-hidden shadow-2xl animate-[fadeIn_.25s_ease]">
+  <div
+    class="bg-white w-full max-w-2xl rounded-[28px] overflow-hidden shadow-2xl animate-[fadeIn_.25s_ease]"
+  >
     <div class="flex items-start justify-between p-5 sm:p-6 pb-3">
       <div class="flex items-center gap-3 sm:gap-4">
         <img
@@ -392,12 +528,17 @@
         />
         <div>
           <h2 class="text-xl sm:text-2xl font-[800] text-[#111827]">{{ selectedBundle?.name }}</h2>
-          <p class="inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
+          <p
+            class="inline-flex mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700"
+          >
             {{ selectedBundle?.badge }}
           </p>
         </div>
       </div>
-      <button (click)="closeBundlePopup()" class="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition flex-shrink-0">
+      <button
+        (click)="closeBundlePopup()"
+        class="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition flex-shrink-0"
+      >
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
     </div>

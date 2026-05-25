@@ -17,13 +17,16 @@
              cursor-pointer
              transition-all duration-200
              whitespace-nowrap"
-       [ngClass]="{
-    'bg-[#F2CAFF] text-black shadow-sm font-semibold':
-      tab.value === activeTab,
+     [ngClass]="{
+  'bg-[#F2CAFF] text-black shadow-sm font-semibold':
+    tab.value === activeTab,
 
-    'bg-[#F9FAFB]  hover:border-purple-300':
-      tab.value !== activeTab
-  }"
+  'bg-white hover:border-purple-300':
+    tab.value !== activeTab && !isHomePage,
+
+  'bg-[#F9FAFB] hover:border-purple-300':
+    tab.value !== activeTab && isHomePage
+}"
     >
 
       <img

@@ -5,38 +5,27 @@
 <!-- TABS -->
 <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-5 sm:py-7">
   <div class="flex justify-center overflow-x-auto no-scrollbar">
-
     <app-tab-menu
       [tabs]="tabs"
       [activeTab]="activeTab"
       (tabChange)="onTabChange($event)"
+      [isHomePage]="true"
     >
     </app-tab-menu>
-
   </div>
 </div>
 
 <!-- SECTIONS -->
 <ng-container *ngFor="let section of sections">
-
   <!-- SPECIAL SECTION -->
   <ng-container *ngIf="section.isSpecial">
-
     <div
       [id]="section.id"
-      class="w-full bg-gradient-to-r
-             from-[#5B11B7]
-             via-[#8E3DDB]
-             to-[#D695F6]
-             py-8 sm:py-10 lg:py-12 my-4"
+      class="w-full bg-gradient-to-r from-[#5B11B7] via-[#8E3DDB] to-[#D695F6] py-8 sm:py-10 lg:py-12 my-4"
     >
-
       <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-
         <h2
-          class="text-white uppercase font-extrabold
-                 text-[28px] sm:text-[34px] lg:text-[42px]
-                 leading-none"
+          class="text-white uppercase font-extrabold text-[28px] sm:text-[34px] lg:text-[42px] leading-none"
         >
           {{ section.specialTitle || section.name }}
         </h2>
@@ -55,21 +44,13 @@
           (productClick)="goToProduct($event)"
         >
         </app-section-block>
-
       </div>
-
     </div>
-
   </ng-container>
 
   <!-- DEFAULT SECTION -->
   <ng-container *ngIf="!section.isSpecial">
-
-    <div
-      [id]="section.id"
-      class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2"
-    >
-
+    <div [id]="section.id" class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2">
       <app-section-block
         [title]="section.name"
         [subtitle]="section.subtitle"
@@ -80,11 +61,8 @@
         (productClick)="goToProduct($event)"
       >
       </app-section-block>
-
     </div>
-
   </ng-container>
-
 </ng-container>
 
 <!-- FAQ + ADVANTAGES -->

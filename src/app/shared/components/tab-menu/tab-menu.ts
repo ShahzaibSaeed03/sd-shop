@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tab-menu',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './tab-menu.html',
   styleUrl: './tab-menu.css',
 })
 export class TabMenu {
-@Input() tabs: TabItem[] = [];
+  @Input() tabs: TabItem[] = [];
   @Input() activeTab!: string;
+  @Input() isHomePage: boolean = false;
 
   @Output() tabChange = new EventEmitter<string>();
 
