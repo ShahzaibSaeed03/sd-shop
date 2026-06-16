@@ -44,7 +44,7 @@ export class ProductReview implements OnInit {
   selectedProduct: any = null;
   isLoggedIn = false;
   bundles: any[] = [];
-
+  serverOptions: any[] = [];
   selectedBundle: any = null;
 
   bundlePopup = false;
@@ -256,6 +256,12 @@ export class ProductReview implements OnInit {
     this.affiliate = data.affiliate || null;
     this.forms = [{ name: 'email', type: 'text' }, ...(data.category?.forms || [])];
 
+    const serverField = this.forms.find((f: any) => f.name === 'server_id' || f.name === 'server');
+
+    this.serverOptions = (serverField?.options || []).map((x: any) =>
+      typeof x === 'string' ? { value: x, name: x } : x,
+    );
+
     this.quantity = 1;
     this.discount = 0;
     this.couponApplied = false;
@@ -292,7 +298,7 @@ export class ProductReview implements OnInit {
       return;
     }
 
-    const hasServers = this.getServerOptions().length > 0;
+    const hasServers = this.serverOptions.length > 0;
 
     if (hasServers && !this.form.server) {
       this.userError = 'Selecione o servidor.';
@@ -580,30 +586,29 @@ export class ProductReview implements OnInit {
     this.bundlePopup = false;
   }
 
-selectProduct(p: any) {
+  selectProduct(p: any) {
+    if (!p?.raw) return;
 
-  if (!p?.raw) return;
+    // ✅ IMPORTANT
+    this.selectedProduct = p;
 
-  // ✅ IMPORTANT
-  this.selectedProduct = p;
+    this.selectedProductId = p._id || p.id;
 
-  this.selectedProductId = p._id || p.id;
+    const prevSold = this.product?.sold;
+    const prevRating = this.product?.rating;
+    const prevReviews = this.product?.totalReviews;
 
-  const prevSold = this.product?.sold;
-  const prevRating = this.product?.rating;
-  const prevReviews = this.product?.totalReviews;
+    this.setMainProduct(p.raw);
 
-  this.setMainProduct(p.raw);
+    this.product = {
+      ...this.product,
+      sold: prevSold,
+      rating: prevRating,
+      totalReviews: prevReviews,
+    };
 
-  this.product = {
-    ...this.product,
-    sold: prevSold,
-    rating: prevRating,
-    totalReviews: prevReviews,
-  };
-
-  this.cdr.detectChanges();
-}
+    this.cdr.detectChanges();
+  }
   increase() {
     if (this.quantity < 10) this.quantity++;
   }
@@ -617,8 +622,11 @@ selectProduct(p: any) {
   }
 
   getServerOptions(): any[] {
-    const serverField = this.forms.find((f: any) => f.name === 'additional_id');
-    return serverField?.options || [];
+    const serverField = this.forms.find((f: any) => f.name === 'server_id' || f.name === 'server');
+
+    if (!serverField?.options) return [];
+
+    return serverField.options.map((x: any) => (typeof x === 'string' ? { value: x, name: x } : x));
   }
 
   get payableAmount(): number {
@@ -659,8 +667,6 @@ selectProduct(p: any) {
   }
 
   checkout() {
-  
-
     this.router.navigate(['/checkout'], {
       queryParams: {
         id: this.selectedProduct?.raw?._id,

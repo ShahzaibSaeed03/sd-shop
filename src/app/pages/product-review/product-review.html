@@ -272,7 +272,7 @@
             class="h-[42px] bg-[#F7F7F7] rounded-xl px-4 flex items-center justify-between border border-[#F0F0F0]"
           >
             <div class="flex items-center gap-2">
-             <i class="fa-solid fa-shield-halved text-[#8B5CF6] text-md"></i>
+              <i class="fa-solid fa-shield-halved text-[#8B5CF6] text-md"></i>
               <span class="text-[12px] sm:text-[13px] text-[#5B5B5B]">Garantia de Reembolso</span>
             </div>
             <i class="fa-solid fa-chevron-right text-[11px] text-[#999]"></i>
@@ -301,7 +301,7 @@
             </div>
 
             <!-- SERVER -->
-            <div>
+            <div *ngIf="serverOptions.length > 0">
               <label class="text-[13px] sm:text-[14px] text-[#5A5A5A] mb-1.5 block">
                 <span class="text-red-500">*</span> Servidor
               </label>
@@ -312,7 +312,7 @@
                   class="w-full h-[48px] bg-[#F7F7F7] border border-transparent rounded-xl px-4 pr-10 text-[13px] sm:text-[14px] outline-none focus:border-[#A855F7] appearance-none cursor-pointer"
                 >
                   <option value="" disabled>Por favor, selecione o Servidor</option>
-                  <option *ngFor="let opt of getServerOptions()" [value]="opt.value">
+                  <option *ngFor="let opt of serverOptions" [value]="opt.value">
                     {{ opt.name }}
                   </option>
                 </select>
@@ -326,8 +326,9 @@
 
             <!-- UID -->
             <div>
-              <label class="text-[13px] sm:text-[14px] text-[#5A5A5A] mb-1.5 block">
-                <span class="text-red-500">*</span> UID do Jogo
+              <label *ngIf="forms.length" class="text-[13px] sm:text-[14px]">
+                <span class="text-red-500">*</span>
+                {{ forms.find(f => f.name === 'user_id')?.label || 'User ID' }}
               </label>
               <input
                 [(ngModel)]="form.userId"
