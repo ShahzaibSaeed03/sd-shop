@@ -6,14 +6,13 @@
         routerLink="/"
         class="flex items-center gap-1 hover:text-purple-600 transition cursor-pointer"
       >
-      <a
-    routerLink="/"
-    class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer"
-  >
-<img src="home.svg" alt="Home" class="h-5 w-4">
-    <span>Home</span>
-  </a>
-
+        <a
+          routerLink="/"
+          class="flex items-center gap-1.5 hover:text-purple-600 transition cursor-pointer"
+        >
+          <img src="home.svg" alt="Home" class="h-5 w-4" />
+          <span>Home</span>
+        </a>
       </a>
       <i class="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
       <span class="text-gray-700 font-medium">{{ currentTabLabel }}</span>
@@ -35,7 +34,6 @@
         [tabs]="tabs"
         [activeTab]="activeTab"
         (tabChange)="onTabChange($event)"
-        
       ></app-tab-menu>
 
       <!-- Custom Sort Dropdown -->
@@ -95,6 +93,7 @@
       title=""
       [games]="filteredCategories"
       [columns]="5"
+      [showButton]="false"
       (productClick)="goToDetails($event)"
     ></app-section-block>
   </div>
@@ -102,4 +101,4 @@
 <div class="bg-[#ffffff]">
   <app-faq variant="listing"></app-faq>
 </div>
-  <app-advantag-sd variant="listing"></app-advantag-sd>
+<app-advantag-sd variant="listing"></app-advantag-sd>

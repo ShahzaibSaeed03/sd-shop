@@ -15,7 +15,7 @@ export class SectionBlock implements OnChanges {
   @Input() title!: string;
   @Input() subtitle?: string;
   @Input() games: GameCard[] = [];
-  @Input() showButton: boolean = false; 
+  @Input() showButton: boolean = true; 
   @Input() columns: number = 5;
   @Input() variant: 'default' | 'purple' = 'default';
 
@@ -29,13 +29,16 @@ export class SectionBlock implements OnChanges {
     }
   }
 
-  get visibleGames(): GameCard[] {
-    return this.games.slice(0, this.visibleCount);
-  }
+get visibleGames(): GameCard[] {
+  return this.showButton
+    ? this.games.slice(0, this.visibleCount)
+    : this.games;
+}
 
-  get canShowMore(): boolean {
-    return this.games.length > this.visibleCount;
-  }
+get canShowMore(): boolean {
+  return this.showButton &&
+         this.games.length > this.visibleCount;
+}
 
   onShowMore(): void {
     this.visibleCount += this.itemsPerPage;
