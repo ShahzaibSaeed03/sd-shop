@@ -37,8 +37,8 @@ export class Footer {
   ];
 
   bottomLinks = [
-    { label: 'Termos de Serviço', route: '/terms' },
-    { label: 'Política de Privacidade', route: '/privacy' },
+    { label: 'Termos de Serviço', route: '/terms-of-use' },
+    { label: 'Política de Privacidade', route: '/privacy-policy' },
     { label: 'Política de Reembolso', route: '/refund' }
   ];
 
