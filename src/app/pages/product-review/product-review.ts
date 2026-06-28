@@ -200,6 +200,8 @@ export class ProductReview implements OnInit {
           rating: p.rating || 5,
           reviews: p.reviews || 0,
           tag: p.tag || 'Popular',
+            isSupplierAvailable: p.isSupplierAvailable !== false,
+
           raw: {
             ...p,
             category: category, // ✅ har product ke raw mein full category inject karo
@@ -233,26 +235,25 @@ export class ProductReview implements OnInit {
   }
 
   setMainProduct(data: any) {
-    this.product = {
-      id: data._id,
-      category: data.category,
-      name: data.displayName || data.name,
-      image: data.image || data.category?.image || 'cards/card-images.png',
-      categoryName: data.categoryName || data.category?.name || 'Game Top Up',
-      price: data.customPrice ?? data.finalPrice ?? data.price ?? 0,
-      originalPrice: data.price,
-      requiresUserId: data.requiresUserId,
-      requiresServer: data.requiresServer,
-      requiresNickname: data.requiresNickname,
-      requiresZone: data.requiresZone,
-      // ✅ CATEGORY STATS
-      sold: this.product?.sold || 0,
+this.product = {
+    id: data._id,
+    category: data.category,
+    name: data.displayName || data.name,
+    image: data.image || data.category?.image || 'cards/card-images.png',
+    categoryName: data.categoryName || data.category?.name || 'Game Top Up',
+    price: data.customPrice ?? data.finalPrice ?? data.price ?? 0,
+    originalPrice: data.price,
+    requiresUserId: data.requiresUserId,
+    requiresServer: data.requiresServer,
+    requiresNickname: data.requiresNickname,
+    requiresZone: data.requiresZone,
+    isSupplierAvailable: data.isSupplierAvailable !== false,
+    sold: this.product?.sold || 0,
+    rating: this.product?.rating || 0,
+    totalReviews: this.product?.totalReviews || 0,
+    tag: data.tag || 'Popular',
+  };
 
-      rating: this.product?.rating || 0,
-
-      totalReviews: this.product?.totalReviews || 0,
-      tag: data.tag || 'Popular',
-    };
     this.affiliate = data.affiliate || null;
     this.forms = [{ name: 'email', type: 'text' }, ...(data.category?.forms || [])];
 
@@ -435,6 +436,8 @@ export class ProductReview implements OnInit {
           rating: p.rating,
           reviews: p.reviews,
           tag: p.tag || 'Popular',
+            isSupplierAvailable: p.isSupplierAvailable !== false,
+
           raw: p,
         }));
         this.loadBundles(categoryId);
@@ -504,47 +507,33 @@ export class ProductReview implements OnInit {
     this.selectedBundle = bundle;
 
     // ✅ full product structure maintain
-    const mappedBundleProduct = {
-      _id: bundle._id,
-
-      displayName: bundle.name,
-      name: bundle.name,
-
-      image: bundle.image || bundle.baseProduct?.image,
-
-      categoryName: bundle.category?.name || this.product?.categoryName,
-
-      finalPrice: bundle.customPrice || bundle.finalPrice || 0,
-
-      price: bundle.customPrice || bundle.finalPrice || 0,
-
-      sold: bundle.sold || 0,
-      rating: bundle.rating || 5,
-      reviews: bundle.reviews || 0,
-      tag: bundle.badge || 'Bundle',
-
-      affiliate: this.affiliate,
-
-      // ✅ IMPORTANT
-      category: {
-        ...(this.selectedProduct?.raw?.category || {}),
-        ...(bundle.category || {}),
-      },
-
-      requiresUserId: this.selectedProduct?.raw?.requiresUserId ?? true,
-
-      requiresServer: this.selectedProduct?.raw?.requiresServer ?? false,
-
-      requiresNickname: this.selectedProduct?.raw?.requiresNickname ?? false,
-
-      requiresZone: this.selectedProduct?.raw?.requiresZone ?? false,
-
-      // ✅ bundle info
-      isBundle: true,
-      bundleId: bundle._id,
-      baseProductId: bundle.baseProduct?._id,
-      bundleQuantity: bundle.quantity,
-    };
+  const mappedBundleProduct = {
+  _id: bundle._id,
+  displayName: bundle.name,
+  name: bundle.name,
+  image: bundle.image || bundle.baseProduct?.image,
+  categoryName: bundle.category?.name || this.product?.categoryName,
+  finalPrice: bundle.customPrice || bundle.finalPrice || 0,
+  price: bundle.customPrice || bundle.finalPrice || 0,
+  sold: bundle.sold || 0,
+  rating: bundle.rating || 5,
+  reviews: bundle.reviews || 0,
+  tag: bundle.badge || 'Bundle',
+  affiliate: this.affiliate,
+  isSupplierAvailable: bundle.isSupplierAvailable !== false,
+  category: {
+    ...(this.selectedProduct?.raw?.category || {}),
+    ...(bundle.category || {}),
+  },
+  requiresUserId: this.selectedProduct?.raw?.requiresUserId ?? true,
+  requiresServer: this.selectedProduct?.raw?.requiresServer ?? false,
+  requiresNickname: this.selectedProduct?.raw?.requiresNickname ?? false,
+  requiresZone: this.selectedProduct?.raw?.requiresZone ?? false,
+  isBundle: true,
+  bundleId: bundle._id,
+  baseProductId: bundle.baseProduct?._id,
+  bundleQuantity: bundle.quantity,
+};
 
     // ✅ SAME STRUCTURE AS PRODUCTS
     const bundlePrice = Number(
@@ -697,4 +686,11 @@ export class ProductReview implements OnInit {
       },
     });
   }
+  isItemUnavailable(item: any): boolean {
+  return item?.isSupplierAvailable === false || item?.raw?.isSupplierAvailable === false;
+}
+
+get selectedProductUnavailable(): boolean {
+  return this.selectedProduct?.raw?.isSupplierAvailable === false;
+}
 }
